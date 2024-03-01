@@ -1,0 +1,29 @@
+# Zależności
+node_modules/
+
+# Pliki środowiskowe
+.env
+.env.local
+
+# Katalogi cache
+.npm
+.cache
+
+# Budowanie
+dist/
+build/
+
+# Logi
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System operacyjny
+.DS_Store
+Thumbs.db
+
+# Edytory
+.idea/
+.vscode/
+*.swp
+*.swo
