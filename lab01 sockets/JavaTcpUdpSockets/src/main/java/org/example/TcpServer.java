@@ -11,10 +11,10 @@ public class TcpServer {
     private static volatile boolean isRunning = true;
     private static Map<String, PrintWriter> clients = new ConcurrentHashMap<>();
 
-    public static void main(String[] args) throws Exception {
+    public void start() throws Exception {
         System.out.println("JAVA TCP CHAT SERVER");
         serverSocket = new ServerSocket(PORT);
-        Runtime.getRuntime().addShutdownHook(new Thread(TcpServer::closeServer));
+        Runtime.getRuntime().addShutdownHook(new Thread(this::closeServer));
 
         new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
@@ -38,7 +38,7 @@ public class TcpServer {
         }
     }
 
-    private static void closeServer() {
+    private  void closeServer() {
         isRunning = false;
         try {
             for (PrintWriter writer : clients.values()) {
@@ -52,7 +52,7 @@ public class TcpServer {
         }
     }
 
-    public static void broadcastMessage(String message, String excludeUser) {
+    public void broadcastMessage(String message, String excludeUser) {
         System.out.println("<TCP> " + message);
         for (String client : clients.keySet()) {
             if (!client.equals(excludeUser)) {
@@ -61,7 +61,7 @@ public class TcpServer {
         }
     }
 
-    private static class ClientHandler extends Thread {
+    private class ClientHandler extends Thread {
         private Socket socket;
         private String clientId;
         private PrintWriter out;
