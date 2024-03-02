@@ -7,12 +7,15 @@ import java.util.concurrent.*;
 
 public class TcpServer {
     private static ServerSocket serverSocket;
-    private static final int PORT = 12345;
+    private final int PORT;
     private static volatile boolean isRunning = true;
     private static Map<String, PrintWriter> clients = new ConcurrentHashMap<>();
 
+    public TcpServer(int port) {
+        this.PORT = port;
+    }
     public void start() throws Exception {
-        System.out.println("JAVA TCP CHAT SERVER");
+        System.out.println("<TCP> Server listening on port " + PORT);
         serverSocket = new ServerSocket(PORT);
         Runtime.getRuntime().addShutdownHook(new Thread(this::closeServer));
 
@@ -53,9 +56,10 @@ public class TcpServer {
     }
 
     public void broadcastMessage(String message, String excludeUser) {
-        System.out.println("<TCP> " + message);
+
         for (String client : clients.keySet()) {
             if (!client.equals(excludeUser)) {
+                System.out.println("<TCP> " + message + " sent to " + client);
                 clients.get(client).println(message);
             }
         }
@@ -95,6 +99,7 @@ public class TcpServer {
 
                 String input;
                 while ((input = in.readLine()) != null && !input.equalsIgnoreCase("quit")) {
+                    System.out.println("<TCP> Received message: " + input);
                     broadcastMessage("[" + clientId + "]: " + input, clientId);
                 }
             } catch (IOException e) {
