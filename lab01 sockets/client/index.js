@@ -56,7 +56,7 @@ class ChatClient {
             const address = this.udpClient.address();
             console.log(`UDP Client ready to receive messages on port ${address.port}.`);
             this.udpClient.addMembership(MULTICAST_ADDRESS);
-            this.sendUdpMessage(`INIT:${this.udpClient.address().address}:${this.udpClient.address().port}`);
+            this.sendUdpMessageAsync(`INIT`);
         });
 
         this.udpClient.on('error', (err) => {
@@ -77,7 +77,7 @@ class ChatClient {
     handleUserInput() {
         this.rl.on('line', (input) => {
             if (input.startsWith('U ')) {
-                this.sendUdpMessage(`U:${input.slice(2)}`);
+                this.sendUdpMessageAsync(`U:${input.slice(2)}`);
             } else if (input.startsWith('M ')) {
                 this.sendMulticastMessage(`M:${input.slice(2)}`);
             } else {
@@ -88,14 +88,21 @@ class ChatClient {
     
     
 
-    sendUdpMessage(message) {
-        const messageBuffer = Buffer.from(message);
-        this.udpClient.send(messageBuffer, 0, messageBuffer.length, this.port, this.serverHost, err => {
-            if (err) console.error(err);
-            console.log('UDP message sent');
+    async sendUdpMessageAsync(message) {
+        return new Promise((resolve, reject) => {
+            const messageBuffer = Buffer.from(message);
+            this.udpClient.send(messageBuffer, 0, messageBuffer.length, this.port, this.serverHost, (err) => {
+                if (err) {
+                    console.error(err);
+                    reject(err);
+                } else {
+                    console.log('UDP message sent');
+                    resolve();
+                }
+            });
         });
     }
-
+    
     sendMulticastMessage(message) {
         const messageBuffer = Buffer.from(message);
         this.udpClient.send(messageBuffer, 0, messageBuffer.length, this.port, MULTICAST_ADDRESS, err => {
@@ -115,8 +122,13 @@ class ChatClient {
         });
     }
 
-    disconnect() {
+    async disconnect() {
         console.log('Disconnecting from the server...');
+        try {
+            await this.sendUdpMessageAsync('DISCONNECT');
+        } catch (error) {
+            console.error('Failed to send UDP disconnect message:', error);
+        }
         this.tcpClient.end(() => {
             console.log('TCP connection closed');
             this.rl.close();
