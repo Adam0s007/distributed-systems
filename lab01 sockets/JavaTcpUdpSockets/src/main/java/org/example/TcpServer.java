@@ -53,6 +53,7 @@ public class TcpServer {
     }
 
     public static void broadcastMessage(String message, String excludeUser) {
+        System.out.println("<TCP> " + message);
         for (String client : clients.keySet()) {
             if (!client.equals(excludeUser)) {
                 clients.get(client).println(message);
