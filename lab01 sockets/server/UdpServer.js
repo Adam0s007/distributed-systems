@@ -29,7 +29,7 @@ class UdpServer {
             this.distributeMessage(Buffer.from(modifiedMessage), key);
         }else if(messageContent.startsWith('DISCONNECT')){
             console.log(`<UDP> Client ${rinfo.address}:${rinfo.port} disconnected`);
-            console.log("key to remove", `${rinfo.address}:${rinfo.port}`)
+            // console.log("key to remove", `${rinfo.address}:${rinfo.port}`)
             this.clientAddresses.delete(`${rinfo.address}:${rinfo.port}`);
         }
         
@@ -52,7 +52,7 @@ class UdpServer {
 
   addClientAddress(address, udpPort) {
     const key = `${address}:${udpPort}`;
-    console.log("key to add", key)
+    // console.log("key to add", key)
     if (!this.clientAddresses.has(key)) {
       this.clientAddresses.set(key, { address, udpPort });
       console.log(`<UDP> Added new client for UDP distribution: ${address}:${udpPort}`);
@@ -60,9 +60,9 @@ class UdpServer {
   }
 
   shutdown() {
-    console.log("Shutting down UDP server...");
-    this.clientAddresses.clear(); // Usuwamy wszystkich klientów
-    this.server.close(() => console.log("UDP Server closed."));
+    console.log("<UDP> Shutting down UDP server...");
+    this.clientAddresses.clear(); 
+    this.server.close(() => console.log("<UDP> Server closed."));
   }
 }
 

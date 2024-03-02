@@ -11,21 +11,21 @@ class TcpServer {
     
     const clientId = socket.remotePort
 
-    console.log(`${clientId} connected`);
+    console.log(`<TCP> ${clientId} connected`);
     this.clients.set(clientId, socket);
     this.sendIdToClient(clientId, socket);
 
     socket.on("data", (data) => this.broadcastMessage(clientId, data));
     socket.on("close", () => this.handleDisconnect(clientId));
     socket.on("error", (error) =>
-      console.error(`${clientId} encountered an error: ${error.message}`)
+      console.error(`<TCP> ${clientId} encountered an error: ${error.message}`)
     );
   }
 
 
   broadcastMessage(clientId, data) {
     const message = `${clientId}: ${data}`;
-    console.log(`<Broadcasting message> ${message}`);
+    console.log(`<TCP> ${message}`);
     this.clients.forEach((client, id) => {
       if (id !== clientId) {
         client.write(message);
@@ -34,7 +34,7 @@ class TcpServer {
   }
 
   sendIdToClient(clientId, socket) {
-    socket.write(`Your ID is: ${clientId}`);
+    socket.write(`<TCP> Your ID is: ${clientId}`);
   }
 
   handleDisconnect(clientId) {
@@ -44,14 +44,14 @@ class TcpServer {
 
   start() {
     this.server.listen(PORT, () =>
-      console.log(`TCP Server listening on port ${PORT}`)
+      console.log(`<TCP> Server listening on port ${PORT}`)
     );
   }
 
   async shutdown() {
-    console.log("Shutting down TCP server...");
+    console.log("<TCP> Shutting down TCP server...");
     this.clients.forEach((client) => {
-      client.write("Server is shutting down.");
+      client.write("<TCP> Server is shutting down.");
     });
     await Promise.all(
         Array.from(this.clients.values()).map(socket => 
@@ -62,13 +62,13 @@ class TcpServer {
     );
 
     this.server.close(() => {
-      console.log("TCP Server closed.");
+      console.log("<TCP> Server closed.");
     });
   }
 
   setupErrorHandling() {
     this.server.on("error", (error) => {
-      console.error(`TCP Server encountered an error: ${error.message}`);
+      console.error(`<TCP> Server encountered an error: ${error.message}`);
       this.shutdown();
     });
   }
