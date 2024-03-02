@@ -77,24 +77,31 @@ class ChatClient {
   }
 
   startUdpMulticastListening() {
-    const udpMulticastClient = dgram.createSocket({ type: "udp4", reuseAddr: true });
+    this.udpMulticastClient.bind(
+      {
+        port: MULTICAST_PORT,
+        address: "0.0.0.0", // Zaktualizowane z MULTICAST_ADDRESS na '0.0.0.0'
+        reuseAddr: true,
+      },
+      () => {
+        console.log(
+          `Multicast UDP Client ready to receive messages on port ${MULTICAST_PORT}.`
+        );
+        this.udpMulticastClient.addMembership(MULTICAST_ADDRESS);
+      }
+    );
 
-    udpMulticastClient.bind(MULTICAST_PORT, () => {
-      udpMulticastClient.setBroadcast(true);
-      udpMulticastClient.setMulticastTTL(128);
-      udpMulticastClient.addMembership(MULTICAST_ADDRESS);
-      console.log('Multicast UDP Client ready to receive messages.');
+    this.udpMulticastClient.on("message", (msg, rinfo) => {
+      const message = msg.toString();
+      console.log(
+        `Received multicast message: ${message} from ${rinfo.address}:${rinfo.port}`
+      );
     });
 
-    udpMulticastClient.on("message", (msg, rinfo) => {
-      console.log(`Received multicast message: ${msg.toString()} from ${rinfo.address}:${rinfo.port}`);
-    });
-
-    udpMulticastClient.on("error", (err) => {
+    this.udpMulticastClient.on("error", (err) => {
       console.error(`Failed to bind Multicast UDP client: ${err.message}`);
-      udpMulticastClient.close();
+      this.udpMulticastClient.close();
     });
-    this.udpMulticastClient = udpMulticastClient;
   }
 
   handleUserInput() {
