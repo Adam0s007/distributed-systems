@@ -23,7 +23,7 @@ async function startServer() {
         process.exit(1);
     }
     const tcpServer = new TcpServer();
-    const udpServer = new UdpServer(tcpServer);
+    const udpServer = new UdpServer();
 
     tcpServer.start();
     udpServer.start();

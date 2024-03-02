@@ -15,7 +15,7 @@ class ChatClient {
             input: process.stdin,
             output: process.stdout
         });
-        
+        this.startUdpListening(); 
     }
 
     connect() {
@@ -44,17 +44,49 @@ class ChatClient {
         });
     }
 
+    startUdpListening() {
+   
+        this.udpClient.bind({
+            port: 0, 
+            address: '0.0.0.0',
+            reuseAddr: true
+        });
+        
+        this.udpClient.on('listening', () => {
+            const address = this.udpClient.address();
+            console.log(`UDP Client ready to receive messages on port ${address.port}.`);
+            this.udpClient.addMembership(MULTICAST_ADDRESS);
+            this.sendUdpMessage(`INIT:${this.udpClient.address().address}:${this.udpClient.address().port}`);
+        });
+
+        this.udpClient.on('error', (err) => {
+            console.error(`Failed to bind UDP client: ${err.message}`);
+            this.udpClient.close();
+        });
+
+        this.udpClient.on('message', (msg, rinfo) => {
+            const message = msg.toString();
+            console.log(`Received UDP message: ${message} from ${rinfo.address}:${rinfo.port}`);
+        });
+        
+     
+
+    }
+
+
     handleUserInput() {
         this.rl.on('line', (input) => {
             if (input.startsWith('U ')) {
-                this.sendUdpMessage(input.slice(2));
+                this.sendUdpMessage(`U:${input.slice(2)}`);
             } else if (input.startsWith('M ')) {
-                this.sendMulticastMessage(input.slice(2));
+                this.sendMulticastMessage(`M:${input.slice(2)}`);
             } else {
                 this.tcpClient.write(input);
             }
         });
     }
+    
+    
 
     sendUdpMessage(message) {
         const messageBuffer = Buffer.from(message);

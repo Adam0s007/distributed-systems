@@ -1,6 +1,5 @@
 const net = require("net");
 const { PORT } = require("../shared/Constants");
-const generateHashedId = require("../shared/generateHash");
 class TcpServer {
   constructor() {
     this.clients = new Map();
@@ -9,10 +8,8 @@ class TcpServer {
   }
 
   handleConnection(socket) {
-    let newClient = `${Date.now()}-${socket.remoteAddress}:${
-      socket.remotePort
-    }`;
-    const clientId = generateHashedId(newClient);
+    
+    const clientId = socket.remotePort
 
     console.log(`${clientId} connected`);
     this.clients.set(clientId, socket);
