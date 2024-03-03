@@ -2,13 +2,19 @@ package org.example.client;
 
 import java.io.*;
 import java.net.*;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import static org.example.Config.*;
 
 public class ConnectionManager {
     private ExecutorService executorService = Executors.newFixedThreadPool(4);
-
+    UdpListener udpListener;
+    MulticastListener multicastListener;
+    ReadWorker readWorker;
+    WriteWorker writeWorker;
     public void connect() throws IOException {
         Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
 
@@ -22,29 +28,50 @@ public class ConnectionManager {
         System.out.println("Connected to chat server");
         Runtime.getRuntime().addShutdownHook(new Thread(() -> closeConnection(socket, udpSocket, multicastSocket)));
 
-        executorService.submit(new UdpListener(udpSocket));
-        executorService.submit(new ReadWorker(socket, udpSocket));
-        executorService.submit(new WriteWorker(socket, udpSocket, multicastGroup, MULTICAST_PORT));
-        executorService.submit(new MulticastListener(multicastSocket,port));
-    }
+        UdpMessageSender udpMessageSender = new UdpMessageSender(multicastGroup, MULTICAST_PORT);
 
+        this.udpListener = new UdpListener(udpSocket);
+        this.multicastListener = new MulticastListener(multicastSocket, port);
+        this.readWorker = new ReadWorker(socket,udpSocket,udpMessageSender);
+        this.writeWorker = new WriteWorker(socket,udpSocket,udpMessageSender,multicastSocket,multicastGroup);
+
+        List<Future<?>> futures = List.of(
+                executorService.submit(udpListener),
+                executorService.submit(multicastListener),
+                executorService.submit(readWorker),
+                executorService.submit(writeWorker)
+        );
+        futures.forEach(future -> {
+            try {
+                future.get();
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        });
+        executorService.shutdownNow();
+    }
     private void closeConnection(Socket socket, DatagramSocket udpSocket, MulticastSocket multicastSocket) {
         try {
-            if (!socket.isClosed()) {
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                out.println("quit");
-                socket.close();
+            if (socket != null && !socket.isClosed()) {
+                try (PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+                    out.println("quit"); // Inform server about quitting
+                } finally {
+                    socket.close();
+                }
+            }
+            if (udpSocket != null && !udpSocket.isClosed()) {
                 udpSocket.close();
+            }
+            if (multicastSocket != null && !multicastSocket.isClosed()) {
                 multicastSocket.leaveGroup(InetAddress.getByName(MULTICAST_ADDRESS));
                 multicastSocket.close();
-                System.out.println("Connection closed by client.");
-
-                executorService.shutdownNow();
             }
+            System.out.println("Connection closed by client.");
         } catch (IOException e) {
             System.out.println("Error closing the client: " + e.getMessage());
         } finally {
-            executorService.shutdownNow(); // Elegancko zamykamy wszystkie uruchomione wątki
+            executorService.shutdownNow();
         }
     }
+
 }

@@ -10,11 +10,12 @@ public class ReadWorker implements Runnable {
     private BufferedReader reader;
     private Socket socket;
     private DatagramSocket udpSocket;
-
+    private UdpMessageSender udpMessageSender;
     private volatile boolean running = true;
-    public ReadWorker(Socket socket,DatagramSocket udpSocket) throws IOException {
+    public ReadWorker(Socket socket,DatagramSocket udpSocket,UdpMessageSender udpMessageSender) throws IOException {
         this.udpSocket = udpSocket;
         this.socket = socket;
+        this.udpMessageSender = udpMessageSender;
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
     public void run() {
@@ -23,23 +24,22 @@ public class ReadWorker implements Runnable {
                 String response = reader.readLine();
                 if (response == null) break;
                 System.out.println(response);
-                if (response.equals("Server is closing. Goodbye!")) {
+                if (response.contains("DISCONNECT")) {
                     closeConnection();
                     break;
                 }
             } catch (IOException e) {
-                System.out.println("Error reading from server: " + e.getMessage());
+                System.out.println("TCP socket closed.");
                 break;
             }
         }
+        //System.out.println("<<<<<<<TCP reader stopped.>>>>>");
     }
 
     private void closeConnection() {
         try {
-            if (!socket.isClosed()) {
+            if(socket != null && !socket.isClosed()){
                 socket.close();
-                System.out.println("Connection closed by server.");
-                exit(0);
             }
         } catch (IOException e) {
             System.out.println("Error closing the client: " + e.getMessage());

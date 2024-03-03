@@ -65,11 +65,14 @@ public class ChatServer {
         isRunning = false;
         try {
             tcpClients.values().forEach(writer -> {
-                writer.println("Server is closing. Goodbye!");
+                writer.println("DISCONNECT");
                 writer.close();
             });
-            clientExecutor.shutdownNow();
-            if (tcpServerSocket != null && !tcpServerSocket.isClosed()) tcpServerSocket.close();
+
+            udpServerSocket.close();
+
+            if (tcpServerSocket != null && !tcpServerSocket.isClosed())
+                tcpServerSocket.close();
             System.out.println("Server closed.");
         } catch (IOException e) {
             System.out.println("Error closing the server: " + e.getMessage());

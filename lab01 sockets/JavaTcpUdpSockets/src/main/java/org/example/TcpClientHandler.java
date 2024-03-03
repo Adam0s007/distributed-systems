@@ -34,7 +34,6 @@ public class TcpClientHandler implements Runnable {
         out = new PrintWriter(socket.getOutputStream(), true);
         clientId = Integer.toString(socket.getPort());
         tcpClients.put(clientId, out);
-        //SEND INIT MESSAGE TO THIS USER
         out.println("INIT");
     }
 
@@ -52,12 +51,16 @@ public class TcpClientHandler implements Runnable {
     }
 
     private void cleanUp() {
+        try {
         if (clientId != null && tcpClients.containsKey(clientId)) {
+            System.out.println("<TCP> Client " + clientId + " disconnected");
+            tcpClients.get(clientId).println("DISCONNECT");
             tcpClients.remove(clientId);
             broadcastMessage(clientId + " has left", clientId);
-        }
-        try {
-            if (socket != null && !socket.isClosed()) socket.close();
+            }
+            if (socket != null && !socket.isClosed()) {
+                socket.close();
+            }
         } catch (IOException e) {
             System.out.println("Error closing client socket: " + e.getMessage());
         }
