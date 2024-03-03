@@ -63,7 +63,7 @@ public class TcpClientHandler implements Runnable {
         }
     }
 
-    public void broadcastMessage(String message, String excludeUser) {
+    private void broadcastMessage(String message, String excludeUser) {
         String messageToSend = "[" + excludeUser + "]: "+message;
         System.out.println("<TCP> " + messageToSend);
         tcpClients.forEach((client, writer) -> {
