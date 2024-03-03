@@ -31,12 +31,13 @@ public class WriteWorker implements Runnable {
             String text;
             while (!(text = consoleReader.readLine()).equalsIgnoreCase("quit")) {
                 int port = socket.getLocalPort();
+                String udpMessage = "\n["+port + "]: " + text.substring(2);
                 if (text.toUpperCase().startsWith("U ")) {
-                    sendUdpMessage("\n["+port + "]: " + text.substring(2));
+                    sendUdpMessage(udpMessage);
                 } else if (text.toUpperCase().startsWith("M ")) {
-                    sendMulticastMessage("\n["+port + "]: " + text.substring(2));
+                    sendMulticastMessage(udpMessage);
                 } else {
-                    System.out.println("Sending standard TCP message.");
+                    System.out.println("Sending TCP message.");
                     writer.println(text);
                 }
             }
@@ -52,7 +53,7 @@ public class WriteWorker implements Runnable {
         byte[] buffer = prefixedMessage.getBytes();
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(SERVER_ADDRESS), SERVER_PORT);
         udpSocket.send(packet);
-        System.out.println("UDP message sent: " + message);
+        System.out.println("Sending UDP message.");
     }
 
     private void sendMulticastMessage(String message) throws IOException {

@@ -23,7 +23,6 @@ public class ReadWorker implements Runnable {
                 String response = reader.readLine();
                 if (response == null) break;
                 System.out.println(response);
-
                 if (response.equals("Server is closing. Goodbye!")) {
                     closeConnection();
                     break;
@@ -34,6 +33,7 @@ public class ReadWorker implements Runnable {
             }
         }
     }
+
     private void closeConnection() {
         try {
             if (!socket.isClosed()) {
