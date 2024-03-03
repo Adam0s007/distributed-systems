@@ -10,20 +10,20 @@ public class ReadWorker implements Runnable {
     private BufferedReader reader;
     private Socket socket;
     private DatagramSocket udpSocket;
+
+    private volatile boolean running = true;
     public ReadWorker(Socket socket,DatagramSocket udpSocket) throws IOException {
         this.udpSocket = udpSocket;
         this.socket = socket;
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
     public void run() {
-        while (true) {
+        while (running) {
             try {
                 String response = reader.readLine();
                 if (response == null) break;
                 System.out.println(response);
-                if (response.startsWith("NAMEACCEPTED")) {
-                    sendUdpMessage("INIT");
-                }
+
                 if (response.equals("Server is closing. Goodbye!")) {
                     closeConnection();
                     break;
@@ -34,23 +34,15 @@ public class ReadWorker implements Runnable {
             }
         }
     }
-
-    private void closeConnection() { // Metoda do bezpiecznego zamykania połączenia
+    private void closeConnection() {
         try {
             if (!socket.isClosed()) {
                 socket.close();
                 System.out.println("Connection closed by server.");
-                exit(0); // Zamknięcie aplikacji
+                exit(0);
             }
         } catch (IOException e) {
             System.out.println("Error closing the client: " + e.getMessage());
         }
-    }
-    private void sendUdpMessage(String message) throws IOException {
-        byte[] buffer = message.getBytes();
-        InetAddress address = InetAddress.getByName(SERVER_ADDRESS);
-        DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, SERVER_PORT);
-        udpSocket.send(packet);
-        System.out.println("UDP message sent: " + message);
     }
 }

@@ -80,23 +80,12 @@ public class TcpServer {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
 
-                while (true) {
-                    out.println("SUBMITNAME");
-                    clientId = in.readLine();
-                    if (clientId == null || clientId.equalsIgnoreCase("quit")) {
-                        return;
-                    }
-                    synchronized (clients) {
-                        if (!clients.containsKey(clientId) && !clientId.equalsIgnoreCase("quit")) {
-                            clients.put(clientId, out);
-                            break;
-                        }
-                    }
-                }
+                String newId =Integer.toString(socket.getPort());
+                System.out.println("<TCP> New client connected: " + newId);
+                clients.put(newId, out);
+                this.clientId = newId;
 
-                out.println("NAMEACCEPTED " + clientId);
                 broadcastMessage("NEW USER: " + clientId + " has joined", clientId);
-
                 String input;
                 while ((input = in.readLine()) != null && !input.equalsIgnoreCase("quit")) {
                     System.out.println("<TCP> Received message: " + input);

@@ -6,15 +6,16 @@ import java.net.DatagramSocket;
 
 public class UdpListener implements Runnable {
     private final DatagramSocket udpSocket;
-
+    private volatile boolean running = true;
     public UdpListener(DatagramSocket udpSocket) {
         this.udpSocket = udpSocket;
     }
 
+
     @Override
     public void run() {
         byte[] buffer = new byte[1024];
-        while (true) {
+        while (running) {
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
             try {
                 udpSocket.receive(packet);
