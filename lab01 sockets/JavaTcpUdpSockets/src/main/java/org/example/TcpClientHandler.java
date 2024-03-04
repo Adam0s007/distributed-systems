@@ -28,6 +28,17 @@ public class TcpClientHandler implements Runnable {
             cleanUp();
         }
     }
+    public void disconnect() {
+        try {
+            if (out != null) {
+                out.println("SERVERSHUTDOWN");
+            }
+            cleanUp();
+        } catch (Exception e) {
+            System.err.println("Error disconnecting the client: " + e.getMessage());
+        }
+    }
+
 
     private void connectUser() throws IOException {
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -52,17 +63,18 @@ public class TcpClientHandler implements Runnable {
 
     private void cleanUp() {
         try {
-        if (clientId != null && tcpClients.containsKey(clientId)) {
-            System.out.println("<TCP> Client " + clientId + " disconnected");
-            tcpClients.get(clientId).println("DISCONNECT");
-            tcpClients.remove(clientId);
-            broadcastMessage(clientId + " has left", clientId);
-            }
+            if (clientId != null && tcpClients.containsKey(clientId)) {
+                System.out.println("<TCP> Client " + clientId + " disconnected");
+                tcpClients.get(clientId).println("DISCONNECT");
+                tcpClients.remove(clientId);
+                broadcastMessage(clientId + " has left", clientId);
+                }
             if (socket != null && !socket.isClosed()) {
+                //System.out.println("<TCP> Closing client socket: " + clientId);
                 socket.close();
             }
-        } catch (IOException e) {
-            System.out.println("Error closing client socket: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("[SERVER - TcpClientHandler] Error closing client socket: " + e.getMessage());
         }
     }
 

@@ -8,41 +8,50 @@ import static org.example.Config.SERVER_ADDRESS;
 
 public class ReadWorker implements Runnable {
     private BufferedReader reader;
+
+    private PrintWriter writer;
     private Socket socket;
-    private DatagramSocket udpSocket;
     private UdpMessageSender udpMessageSender;
+    private DatagramSocket udpSocket;
+    private CloseConnectionAction closeConnectionAction;
+    private InetAddress multicastGroup;
+    private MulticastSocket multicastSocket;
+
+
     private volatile boolean running = true;
-    public ReadWorker(Socket socket,DatagramSocket udpSocket,UdpMessageSender udpMessageSender) throws IOException {
-        this.udpSocket = udpSocket;
+    public ReadWorker(Socket socket,DatagramSocket udpSocket,PrintWriter writer ,UdpMessageSender udpMessageSender,InetAddress multicastGroup,MulticastSocket multicastSocket,CloseConnectionAction closeConnectionAction
+    ) throws IOException {
         this.socket = socket;
+        this.udpSocket = udpSocket;
         this.udpMessageSender = udpMessageSender;
+        this.writer = writer;
+        this.multicastGroup = multicastGroup;
+        this.multicastSocket = multicastSocket;
+        this.closeConnectionAction = closeConnectionAction;
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
     public void run() {
-        while (running) {
             try {
-                String response = reader.readLine();
-                if (response == null) break;
-                System.out.println(response);
-                if (response.contains("DISCONNECT")) {
-                    closeConnection();
-                    break;
+                while (running) {
+                    String response = reader.readLine();
+                    if (response == null) break;
+                    System.out.println(response);
+                    if (response.contains("DISCONNECT")) {
+                        running = false;
+                        break;
+                    }
+                    else if(response.contains("SERVERSHUTDOWN")){
+                        closeConnection();
+                    }
                 }
             } catch (IOException e) {
                 System.out.println("TCP socket closed.");
-                break;
             }
         }
-        //System.out.println("<<<<<<<TCP reader stopped.>>>>>");
-    }
-
     private void closeConnection() {
-        try {
-            if(socket != null && !socket.isClosed()){
-                socket.close();
-            }
-        } catch (IOException e) {
-            System.out.println("Error closing the client: " + e.getMessage());
+        if(closeConnectionAction != null) {
+            closeConnectionAction.execute(udpSocket, multicastSocket, socket, writer, multicastGroup);
+            exit(0);
         }
     }
 }

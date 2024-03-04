@@ -2,11 +2,13 @@ package org.example;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
+
+import static java.lang.System.exit;
 
 public class ChatServer {
     private ServerSocket tcpServerSocket;
@@ -15,6 +17,7 @@ public class ChatServer {
     private volatile boolean isRunning = true;
     private final Map<String, PrintWriter> tcpClients = new ConcurrentHashMap<>();
     private final Map<String, ClientInfo> udpClients = new ConcurrentHashMap<>();
+    private List<Future<?>> futures;
     private ExecutorService clientExecutor = Executors.newCachedThreadPool();
 
     public ChatServer(int port) {
@@ -31,23 +34,26 @@ public class ChatServer {
         new Thread(this::handleServerCommands).start();
 
         System.out.println("<ChatServer> Server listening on port " + PORT);
+        this.futures = new ArrayList<>();
         try {
             while (isRunning) {
-
-
-                // Accept new tcp client connections
                 Socket clientSocket = tcpServerSocket.accept();
                 TcpClientHandler clientHandler = new TcpClientHandler(clientSocket, tcpClients);
-                clientExecutor.submit(clientHandler);
-                // Accept new udp client connections
+                futures.add(clientExecutor.submit(clientHandler));
+
                 UdpClientHandler udpClientHandler = new UdpClientHandler(udpServerSocket, udpClients);
                 clientExecutor.submit(udpClientHandler);
 
             }
+            exit(0);
+
         } catch (IOException e) {
             System.out.println("Server exception: " + e.getMessage());
         } finally {
-            if (!tcpServerSocket.isClosed()) tcpServerSocket.close();
+            if (!tcpServerSocket.isClosed())
+                tcpServerSocket.close();
+            if (!udpServerSocket.isClosed())
+                udpServerSocket.close();
         }
     }
 
@@ -56,7 +62,7 @@ public class ChatServer {
         while (isRunning) {
             if (scanner.nextLine().trim().equalsIgnoreCase("quit")) {
                 closeServer();
-                System.exit(0);
+                exit(0);
             }
         }
     }
@@ -64,19 +70,27 @@ public class ChatServer {
     private void closeServer() {
         isRunning = false;
         try {
-            tcpClients.values().forEach(writer -> {
-                writer.println("DISCONNECT");
-                writer.close();
-            });
+            // Informuje klientów TCP o zamknięciu
+            Map<String, PrintWriter> tmpClients = new ConcurrentHashMap<>(tcpClients);
+            tmpClients.values().forEach(writer -> writer.println("SERVERSHUTDOWN"));
+            // oczekuje na zamknięcie wszystkich wątków
+            for (Future<?> future : futures) {
+                future.get();
+            }
+            this.clientExecutor.shutdownNow();
 
-            udpServerSocket.close();
-
+            if (udpServerSocket != null && !udpServerSocket.isClosed())
+                udpServerSocket.close();
             if (tcpServerSocket != null && !tcpServerSocket.isClosed())
                 tcpServerSocket.close();
             System.out.println("Server closed.");
         } catch (IOException e) {
             System.out.println("Error closing the server: " + e.getMessage());
+        } catch (Exception e) {
+             System.out.println("Error: " + e.getMessage());
         }
+
     }
+
 
 }

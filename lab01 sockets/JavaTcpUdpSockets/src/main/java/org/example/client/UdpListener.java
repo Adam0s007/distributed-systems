@@ -10,30 +10,31 @@ public class UdpListener implements Runnable {
     public UdpListener(DatagramSocket udpSocket) {
         this.udpSocket = udpSocket;
     }
-
-
     @Override
     public void run() {
         byte[] buffer = new byte[1024];
-        while (running) {
-            DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-            try {
-                udpSocket.receive(packet);
-                String received = new String(packet.getData(), 0, packet.getLength());
-                System.out.println("UDP message received: " + received);
-                if(received.contains("DISCONNECT")){
-                    if(udpSocket != null && !udpSocket.isClosed()){
-                        udpSocket.close();
+        try {
+            while (running) {
+                    DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+                    udpSocket.receive(packet);
+                    String received = new String(packet.getData(), 0, packet.getLength());
+                    if(received.contains("DISCONNECT") || received.contains("SERVERSHUTDOWN")){
+                        this.running = false;
+                    }else{
+                        System.out.println("UDP message received: " + received);
                     }
-                    System.out.println("<CLIENT> udp listener disconnected.");
-                    break;
                 }
-            } catch (IOException e) {
+            }catch (IOException e) {
                 System.out.println("UDP socket closed.");
-                break;
+
+            }finally {
+                if(udpSocket != null && !udpSocket.isClosed()){
+                    udpSocket.close();
+                    System.out.println("<CLIENT> udp listener disconnected.");
+                }
             }
         }
-       // System.out.println("<<<<<<<UDP listener stopped.>>>>>");
+
     }
-}
+
 

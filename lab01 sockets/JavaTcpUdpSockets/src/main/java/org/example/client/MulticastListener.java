@@ -2,44 +2,62 @@ package org.example.client;
 
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.MulticastSocket;
+import java.net.*;
 
 public class MulticastListener implements Runnable{
     private final MulticastSocket multicastSocket;
     private volatile boolean running = true;
-    public MulticastListener(MulticastSocket multicastSocket, int clientPort) {
+    private DatagramSocket socket;
+    private InetAddress multicastGroup;
+    public MulticastListener(MulticastSocket multicastSocket, int clientPort, InetAddress multicastGroup, DatagramSocket udpSocket) {
         this.multicastSocket = multicastSocket;
         this.clientPort = clientPort;
+        this.multicastGroup = multicastGroup;
+        this.socket = udpSocket;
     }
     public int clientPort;
     @Override
     public void run() {
         byte[] buffer = new byte[1024];
+        try {
         while (running) {
-            DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-            try {
-                multicastSocket.receive(packet);
-                String received = new String(packet.getData(), 0, packet.getLength());
-
-                if (!messageIsFromSelf(received, clientPort)) {
-                    if(!received.contains("DISCONNECT"))
-                        System.out.println("Multicast message received: " + received);
-                }else{
-                    if(received.contains("DISCONNECT")){
-                        if(multicastSocket != null && !multicastSocket.isClosed()){
-                            multicastSocket.close();
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+                    multicastSocket.receive(packet);
+                    String received = new String(packet.getData(), 0, packet.getLength());
+                    if (!messageIsFromSelf(received, clientPort)) {
+                        if(!received.contains("DISCONNECT"))
+                            System.out.println("Multicast message received: " + received);
+                        if(received.contains("SERVERSHUTDOWN")){
+                            this.running = false;
                         }
-                        System.out.println("<CLIENT> Multicast listener disconnected.");
-                        break;
+                    }else{
+                        if(received.contains("DISCONNECT")){
+                            this.running = false;
+                        }
                     }
-                }
-            } catch (IOException e) {
-                System.out.println("Multicast socket closed.");
-                break;
             }
+        }catch (IOException e) {
+                System.out.println("Multicast socket closed.");
+
+        } finally {
+            if(multicastSocket != null && !multicastSocket.isClosed()){
+                try {
+                    NetworkInterface networkInterface = NetworkInterface.getByInetAddress(socket.getLocalAddress());
+                    multicastSocket.leaveGroup(new InetSocketAddress(multicastGroup, 0), networkInterface);
+                } catch (IOException e) {
+                    // e.printStackTrace();
+                } catch (NullPointerException e) {
+                   // e.printStackTrace();
+                }
+                finally {
+                    multicastSocket.close();
+                    System.out.println("<CLIENT> Multicast listener disconnected.");
+                }
+
+            }
+
         }
-        //System.out.println("<<<<<<<Multicast listener stopped.>>>>>");
+
     }
 
     private boolean messageIsFromSelf(String message, int clientPort) {

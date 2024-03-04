@@ -18,15 +18,23 @@ public class UdpClientHandler implements Runnable {
 
     @Override
     public void run() {
-        while (running) {
-            try {
+        try {
+            while (running) {
                 processIncomingPacket();
-            } catch (IOException e) {
-                System.out.println("UDP socket closed.");
-                break;
             }
+        } catch (IOException e) {
+            System.out.println("UDP socket closed.");
         }
     }
+
+
+    public void stopRunning() {
+        running = false;
+        if (udpServerSocket != null && !udpServerSocket.isClosed()) {
+            udpServerSocket.close();
+        }
+    }
+
 
     private void processIncomingPacket() throws IOException {
         byte[] buffer = new byte[1024];
@@ -56,7 +64,7 @@ public class UdpClientHandler implements Runnable {
             case "DISCONNECT":
                 sendToClient("DISCONNECT", senderKey);
                 clientAddresses.remove(senderKey);
-                running = false; // Zatrzymuje pętlę odbierania danych
+                running = false;
                 System.out.println("<UDP> Client " + senderKey + " disconnected");
                 break;
             default:

@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import static java.lang.System.exit;
 import static org.example.Config.*;
 
 public class ConnectionManager {
@@ -15,25 +16,31 @@ public class ConnectionManager {
     MulticastListener multicastListener;
     ReadWorker readWorker;
     WriteWorker writeWorker;
+
+    UdpMessageSender udpMessageSender;
     public void connect() throws IOException {
         Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-
         int port = socket.getLocalPort();
 
         DatagramSocket udpSocket = new DatagramSocket();
         InetAddress multicastGroup = InetAddress.getByName(MULTICAST_ADDRESS);
         MulticastSocket multicastSocket = new MulticastSocket(MULTICAST_PORT);
-        multicastSocket.joinGroup(multicastGroup);
+
+        NetworkInterface networkInterface = NetworkInterface.getByInetAddress(udpSocket.getLocalAddress());
+        multicastSocket.joinGroup(new InetSocketAddress(multicastGroup, MULTICAST_PORT), networkInterface);
+
 
         System.out.println("Connected to chat server");
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> closeConnection(socket, udpSocket, multicastSocket)));
+        PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> closeConnection(udpSocket, multicastSocket, socket,writer,multicastGroup)));
 
-        UdpMessageSender udpMessageSender = new UdpMessageSender(multicastGroup, MULTICAST_PORT);
+
+        this.udpMessageSender = new UdpMessageSender(multicastGroup, MULTICAST_PORT);
 
         this.udpListener = new UdpListener(udpSocket);
-        this.multicastListener = new MulticastListener(multicastSocket, port);
-        this.readWorker = new ReadWorker(socket,udpSocket,udpMessageSender);
-        this.writeWorker = new WriteWorker(socket,udpSocket,udpMessageSender,multicastSocket,multicastGroup);
+        this.multicastListener = new MulticastListener(multicastSocket, port, multicastGroup,udpSocket);
+        this.readWorker = new ReadWorker(socket,udpSocket,writer,udpMessageSender,multicastGroup,multicastSocket,this::closeConnection);
+        this.writeWorker = new WriteWorker(socket,udpSocket,writer,udpMessageSender,multicastGroup,multicastSocket,this::closeConnection);
 
         List<Future<?>> futures = List.of(
                 executorService.submit(udpListener),
@@ -45,33 +52,46 @@ public class ConnectionManager {
             try {
                 future.get();
             } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("[Futures - ConnectionManager] Error: " + e.getMessage());
             }
         });
         executorService.shutdownNow();
     }
-    private void closeConnection(Socket socket, DatagramSocket udpSocket, MulticastSocket multicastSocket) {
+
+    private void closeConnection(DatagramSocket udpSocket,
+                                 MulticastSocket multicastSocket,
+                                 Socket socket,
+                                 PrintWriter writer,
+                                 InetAddress multicastGroup) {
         try {
-            if (socket != null && !socket.isClosed()) {
-                try (PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
-                    out.println("quit"); // Inform server about quitting
-                } finally {
-                    socket.close();
-                }
-            }
-            if (udpSocket != null && !udpSocket.isClosed()) {
+            udpMessageSender.sendUdpMessage(udpSocket, "DISCONNECT", SERVER_ADDRESS, SERVER_PORT);
+            int port = socket.getLocalPort();
+            String udpMessage = "[" + port + "] " + "DISCONNECT";
+            udpMessageSender.sendMulticastMessage(udpMessage);
+            writer.println("quit");
+            if(!udpSocket.isClosed()){
                 udpSocket.close();
             }
-            if (multicastSocket != null && !multicastSocket.isClosed()) {
-                multicastSocket.leaveGroup(InetAddress.getByName(MULTICAST_ADDRESS));
+            if(!multicastSocket.isClosed()){
+                NetworkInterface networkInterface = NetworkInterface.getByInetAddress(udpSocket.getLocalAddress());
+                multicastSocket.leaveGroup(new InetSocketAddress(multicastGroup, 0), networkInterface);
                 multicastSocket.close();
             }
-            System.out.println("Connection closed by client.");
-        } catch (IOException e) {
-            System.out.println("Error closing the client: " + e.getMessage());
-        } finally {
-            executorService.shutdownNow();
+            if (!socket.isClosed()) {
+                System.out.println("<CLIENT> tcp socket disconnected");
+                socket.close();
+            }
+           System.out.println("Connection closed.");
+        } catch(NullPointerException e){
+            System.out.println("NullPointerException");
+        } catch (IOException e ) {
+            System.out.println("Connection closed.");
         }
+        // System.out.println("<<<<<<<TCP Writer stopped.>>>>>");
+        //exit(0);
     }
+
+
+
 
 }
