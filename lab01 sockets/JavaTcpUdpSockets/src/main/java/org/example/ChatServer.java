@@ -42,7 +42,7 @@ public class ChatServer {
                 futures.add(clientExecutor.submit(clientHandler));
 
                 UdpClientHandler udpClientHandler = new UdpClientHandler(udpServerSocket, udpClients);
-                clientExecutor.submit(udpClientHandler);
+                futures.add(clientExecutor.submit(udpClientHandler));
 
             }
             exit(0);
