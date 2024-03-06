@@ -25,14 +25,15 @@ public class UdpListener implements Runnable {
                     }
                 }
             }catch (IOException e) {
-                System.out.println("UDP socket closed.");
+                System.out.println("<UdpListener> UDP socket closed.");
 
-            }finally {
-                if(udpSocket != null && !udpSocket.isClosed()){
-                    udpSocket.close();
-                    System.out.println("<CLIENT> udp listener disconnected.");
-                }
             }
+//        finally {
+//                if(udpSocket != null && !udpSocket.isClosed()){
+//                    udpSocket.close();
+//                    System.out.println("<CLIENT> udp listener disconnected.");
+//                }
+//            }
         }
 
     }

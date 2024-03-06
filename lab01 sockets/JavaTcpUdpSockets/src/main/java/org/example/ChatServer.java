@@ -70,19 +70,21 @@ public class ChatServer {
     private void closeServer() {
         isRunning = false;
         try {
-            // Informuje klientów TCP o zamknięciu
             Map<String, PrintWriter> tmpClients = new ConcurrentHashMap<>(tcpClients);
             tmpClients.values().forEach(writer -> writer.println("SERVERSHUTDOWN"));
-            // oczekuje na zamknięcie wszystkich wątków
             for (Future<?> future : futures) {
                 future.get();
             }
             this.clientExecutor.shutdownNow();
 
-            if (udpServerSocket != null && !udpServerSocket.isClosed())
+            if (udpServerSocket != null && !udpServerSocket.isClosed()) {
                 udpServerSocket.close();
-            if (tcpServerSocket != null && !tcpServerSocket.isClosed())
+                System.out.println("<ChatSServer> UDP connection closed.");
+            }
+            if (tcpServerSocket != null && !tcpServerSocket.isClosed()) {
                 tcpServerSocket.close();
+                System.out.println("<ChatServer> TCP connection closed.");
+            }
             System.out.println("Server closed.");
         } catch (IOException e) {
             System.out.println("Error closing the server: " + e.getMessage());

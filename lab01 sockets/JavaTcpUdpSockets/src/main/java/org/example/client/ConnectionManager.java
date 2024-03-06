@@ -64,24 +64,25 @@ public class ConnectionManager {
                                  PrintWriter writer,
                                  InetAddress multicastGroup) {
         try {
-            udpMessageSender.sendUdpMessage(udpSocket, "DISCONNECT", SERVER_ADDRESS, SERVER_PORT);
-            int port = socket.getLocalPort();
-            String udpMessage = "[" + port + "] " + "DISCONNECT";
-            udpMessageSender.sendMulticastMessage(udpMessage);
+            udpMessageSender.sendMulticastMessage("[" + socket.getLocalPort() + "] " + "DISCONNECT");
             writer.println("quit");
-            if(!udpSocket.isClosed()){
-                udpSocket.close();
-            }
-            if(!multicastSocket.isClosed()){
+            udpMessageSender.sendUdpMessage(udpSocket, "DISCONNECT", SERVER_ADDRESS, SERVER_PORT);
+
+            if(multicastSocket != null && !multicastSocket.isClosed()) {
                 NetworkInterface networkInterface = NetworkInterface.getByInetAddress(udpSocket.getLocalAddress());
                 multicastSocket.leaveGroup(new InetSocketAddress(multicastGroup, 0), networkInterface);
                 multicastSocket.close();
+                System.out.println("<CLIENT> Multicast UDP connection closed.");
             }
             if (!socket.isClosed()) {
-                System.out.println("<CLIENT> tcp socket disconnected");
                 socket.close();
+                System.out.println("<Client> TCP connection closed.");
             }
-           System.out.println("Connection closed.");
+            if(udpSocket != null && !udpSocket.isClosed()){
+                udpSocket.close();
+                System.out.println("<Client> UDP connection closed.");
+            }
+            System.out.println("Connection closed.");
         } catch(NullPointerException e){
             System.out.println("NullPointerException");
         } catch (IOException e ) {

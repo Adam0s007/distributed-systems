@@ -67,12 +67,12 @@ public class TcpClientHandler implements Runnable {
                 System.out.println("<TCP> Client " + clientId + " disconnected");
                 tcpClients.get(clientId).println("DISCONNECT");
                 tcpClients.remove(clientId);
-                broadcastMessage(clientId + " has left", clientId);
+
                 }
-            if (socket != null && !socket.isClosed()) {
-                //System.out.println("<TCP> Closing client socket: " + clientId);
-                socket.close();
-            }
+            broadcastMessage(clientId + " has left", clientId);
+//            if (socket != null && !socket.isClosed()) {
+//                socket.close();
+//            }
         } catch (Exception e) {
             System.out.println("[SERVER - TcpClientHandler] Error closing client socket: " + e.getMessage());
         }

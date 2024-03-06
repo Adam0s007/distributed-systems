@@ -7,13 +7,13 @@ import java.net.*;
 public class MulticastListener implements Runnable{
     private final MulticastSocket multicastSocket;
     private volatile boolean running = true;
-    private DatagramSocket socket;
+    private DatagramSocket udpSocket;
     private InetAddress multicastGroup;
     public MulticastListener(MulticastSocket multicastSocket, int clientPort, InetAddress multicastGroup, DatagramSocket udpSocket) {
         this.multicastSocket = multicastSocket;
         this.clientPort = clientPort;
         this.multicastGroup = multicastGroup;
-        this.socket = udpSocket;
+        this.udpSocket = udpSocket;
     }
     public int clientPort;
     @Override
@@ -37,26 +37,26 @@ public class MulticastListener implements Runnable{
                     }
             }
         }catch (IOException e) {
-                System.out.println("Multicast socket closed.");
-
-        } finally {
-            if(multicastSocket != null && !multicastSocket.isClosed()){
-                try {
-                    NetworkInterface networkInterface = NetworkInterface.getByInetAddress(socket.getLocalAddress());
-                    multicastSocket.leaveGroup(new InetSocketAddress(multicastGroup, 0), networkInterface);
-                } catch (IOException e) {
-                    // e.printStackTrace();
-                } catch (NullPointerException e) {
-                   // e.printStackTrace();
-                }
-                finally {
-                    multicastSocket.close();
-                    System.out.println("<CLIENT> Multicast listener disconnected.");
-                }
-
-            }
-
+                System.out.println("<MulticastListener> Multicast socket closed.");
         }
+//        finally {
+//            if(multicastSocket != null && !multicastSocket.isClosed()){
+//                try {
+//                    NetworkInterface networkInterface = NetworkInterface.getByInetAddress(udpSocket.getLocalAddress());
+//                    multicastSocket.leaveGroup(new InetSocketAddress(multicastGroup, 0), networkInterface);
+//                } catch (IOException e) {
+//                     e.printStackTrace();
+//                } catch (NullPointerException e) {
+//                    e.printStackTrace();
+//                }
+//                finally {
+//                    multicastSocket.close();
+//                    System.out.println("<CLIENT> Multicast listener disconnected.");
+//                }
+//
+//            }
+//
+//        }
 
     }
 
