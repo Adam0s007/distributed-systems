@@ -28,17 +28,6 @@ public class TcpClientHandler implements Runnable {
             cleanUp();
         }
     }
-    public void disconnect() {
-        try {
-            if (out != null) {
-                out.println("SERVERSHUTDOWN");
-            }
-            cleanUp();
-        } catch (Exception e) {
-            System.err.println("Error disconnecting the client: " + e.getMessage());
-        }
-    }
-
 
     private void connectUser() throws IOException {
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -56,7 +45,6 @@ public class TcpClientHandler implements Runnable {
     private void handleMessages() throws IOException {
         String input;
         while ((input = in.readLine()) != null && !input.equalsIgnoreCase("quit")) {
-            System.out.println("<TCP> Received message: " + input);
             broadcastMessage(input, clientId);
         }
     }
@@ -70,17 +58,14 @@ public class TcpClientHandler implements Runnable {
 
                 }
             broadcastMessage(clientId + " has left", clientId);
-//            if (socket != null && !socket.isClosed()) {
-//                socket.close();
-//            }
         } catch (Exception e) {
             System.out.println("[SERVER - TcpClientHandler] Error closing client socket: " + e.getMessage());
         }
     }
 
     private void broadcastMessage(String message, String excludeUser) {
-        String messageToSend = "[" + excludeUser + "]: "+message;
-        System.out.println("<TCP> " + messageToSend);
+        String messageToSend = "[" + excludeUser + "] "+message;
+        System.out.println("<TCP> Received message: " + messageToSend);
         tcpClients.forEach((client, writer) -> {
             if (!client.equals(excludeUser)) {
                 writer.println(messageToSend);

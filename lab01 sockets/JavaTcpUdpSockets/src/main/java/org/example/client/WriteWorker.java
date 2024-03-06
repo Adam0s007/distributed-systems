@@ -37,6 +37,10 @@ public class WriteWorker implements Runnable {
 
             while (!(text = consoleReader.readLine()).equalsIgnoreCase("quit")) {
                 String command = text.toUpperCase().substring(0, 1);
+                if (text.length() < 2 && ( command.equals("U") || command.equals("M"))) {
+                    System.out.println("Invalid message format");
+                    continue;
+                }
                 int port = socket.getLocalPort();
                 String messageContent = text.substring(2);
                 String udpMessage = "[" + port + "] " + messageContent;
@@ -53,9 +57,10 @@ public class WriteWorker implements Runnable {
                         break;
                 }
             }
-            closeConnection();
         } catch (IOException e) {
             System.out.println("Error writing to server: " + e.getMessage());
+        } finally {
+            closeConnection();
         }
     }
 

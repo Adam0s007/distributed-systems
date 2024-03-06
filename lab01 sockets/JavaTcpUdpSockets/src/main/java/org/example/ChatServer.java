@@ -26,7 +26,6 @@ public class ChatServer {
 
     public void start() throws IOException {
 
-
         tcpServerSocket = new ServerSocket(PORT);
         this.udpServerSocket = new DatagramSocket(PORT);
 
@@ -45,15 +44,8 @@ public class ChatServer {
                 futures.add(clientExecutor.submit(udpClientHandler));
 
             }
-            exit(0);
-
         } catch (IOException e) {
-            System.out.println("Server exception: " + e.getMessage());
-        } finally {
-            if (!tcpServerSocket.isClosed())
-                tcpServerSocket.close();
-            if (!udpServerSocket.isClosed())
-                udpServerSocket.close();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -62,7 +54,6 @@ public class ChatServer {
         while (isRunning) {
             if (scanner.nextLine().trim().equalsIgnoreCase("quit")) {
                 closeServer();
-                exit(0);
             }
         }
     }
@@ -76,20 +67,22 @@ public class ChatServer {
                 future.get();
             }
             this.clientExecutor.shutdownNow();
-
-            if (udpServerSocket != null && !udpServerSocket.isClosed()) {
-                udpServerSocket.close();
-                System.out.println("<ChatSServer> UDP connection closed.");
-            }
-            if (tcpServerSocket != null && !tcpServerSocket.isClosed()) {
-                tcpServerSocket.close();
-                System.out.println("<ChatServer> TCP connection closed.");
-            }
             System.out.println("Server closed.");
-        } catch (IOException e) {
-            System.out.println("Error closing the server: " + e.getMessage());
         } catch (Exception e) {
              System.out.println("Error: " + e.getMessage());
+        } finally {
+            try {
+                if (udpServerSocket != null && !udpServerSocket.isClosed()) {
+                    udpServerSocket.close();
+                    System.out.println("<ChatServer> UDP connection closed.");
+                }
+                if (tcpServerSocket != null && !tcpServerSocket.isClosed()) {
+                    tcpServerSocket.close();
+                    System.out.println("<ChatServer> TCP connection closed.");
+                }
+            } catch (IOException e) {
+                System.out.println("Error closing the server: " + e.getMessage());
+            }
         }
 
     }

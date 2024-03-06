@@ -27,31 +27,17 @@ public class UdpClientHandler implements Runnable {
         }
     }
 
-
-    public void stopRunning() {
-        running = false;
-        if (udpServerSocket != null && !udpServerSocket.isClosed()) {
-            udpServerSocket.close();
-        }
-    }
-
-
     private void processIncomingPacket() throws IOException {
         byte[] buffer = new byte[1024];
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
         udpServerSocket.receive(packet);
         String received = new String(packet.getData(), 0, packet.getLength()).trim();
-        if(received.contains("DISCONNECT")){
-            running = false;
-        }
         System.out.println("<UDP> Received message: " + received);
         handlePacketContent(received, packet);
     }
 
     private void handlePacketContent(String message, DatagramPacket packet) {
         String senderKey = getKeyForPacket(packet);
-        //System.out.println("RECEIVED ON UDP: " + message);
-        //System.out.println(message.split(":", 2)[0]);
         switch (message.split(":", 2)[0]) {
             case "INIT":
                 System.out.println("<UDP> New client connected: " + senderKey);
@@ -78,7 +64,6 @@ public class UdpClientHandler implements Runnable {
             if (!key.equals(senderKey)) {
                 try {
                     DatagramPacket packetToSend = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(clientInfo.address), clientInfo.udpPort);
-                    System.out.println("<UDP> Sending message to: " + clientInfo.address + ":" + clientInfo.udpPort + " message: " + message);
                     udpServerSocket.send(packetToSend);
                 } catch (IOException e) {
                     System.err.println("Failed to send message: " + e.getMessage());

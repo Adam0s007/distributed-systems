@@ -67,29 +67,31 @@ public class ConnectionManager {
             udpMessageSender.sendMulticastMessage("[" + socket.getLocalPort() + "] " + "DISCONNECT");
             writer.println("quit");
             udpMessageSender.sendUdpMessage(udpSocket, "DISCONNECT", SERVER_ADDRESS, SERVER_PORT);
-
-            if(multicastSocket != null && !multicastSocket.isClosed()) {
-                NetworkInterface networkInterface = NetworkInterface.getByInetAddress(udpSocket.getLocalAddress());
-                multicastSocket.leaveGroup(new InetSocketAddress(multicastGroup, 0), networkInterface);
-                multicastSocket.close();
-                System.out.println("<CLIENT> Multicast UDP connection closed.");
-            }
-            if (!socket.isClosed()) {
-                socket.close();
-                System.out.println("<Client> TCP connection closed.");
-            }
-            if(udpSocket != null && !udpSocket.isClosed()){
-                udpSocket.close();
-                System.out.println("<Client> UDP connection closed.");
-            }
             System.out.println("Connection closed.");
         } catch(NullPointerException e){
             System.out.println("NullPointerException");
         } catch (IOException e ) {
             System.out.println("Connection closed.");
+        } finally {
+            try {
+                if (multicastSocket != null && !multicastSocket.isClosed()) {
+                    NetworkInterface networkInterface = NetworkInterface.getByInetAddress(udpSocket.getLocalAddress());
+                    multicastSocket.leaveGroup(new InetSocketAddress(multicastGroup, 0), networkInterface);
+                    multicastSocket.close();
+                    System.out.println("<CLIENT> Multicast UDP connection closed.");
+                }
+                if (!socket.isClosed()) {
+                    socket.close();
+                    System.out.println("<Client> TCP connection closed.");
+                }
+                if (udpSocket != null && !udpSocket.isClosed()) {
+                    udpSocket.close();
+                    System.out.println("<Client> UDP connection closed.");
+                }
+            } catch (IOException e) {
+                System.out.println("Error closing the connection: " + e.getMessage());
+            }
         }
-        // System.out.println("<<<<<<<TCP Writer stopped.>>>>>");
-        //exit(0);
     }
 
 

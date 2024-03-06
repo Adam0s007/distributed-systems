@@ -35,7 +35,7 @@ public class ReadWorker implements Runnable {
                 while (running) {
                     String response = reader.readLine();
                     if (response == null) break;
-                    System.out.println(response);
+                    System.out.println("TCP message received:\n"+response);
                     if (response.contains("DISCONNECT")) {
                         running = false;
                         break;

@@ -26,7 +26,7 @@ public class MulticastListener implements Runnable{
                     String received = new String(packet.getData(), 0, packet.getLength());
                     if (!messageIsFromSelf(received, clientPort)) {
                         if(!received.contains("DISCONNECT"))
-                            System.out.println("Multicast message received: " + received);
+                            System.out.println("Multicast message received:\n" + received);
                         if(received.contains("SERVERSHUTDOWN")){
                             this.running = false;
                         }
@@ -39,25 +39,6 @@ public class MulticastListener implements Runnable{
         }catch (IOException e) {
                 System.out.println("<MulticastListener> Multicast socket closed.");
         }
-//        finally {
-//            if(multicastSocket != null && !multicastSocket.isClosed()){
-//                try {
-//                    NetworkInterface networkInterface = NetworkInterface.getByInetAddress(udpSocket.getLocalAddress());
-//                    multicastSocket.leaveGroup(new InetSocketAddress(multicastGroup, 0), networkInterface);
-//                } catch (IOException e) {
-//                     e.printStackTrace();
-//                } catch (NullPointerException e) {
-//                    e.printStackTrace();
-//                }
-//                finally {
-//                    multicastSocket.close();
-//                    System.out.println("<CLIENT> Multicast listener disconnected.");
-//                }
-//
-//            }
-//
-//        }
-
     }
 
     private boolean messageIsFromSelf(String message, int clientPort) {

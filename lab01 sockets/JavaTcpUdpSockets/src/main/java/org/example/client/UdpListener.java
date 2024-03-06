@@ -21,19 +21,13 @@ public class UdpListener implements Runnable {
                     if(received.contains("DISCONNECT") || received.contains("SERVERSHUTDOWN")){
                         this.running = false;
                     }else{
-                        System.out.println("UDP message received: " + received);
+                        System.out.println("UDP message received:\n" + received);
                     }
                 }
             }catch (IOException e) {
                 System.out.println("<UdpListener> UDP socket closed.");
 
             }
-//        finally {
-//                if(udpSocket != null && !udpSocket.isClosed()){
-//                    udpSocket.close();
-//                    System.out.println("<CLIENT> udp listener disconnected.");
-//                }
-//            }
         }
 
     }
