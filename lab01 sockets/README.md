@@ -19,11 +19,6 @@ This assignment requires the creation of a chat application. The key features an
 - **Programming Language:** The assignment can be submitted in any programming language.
 - **No Frameworks:** Only socket programming is allowed. The use of network communication frameworks or Akka is prohibited.
 
-### Submission Requirements
-- **Demonstration:** Demonstrate the application's operation with the server and at least two clients.
-- **Code Discussion:** Discuss the source code during submission.
-- **Considerations:** Focus on the solution's efficiency (e.g., thread pool usage) and correctness (e.g., avoiding message echo to the sender, thread management).
-
 ### Running the Application
 
 #### For JavaTcpUdpSockets Folder
@@ -34,8 +29,3 @@ This assignment requires the creation of a chat application. The key features an
 1. **Installation:** Before running the server or clients, execute `npm install` to install necessary dependencies.
 2. **Start the Server:** Run the server using the command `node server/index.js`.
 3. **Launch Clients:** For each client that wishes to connect, use the command `node client/index.js`.
-
-
-### Additional Notes
-- Ensure proper handling of threads to maintain application performance and stability.
-- Pay attention to efficiently managing client connections and broadcasting messages.
