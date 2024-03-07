@@ -26,7 +26,7 @@ public class MulticastListener implements Runnable{
                     String received = new String(packet.getData(), 0, packet.getLength());
                     if (!messageIsFromSelf(received, clientPort)) {
                         if(!received.contains("DISCONNECT"))
-                            System.out.println("Multicast message received:\n" + received);
+                            System.out.println("Multicast message received: " + received);
                         if(received.contains("SERVERSHUTDOWN")){
                             this.running = false;
                         }

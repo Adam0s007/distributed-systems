@@ -3,8 +3,7 @@ package org.example.client;
 import java.io.*;
 import java.net.*;
 
-import static org.example.Config.SERVER_ADDRESS;
-import static org.example.Config.SERVER_PORT;
+import static org.example.Config.*;
 
 public class WriteWorker implements Runnable {
     private PrintWriter writer;
@@ -36,27 +35,27 @@ public class WriteWorker implements Runnable {
             String text;
 
             while (!(text = consoleReader.readLine()).equalsIgnoreCase("quit")) {
-                String command = text.toUpperCase().substring(0, 1);
-                if (text.length() < 2 && ( command.equals("U") || command.equals("M"))) {
-                    System.out.println("Invalid message format");
-                    continue;
-                }
+                String command = text.length() > 1 ? text.toUpperCase().substring(0, 2) : text.toUpperCase();
                 int port = socket.getLocalPort();
-                String messageContent = text.substring(2);
-                String udpMessage = "[" + port + "] " + messageContent;
-                switch (command) {
-                    case "U":
-                        udpMessageSender.sendUdpMessage(udpSocket, udpMessage, SERVER_ADDRESS, SERVER_PORT);
-                        break;
-                    case "M":
-                        udpMessageSender.sendMulticastMessage(udpMessage);
-                        break;
-                    default:
-                        writer.println(text);
-                        System.out.println("TCP message sent.");
-                        break;
+                String messageContent = text.length() > 2 ? text.substring(2) : "";
+                String user = "[" + port + "] ";
+                String udpMessage = user + messageContent;
+
+                if (command.equals("U ") || command.equals("M ")) {
+                    if (command.equals("U ")) {
+                        this.sendUdpMessage(udpMessage);
+                    } else if (command.equals("M ")) {
+                        this.sendMulticastMessage(udpMessage);
+                    }
+                } else if (text.toUpperCase().equals("T")) {
+                    this.sendAsciiArt(FILE_PATH,user);
+                } else if (command.equals("T ")) {
+                    System.out.println("Invalid message format for ASCII Art command.");
+                } else {
+                    this.sendTcpMessage(text);
                 }
             }
+
         } catch (IOException e) {
             System.out.println("Error writing to server: " + e.getMessage());
         } finally {
@@ -64,10 +63,45 @@ public class WriteWorker implements Runnable {
         }
     }
 
+    private void sendAsciiArt(String filePath,String user) throws IOException {
+        File file = new File(filePath);
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                this.sendUdpMessage(user + line);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + filePath);
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+
+
+    }
+
     private void closeConnection() {
         if(closeConnectionAction != null) {
             closeConnectionAction.execute(udpSocket, multicastSocket, socket, writer, multicastGroup);
         }
+    }
+
+    private void sendUdpMessage(
+            String message
+    )  throws IOException {
+        udpMessageSender.sendUdpMessage(udpSocket, message, SERVER_ADDRESS, SERVER_PORT);
+    }
+
+    private void sendMulticastMessage(
+            String message
+    )  throws IOException {
+        udpMessageSender.sendMulticastMessage(message);
+    }
+
+    private void sendTcpMessage(
+            String message
+    ) {
+        writer.println(message);
+        System.out.println("TCP message sent.");
     }
 
 }

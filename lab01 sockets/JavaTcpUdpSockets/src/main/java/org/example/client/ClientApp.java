@@ -4,6 +4,7 @@ import java.io.IOException;
 
 public class ClientApp {
     public static void main(String[] args) throws IOException {
+        System.out.println("Working Directory = " + System.getProperty("user.dir"));
         ConnectionManager manager = new ConnectionManager();
        try {
            manager.connect();

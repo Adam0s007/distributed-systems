@@ -21,7 +21,7 @@ public class UdpListener implements Runnable {
                     if(received.contains("DISCONNECT") || received.contains("SERVERSHUTDOWN")){
                         this.running = false;
                     }else{
-                        System.out.println("UDP message received:\n" + received);
+                        System.out.println("UDP message received: " + received);
                     }
                 }
             }catch (IOException e) {
