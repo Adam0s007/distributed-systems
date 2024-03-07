@@ -1,4 +1,6 @@
-package org.example;
+package org.example.server.handlers;
+
+import org.example.server.models.ClientInfo;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -63,7 +65,7 @@ public class UdpClientHandler implements Runnable {
         clientAddresses.forEach((key, clientInfo) -> {
             if (!key.equals(senderKey)) {
                 try {
-                    DatagramPacket packetToSend = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(clientInfo.address), clientInfo.udpPort);
+                    DatagramPacket packetToSend = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(clientInfo.address()), clientInfo.udpPort());
                     udpServerSocket.send(packetToSend);
                 } catch (IOException e) {
                     System.err.println("Failed to send message: " + e.getMessage());

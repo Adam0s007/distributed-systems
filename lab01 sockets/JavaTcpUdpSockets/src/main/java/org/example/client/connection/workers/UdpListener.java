@@ -1,4 +1,4 @@
-package org.example.client;
+package org.example.client.connection.workers;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

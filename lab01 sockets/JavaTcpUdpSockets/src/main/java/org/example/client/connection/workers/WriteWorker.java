@@ -1,9 +1,12 @@
-package org.example.client;
+package org.example.client.connection.workers;
+
+import org.example.client.connection.CloseConnectionAction;
+import org.example.client.connection.UdpMessageSender;
 
 import java.io.*;
 import java.net.*;
 
-import static org.example.Config.*;
+import static org.example.util.Config.*;
 
 public class WriteWorker implements Runnable {
     private PrintWriter writer;

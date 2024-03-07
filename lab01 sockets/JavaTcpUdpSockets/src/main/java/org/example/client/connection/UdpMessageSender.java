@@ -1,4 +1,4 @@
-package org.example.client;
+package org.example.client.connection;
 
 import javax.xml.crypto.Data;
 import java.io.IOException;

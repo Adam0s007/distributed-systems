@@ -1,6 +1,8 @@
 package org.example;
 
-import static org.example.Config.SERVER_PORT;
+import org.example.server.ChatServer;
+
+import static org.example.util.Config.SERVER_PORT;
 
 public class Main {
     public static void main(String[] args) {
@@ -8,7 +10,7 @@ public class Main {
 
         Thread ChatServer = new Thread(() -> {
             try {
-                ChatServer tcpServer = new ChatServer(port);
+                org.example.server.ChatServer tcpServer = new ChatServer(port);
                 tcpServer.start();
             } catch (Exception e) {
                 System.out.println("Server exception: " + e.getMessage());

@@ -1,4 +1,8 @@
-package org.example;
+package org.example.server;
+
+import org.example.server.models.ClientInfo;
+import org.example.server.handlers.TcpClientHandler;
+import org.example.server.handlers.UdpClientHandler;
 
 import java.io.*;
 import java.net.*;
@@ -7,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.*;
-
-import static java.lang.System.exit;
 
 public class ChatServer {
     private ServerSocket tcpServerSocket;

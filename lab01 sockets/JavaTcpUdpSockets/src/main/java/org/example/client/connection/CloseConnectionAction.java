@@ -1,4 +1,4 @@
-package org.example.client;
+package org.example.client.connection;
 
 import java.io.PrintWriter;
 import java.net.*;

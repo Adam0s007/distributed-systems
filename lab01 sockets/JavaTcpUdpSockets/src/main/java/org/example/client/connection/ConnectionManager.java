@@ -1,4 +1,9 @@
-package org.example.client;
+package org.example.client.connection;
+
+import org.example.client.connection.workers.MulticastListener;
+import org.example.client.connection.workers.ReadWorker;
+import org.example.client.connection.workers.UdpListener;
+import org.example.client.connection.workers.WriteWorker;
 
 import java.io.*;
 import java.net.*;
@@ -7,8 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static java.lang.System.exit;
-import static org.example.Config.*;
+import static org.example.util.Config.*;
 
 public class ConnectionManager {
     private ExecutorService executorService = Executors.newFixedThreadPool(4);
