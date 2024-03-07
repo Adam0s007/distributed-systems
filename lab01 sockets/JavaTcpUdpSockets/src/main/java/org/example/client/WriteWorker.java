@@ -48,7 +48,7 @@ public class WriteWorker implements Runnable {
                         this.sendMulticastMessage(udpMessage);
                     }
                 } else if (text.toUpperCase().equals("T")) {
-                    this.sendAsciiArt(FILE_PATH,user);
+                    this.sendAsciiArt(user);
                 } else if (command.equals("T ")) {
                     System.out.println("Invalid message format for ASCII Art command.");
                 } else {
@@ -63,7 +63,14 @@ public class WriteWorker implements Runnable {
         }
     }
 
-    private void sendAsciiArt(String filePath,String user) throws IOException {
+    private void sendAsciiArt(String user) throws IOException {
+
+        System.out.println("Enter the filename: ");
+        String filePath = consoleReader.readLine();
+        if(!filePath.endsWith(".txt")){
+            System.out.println("Invalid file format. Please enter a .txt file.");
+            return;
+        }
         File file = new File(filePath);
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
