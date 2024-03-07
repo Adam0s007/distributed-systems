@@ -1,5 +1,6 @@
 package org.example.client.connection;
 
+import org.example.util.UserInfoPrinter;
 import org.example.client.connection.workers.MulticastListener;
 import org.example.client.connection.workers.ReadWorker;
 import org.example.client.connection.workers.UdpListener;
@@ -23,8 +24,8 @@ public class ConnectionManager {
 
     UdpMessageSender udpMessageSender;
     public void connect() throws IOException {
-        Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-        int port = socket.getLocalPort();
+        Socket tcpSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+        int port = tcpSocket.getLocalPort();
 
         DatagramSocket udpSocket = new DatagramSocket();
         InetAddress multicastGroup = InetAddress.getByName(MULTICAST_ADDRESS);
@@ -35,16 +36,16 @@ public class ConnectionManager {
 
 
         System.out.println("Connected to chat server");
-        PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> closeConnection(udpSocket, multicastSocket, socket,writer,multicastGroup)));
+        PrintWriter writer = new PrintWriter(tcpSocket.getOutputStream(), true);
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> closeConnection(udpSocket, multicastSocket, tcpSocket,writer,multicastGroup)));
 
 
         this.udpMessageSender = new UdpMessageSender(multicastGroup, MULTICAST_PORT);
 
         this.udpListener = new UdpListener(udpSocket);
         this.multicastListener = new MulticastListener(multicastSocket, port, multicastGroup,udpSocket);
-        this.readWorker = new ReadWorker(socket,udpSocket,writer,udpMessageSender,multicastGroup,multicastSocket,this::closeConnection);
-        this.writeWorker = new WriteWorker(socket,udpSocket,writer,udpMessageSender,multicastGroup,multicastSocket,this::closeConnection);
+        this.readWorker = new ReadWorker(tcpSocket,udpSocket,writer,udpMessageSender,multicastGroup,multicastSocket,this::closeConnection);
+        this.writeWorker = new WriteWorker(tcpSocket,udpSocket,writer,udpMessageSender,multicastGroup,multicastSocket,this::closeConnection);
 
         List<Future<?>> futures = List.of(
                 executorService.submit(udpListener),
@@ -52,6 +53,7 @@ public class ConnectionManager {
                 executorService.submit(readWorker),
                 executorService.submit(writeWorker)
         );
+        new UserInfoPrinter(tcpSocket, udpSocket, multicastSocket, multicastGroup);
         futures.forEach(future -> {
             try {
                 future.get();
@@ -61,6 +63,7 @@ public class ConnectionManager {
         });
         executorService.shutdownNow();
     }
+
 
     private void closeConnection(DatagramSocket udpSocket,
                                  MulticastSocket multicastSocket,

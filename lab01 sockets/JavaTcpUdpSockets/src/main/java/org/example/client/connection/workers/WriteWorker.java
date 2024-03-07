@@ -67,27 +67,27 @@ public class WriteWorker implements Runnable {
     }
 
     private void sendAsciiArt(String user) throws IOException {
-
         System.out.println("Enter the filename: ");
         String filePath = consoleReader.readLine();
-        if(!filePath.endsWith(".txt")){
+        if (!filePath.endsWith(".txt")) {
             System.out.println("Invalid file format. Please enter a .txt file.");
             return;
         }
         File file = new File(filePath);
+        StringBuilder stringBuilder = new StringBuilder('\n');
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                this.sendUdpMessage(user + line);
+                stringBuilder.append(line).append("\n");
             }
+            this.sendUdpMessage(user + '\n' + stringBuilder);
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + filePath);
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
-
-
     }
+
 
     private void closeConnection() {
         if(closeConnectionAction != null) {
