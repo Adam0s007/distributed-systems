@@ -10,8 +10,8 @@ public class Main {
 
         Thread ChatServer = new Thread(() -> {
             try {
-                org.example.server.ChatServer tcpServer = new ChatServer(port);
-                tcpServer.start();
+               ChatServer server = new ChatServer(port);
+               server.start();
             } catch (Exception e) {
                 System.out.println("Server exception: " + e.getMessage());
                 e.printStackTrace();
