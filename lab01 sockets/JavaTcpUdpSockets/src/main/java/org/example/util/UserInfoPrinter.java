@@ -30,8 +30,11 @@ public class UserInfoPrinter {
         System.out.println(cyan + "Your ID is: " + tcpInfo + reset);
         System.out.println(yellow + "====================================================" + reset);
         System.out.println("Type '" + purple + "<message>" + reset + "' to send a message indirectly to all other clients via the TCP channel.");
-        System.out.println("Type '" + blue + "U <message>" + reset + "' to send a message indirectly to all other clients via the UDP channel.");
         System.out.println("Type '" + green + "M <message>" + reset + "' to send a message directly to all other clients using Multicast.");
+        System.out.println("Type '" + blue + "U <message>" + reset + "' to send a message indirectly to all other clients via the UDP channel.");
+        System.out.println("Type '" + blue + "U" + reset + "' to enter multiline UDP mode. End with an empty line to send. Rest works as above.");
+
+
         System.out.println("Type '" + yellow + "T" + reset + "' to send an ASCII art message from the file to the server using UDP.");
         System.out.println("Type '" + red + "quit" + reset + "' to exit the application.");
         System.out.println(yellow + "====================================================" + reset);

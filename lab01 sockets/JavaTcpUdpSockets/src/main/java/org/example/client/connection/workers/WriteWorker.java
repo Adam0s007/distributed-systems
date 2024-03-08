@@ -7,7 +7,6 @@ import java.io.*;
 import java.net.*;
 
 import static org.example.util.Config.*;
-
 public class WriteWorker implements Runnable {
     private PrintWriter writer;
     private BufferedReader consoleReader;
@@ -18,13 +17,11 @@ public class WriteWorker implements Runnable {
     private InetAddress multicastGroup;
     private MulticastSocket multicastSocket;
 
-    public WriteWorker(Socket socket,DatagramSocket udpSocket,PrintWriter writer ,UdpMessageSender udpMessageSender,InetAddress multicastGroup,MulticastSocket multicastSocket,CloseConnectionAction closeConnectionAction
-                        ) throws IOException {
+    public WriteWorker(Socket socket, DatagramSocket udpSocket, PrintWriter writer, UdpMessageSender udpMessageSender, InetAddress multicastGroup, MulticastSocket multicastSocket, CloseConnectionAction closeConnectionAction) throws IOException {
         this.socket = socket;
         this.udpSocket = udpSocket;
         this.udpMessageSender = udpMessageSender;
         this.writer = writer;
-
         this.multicastGroup = multicastGroup;
         this.multicastSocket = multicastSocket;
         this.closeConnectionAction = closeConnectionAction;
@@ -38,27 +35,8 @@ public class WriteWorker implements Runnable {
             String text;
 
             while (!(text = consoleReader.readLine()).equalsIgnoreCase("quit")) {
-                String command = text.length() > 1 ? text.toUpperCase().substring(0, 2) : text.toUpperCase();
-                int port = socket.getLocalPort();
-                String messageContent = text.length() > 2 ? text.substring(2) : "";
-                String user = "[" + port + "] ";
-                String udpMessage = user + messageContent;
-
-                if (command.equals("U ") || command.equals("M ")) {
-                    if (command.equals("U ")) {
-                        this.sendUdpMessage(udpMessage);
-                    } else if (command.equals("M ")) {
-                        this.sendMulticastMessage(udpMessage);
-                    }
-                } else if (text.toUpperCase().equals("T")) {
-                    this.sendAsciiArt(user);
-                } else if (command.equals("T ")) {
-                    System.out.println("Invalid message format for ASCII Art command.");
-                } else {
-                    this.sendTcpMessage(text);
-                }
+                    handleCommand(text);
             }
-
         } catch (IOException e) {
             System.out.println("Error writing to server: " + e.getMessage());
         } finally {
@@ -66,6 +44,46 @@ public class WriteWorker implements Runnable {
         }
     }
 
+    private void handleCommand(String text) throws IOException {
+        String command = text.length() > 1 ? text.toUpperCase().substring(0, 2) : text.toUpperCase();
+        int port = socket.getLocalPort();
+        String messageContent = text.length() > 2 ? text.substring(2) : "";
+        String user = "[" + port + "] ";
+        String udpMessage = user + messageContent;
+
+        switch (command) {
+            case "U":
+                sendMultilineUdpMessage();
+                break;
+            case "U ":
+                sendUdpMessage(udpMessage);
+                break;
+            case "M ":
+                sendMulticastMessage(udpMessage);
+                break;
+            case "T":
+                sendAsciiArt(user);
+                break;
+            case "T ":
+                System.out.println("Invalid message format for ASCII Art command.");
+                break;
+            default:
+                sendTcpMessage(text);
+                break;
+        }
+    }
+
+    private void sendMultilineUdpMessage() throws IOException {
+        StringBuilder multilineMessage = new StringBuilder();
+        System.out.println("Enter multiline message (empty line to send):");
+        String line;
+        multilineMessage.append("\n");
+        while (!(line = consoleReader.readLine()).isEmpty()) {
+            multilineMessage.append(line).append("\n");
+        }
+        String message = "[" + socket.getLocalPort() + "] " + multilineMessage.toString();
+        sendUdpMessage(message);
+    }
     private void sendAsciiArt(String user) throws IOException {
         System.out.println("Enter the filename: ");
         String filePath = consoleReader.readLine();
@@ -115,5 +133,4 @@ public class WriteWorker implements Runnable {
     }
 
 }
-
 
