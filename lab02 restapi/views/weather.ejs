@@ -8,11 +8,17 @@
 </head>
 <body class="body">
     <header>
-    <ul>
-        <li><a href="/">Return to search</a></li>
-        <li><a href="/randomCity">Check random city</a></li>
-        <li><a href="/logout">Logout</a></li>
-    </ul>
+        <ul>
+            <li><a href="/">Return to search</a></li>
+            <li>
+                <form method="post" action="/randomCity">
+                    <input type="date" name="startDate" required>
+                    <input type="date" name="endDate" required>
+                    <button type="submit">Check random city</button>
+                </form>
+            </li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
     </header>
     <main class="container">
         <h1 class="title">Weather Forecast for <%= city %></h1>
