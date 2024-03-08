@@ -7,11 +7,20 @@
     <title>Weather Forecast</title>
 </head>
 <body class="body">
-    <div class="container">
+    <header>
+    <ul>
+        <li><a href="/">Return to search</a></li>
+        <li><a href="/randomCity">Check random city</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+    </header>
+    <main class="container">
         <h1 class="title">Weather Forecast for <%= city %></h1>
-        <p><strong>Average Temperature:</strong> <%= averageTemp.toFixed(2) %>°C</p>
-        <p><strong>Max Temperature:</strong> <%= maxTemp %>°C</p>
-        <p><strong>Min Temperature:</strong> <%= minTemp %>°C</p>
+        <p><strong>Average Temperature:</strong> <%= statistics.averageTemp.toFixed(2) %>°C</p>
+        <p><strong>Max Temperature:</strong> <%= statistics.maxTemp %>°C</p>
+        <p><strong>Min Temperature:</strong> <%= statistics.minTemp %>°C</p>
+        <p><strong>Average UV Index:</strong> <%= statistics.averageUVIndex.toFixed(2) %></p>
+        <!-- You can add more statistics here -->
         <div class="forecast">
             <h2>Detailed Forecast</h2>
             <% days.forEach(function(day) { %>
@@ -20,10 +29,11 @@
                     <p><strong>Max Temperature:</strong> <%= day.tempmax %>°C</p>
                     <p><strong>Min Temperature:</strong> <%= day.tempmin %>°C</p>
                     <p><strong>Conditions:</strong> <%= day.conditions %></p>
+                    <p><strong>Sunrise:</strong> <%= day.sunrise %></p>
+                    <p><strong>Sunset:</strong> <%= day.sunset %></p>
                 </div>
             <% }); %>
         </div>
-    </div>
+    </main>
 </body>
 </html>
-
