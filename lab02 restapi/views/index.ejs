@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
-    <title>Enter City</title>
+    <title>Enter City and Date Range</title>
 </head>
 <body class="body">
     <div class="container">
@@ -13,6 +13,14 @@
             <div class="form-group">
                 <label for="city">Enter City Name:</label>
                 <input type="text" id="city" name="city" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="startDate">Start Date:</label>
+                <input type="date" id="startDate" name="startDate" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" name="endDate" class="form-control" required>
             </div>
             <button type="submit" class="btn">Get Weather</button>
         </form>
