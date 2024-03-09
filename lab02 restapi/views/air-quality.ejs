@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Air Quality Report</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/air-quality.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto"
+    />
+  </head>
+  <body>
+    <header>
+      <ul>
+        <li><a href="/">Return to search</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </header>
+    <main class="container">
+      <section>
+        <h1>Air Quality Report for <%= city %></h1>
+        <p class="aqi-highlight" data-temp="<%= data.aqi %>">
+          <strong>AQI (Air Quality Index):</strong> <%= data.aqi %>
+        </p>
+
+        <p><strong>Measurement Time:</strong> <%= data.time.iso %></p>
+
+        <p><strong>Dominant Pollutant:</strong> <%= data.dominentpol %></p>
+        <p>
+          <strong>CO (Carbon Monoxide) Levels:</strong> <%= data.iaqi.co.v %>
+          µg/m³
+        </p>
+        <p>
+          <strong>NO2 (Nitrogen Dioxide) Levels:</strong> <%= data.iaqi.no2.v %>
+          µg/m³
+        </p>
+        <p><strong>O3 (Ozone) Levels:</strong> <%= data.iaqi.o3.v %> µg/m³</p>
+        <p>
+          <strong>PM10 (Particulate Matter < 10µm) Levels:</strong> <%=
+          data.iaqi.pm10.v %> µg/m³
+        </p>
+        <p>
+          <strong>SO2 (Sulfur Dioxide) Levels:</strong> <%= data.iaqi.so2.v %>
+          µg/m³
+        </p>
+        <p><strong>Wind Speed:</strong> <%= data.iaqi.w.v %> m/s</p>
+      </section>
+      <section>
+        <h2>Forecast (tomorrow)</h2>
+        <p>
+          <strong>O3:</strong> Avg: <%= data.forecast.daily.o3[1].avg %>, Max:
+          <%= data.forecast.daily.o3[1].max %>, Min: <%=
+          data.forecast.daily.o3[1].min %>
+        </p>
+        <p>
+          <strong>PM10:</strong> Avg: <%= data.forecast.daily.pm10[1].avg %>,
+          Max: <%= data.forecast.daily.pm10[1].max %>, Min: <%=
+          data.forecast.daily.pm10[1].min %>
+        </p>
+        <p>
+          <strong>PM2.5:</strong> Avg: <%= data.forecast.daily.pm25[1].avg %>,
+          Max: <%= data.forecast.daily.pm25[1].max %>, Min: <%=
+          data.forecast.daily.pm25[1].min %>
+        </p>
+        <p>
+          <strong>UV Index Forecast:</strong> Avg: <%=
+          data.forecast.daily.uvi[1].avg %>
+        </p>
+      </section>
+      <section>
+        <form method="post" action="/weather">
+          <input type="hidden" name="city" value="<%= city %>" />
+          <input type="hidden" name="endDate" value="<%= endDate %>" />
+          <input type="hidden" name="startDate" value="<%= startDate %>" />
+          <button type="submit">Return</button>
+        </form>
+      </section>
+    </main>
+  </body>
+  <script>
+    function getAQILevel(aqi) {
+      if (aqi <= 50) {
+        return "good";
+      } else if (aqi <= 100) {
+        return "moderate";
+      } else if (aqi <= 150) {
+        return "unhealthy-for-sensitive-groups";
+      } else if (aqi <= 200) {
+        return "unhealthy";
+      } else if (aqi <= 300) {
+        return "very-unhealthy";
+      } else {
+        return "hazardous";
+      }
+    }
+
+    function updateAQIDisplay() {
+      const aqiElement = document.querySelector(".aqi-highlight");
+      const aqiValue = parseInt(aqiElement.getAttribute("data-temp"));
+      const aqiLevel = getAQILevel(aqiValue);
+      aqiElement.classList.add(aqiLevel);
+      aqiElement.textContent = `AQI (Air Quality Index): ${aqiValue} (${aqiLevel})`;
+    }
+    document.addEventListener('DOMContentLoaded', updateAQIDisplay);
+  </script>
+</html>

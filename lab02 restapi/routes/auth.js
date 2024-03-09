@@ -10,6 +10,23 @@ const router = express.Router();
 
 router.use(cookieParser());
 
+router.get("/login", (req, res) => {
+  const { credentialsError, loginError } = req.query;
+  res.render("login", {
+    credentialsError: credentialsError || "",
+    loginError: loginError || "",
+  });
+});
+
+router.get("/signup", (req, res) => {
+  const { emailError, passwordError } = req.query;
+  res.render("signup", {
+    emailError: emailError || "",
+    passwordError: passwordError || "",
+  });
+});
+
+
 router.post("/signup", async (req, res) => {
   const { email, password } = req.body;
 
@@ -42,7 +59,7 @@ router.post("/login", async (req, res) => {
 
   try {
     const user = await get(email);
-    let isValid = await bcrypt.compare(password, user.password);
+    let isValid = await isValidPassword(password, user.password);
     if (!isValid) {
       return res.redirect("/login?credentialsError=Invalid password.");
     }

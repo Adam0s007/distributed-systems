@@ -1,0 +1,143 @@
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #eef1f5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.column {
+  margin: 20px 0;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #0056b3;
+}
+
+p {
+  margin: 5px 0 15px;
+  color: #333;
+  font-size: 16px;
+}
+
+.forecast {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px 0;
+}
+
+.forecast-day {
+  flex: 0 0 auto;
+  width: 220px;
+  margin-right: 15px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.forecast-day h3 {
+  color: #007bff;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+form {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.forecast::-webkit-scrollbar {
+  height: 8px;
+}
+
+.forecast::-webkit-scrollbar-thumb {
+  background: #007bff;
+  border-radius: 4px;
+}
+
+.forecast::-webkit-scrollbar-track {
+  background: #eef1f5;
+}
+
+@media screen and (max-width: 768px) {
+  .forecast-day {
+      margin-right: 10px;
+  }
+}
+
+
+.temperature-high { background-color: #ffcccc; } 
+.temperature-low { background-color: #cce5ff; } 
+.temperature-warm { background-color: #a3ffa3}
+.gray-highlight { background-color: #e6e6ff; }
+.red-highlight { background-color: #ffd6d6;}
+.yellow-highlight{ background-color: #ffffcc; }
+p.highlight {
+    padding: 8px;
+    border-radius: 5px;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.temperature-high { color: #cc0000; }
+.temperature-low { color: #005cbf; }
+.temperature-warm { color: #2d922d}
+.red-highlight { color: #5d2626; }
+.gray-highlight { color: #4d4d4d; }
+.yellow-highlight{ color: #937704; }
+.button {
+    margin-top: 25px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+form {
+    width: auto;
+    text-align: center;
+}
+
+
+.main {
+    overflow-x: hidden; 
+}
+
+@media screen and (max-width: 768px) {
+    .forecast {
+        justify-content: center;
+    }
+
+    .forecast-day {
+        width: 90%; 
+        margin-right: 20px;
+    }
+}
+

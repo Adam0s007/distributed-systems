@@ -1,0 +1,86 @@
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #eef1f5;
+}
+
+.container, .main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    min-height: 100vh;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 80%;
+    max-width: 600px;
+}
+
+h1, h2 {
+    font-size: 26px;
+    color: #0056b3;
+    margin: 20px 0;
+}
+
+p {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #f9f9f9; 
+}
+
+
+.aqi-highlight { color: black }
+.highlight-co { background-color: #ffeadb; color: #cc7700; }
+.highlight-no2 { background-color: #e0eefa; color: #0056b3; }
+.highlight-o3 { background-color: #dbeeff; color: #007bff; }
+.highlight-pm10, .highlight-pm25 { background-color: #e8f5e9; color: #388e3c; }
+.highlight-so2 { background-color: #fff3e0; color: #ff6f00; }
+.highlight-wind { background-color: #e1f5fe; color: #0288d1; }
+.highlight-forecast { background-color: #f1f8e9; color: #33691e; }
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+button:hover { background-color: #0056b3; }
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.good { background-color: #87fb8b; color:rgb(15, 100, 15); font-weight:bold; }
+.moderate { background-color: #ffe873; color:#8e780f; font-weight:bold; }
+.unhealthy-for-sensitive-groups { background-color: #feb062;font-weight:bold; color:#934e0a}
+.unhealthy { background-color: #ff9595;font-weight:bold; color:rgb(103, 35, 35); }
+.very-unhealthy { background-color: #ff8989;font-weight:bold;  color:rgb(71, 33, 33);}
+.hazardous { background-color: #252525; color:rgb(255, 221, 221); font-weight:bold; }
+
+
+@media screen and (max-width: 768px) {
+    .container, .main, section {
+        width: 90%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
