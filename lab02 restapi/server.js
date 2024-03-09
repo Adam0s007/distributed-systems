@@ -6,7 +6,7 @@ const port = 3000;
 const { checkAuth } = require("./util/auth");
 const {validateWeatherRequest} = require("./util/validation")
 const authRoutes = require("./routes/auth");
-const randomCityRoutes = require("./routes/randomCity");
+
 
 const {fetchWeatherData} = require("./api/fetchWeatherData");
 const {getStats} = require("./util/statistics");
@@ -18,9 +18,9 @@ app.set("views", "./views");
 app.use(express.urlencoded({ extended: true }));
 
 app.use(authRoutes);
-app.use(randomCityRoutes);
 
-app.get("/", (req, res) => {
+
+app.get("/",checkAuth, async (req, res) => {
   res.render("index");
 });
 
@@ -55,7 +55,7 @@ app.post("/weather", checkAuth, async (req, res) => {
   console.log(city, startDate, endDate);
   try {
       const weatherData = await fetchWeatherData(city, startDate, endDate);
-      console.log(weatherData);
+      //console.log(weatherData);
       const statistics = getStats(weatherData);
       res.render("weather", { 
           city: weatherData.resolvedAddress,
