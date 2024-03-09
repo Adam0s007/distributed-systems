@@ -69,9 +69,9 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.error(error);
     if (error instanceof NotFoundError) {
-      return res.redirect("/login?credentialsError=User not found with that email.");
+      return res.status(403).redirect("/login?credentialsError=User not found with that email.");
     } else {
-      return res.redirect("/login?loginError=Internal server error.");
+      return res.status(500).redirect("/login?loginError=Internal server error.");
     }
   }
 });

@@ -93,11 +93,9 @@ h3 {
   color: #dc3545;
   margin-bottom: 20px;
   text-align: center;
-}
-
-header {
-  background-color: #007bff; /* Niebieski kolor tła */
-  padding: 10px 0;
+}header {
+  background-color: #007bff; 
+  padding: 20px 0;
   color: white;
   text-align: center;
 }
@@ -106,12 +104,13 @@ header ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  display: inline-block; 
 }
 
 header li {
-  display: inline;
+  float: left; 
   margin-right: 20px;
+
 }
 
 header li:last-child {
@@ -125,12 +124,14 @@ header button {
   text-decoration: none;
   padding: 10px 15px;
   border: none;
-  background-color: transparent;
+  background-color: #007bff; 
   cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s ease; 
 }
 
 header form {
-  display: inline; /* To pozwala na umieszczenie formularza w linii z linkami */
+  display: inline; 
 }
 
 header input[type="date"] {
@@ -138,13 +139,35 @@ header input[type="date"] {
   margin-right: 10px;
   border-radius: 4px;
   border: 1px solid #ccc;
+  background-color: #fff; 
 }
 
 header button:hover,
-header a:hover {
+header a:hover,
+header input[type="submit"]:hover { 
   background-color: #0056b3;
-  border-radius: 4px;
+  border-radius: 12px;
 }
+
+
+header input[type="submit"] {
+  font-weight: bold;
+  color: white;
+  background-color: #007bff;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+
+header form {
+  display: inline-flex;
+  align-items: center; 
+}
+
+
 
 @media (max-width: 600px) {
   header ul {

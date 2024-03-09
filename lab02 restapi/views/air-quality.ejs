@@ -22,53 +22,102 @@
       <section>
         <h1>Air Quality Report for <%= city %></h1>
         <p class="aqi-highlight" data-temp="<%= data.aqi %>">
-          <strong>AQI (Air Quality Index):</strong> <%= data.aqi %>
+          <strong>AQI (Air Quality Index):</strong>
+          <% if (data.aqi) { %> <%= data.aqi %> <% } else { %> Data Unavailable
+          <% } %>
         </p>
 
-        <p><strong>Measurement Time:</strong> <%= data.time.iso %></p>
+        <p>
+          <strong>Measurement Time:</strong>
+          <% if (data.time && data.time.iso) { %> <%= data.time.iso %> <% } else
+          { %> Data Unavailable <% } %>
+        </p>
 
-        <p><strong>Dominant Pollutant:</strong> <%= data.dominentpol %></p>
         <p>
-          <strong>CO (Carbon Monoxide) Levels:</strong> <%= data.iaqi.co.v %>
-          µg/m³
+          <strong>Dominant Pollutant:</strong>
+          <% if (data.dominentpol) { %> <%= data.dominentpol %> <% } else { %>
+          Data Unavailable <% } %>
         </p>
+
         <p>
-          <strong>NO2 (Nitrogen Dioxide) Levels:</strong> <%= data.iaqi.no2.v %>
-          µg/m³
+          <strong>CO (Carbon Monoxide) Levels:</strong>
+          <% if (data.iaqi && data.iaqi.co && data.iaqi.co.v) { %> <%=
+          data.iaqi.co.v %> µg/m³ <% } else { %> Data Unavailable <% } %>
         </p>
-        <p><strong>O3 (Ozone) Levels:</strong> <%= data.iaqi.o3.v %> µg/m³</p>
+
         <p>
-          <strong>PM10 (Particulate Matter < 10µm) Levels:</strong> <%=
-          data.iaqi.pm10.v %> µg/m³
+          <strong>NO2 (Nitrogen Dioxide) Levels:</strong>
+          <% if (data.iaqi && data.iaqi.no2 && data.iaqi.no2.v) { %> <%=
+          data.iaqi.no2.v %> µg/m³ <% } else { %> Data Unavailable <% } %>
         </p>
+
         <p>
-          <strong>SO2 (Sulfur Dioxide) Levels:</strong> <%= data.iaqi.so2.v %>
-          µg/m³
+          <strong>O3 (Ozone) Levels:</strong>
+          <% if (data.iaqi && data.iaqi.o3 && data.iaqi.o3.v) { %> <%=
+          data.iaqi.o3.v %> µg/m³ <% } else { %> Data Unavailable <% } %>
         </p>
-        <p><strong>Wind Speed:</strong> <%= data.iaqi.w.v %> m/s</p>
+
+        <p>
+          <strong>PM10 (Particulate Matter < 10µm) Levels:</strong>
+          <% if (data.iaqi && data.iaqi.pm10 && data.iaqi.pm10.v) { %> <%=
+          data.iaqi.pm10.v %> µg/m³ <% } else { %> Data Unavailable <% } %>
+        </p>
+
+        <p>
+          <strong>SO2 (Sulfur Dioxide) Levels:</strong>
+          <% if (data.iaqi && data.iaqi.so2 && data.iaqi.so2.v) { %> <%=
+          data.iaqi.so2.v %> µg/m³ <% } else { %> Data Unavailable <% } %>
+        </p>
+
+        <p>
+          <strong>Wind Speed:</strong>
+          <% if (data.iaqi && data.iaqi.w && data.iaqi.w.v) { %> <%=
+          data.iaqi.w.v %> m/s <% } else { %> Data Unavailable <% } %>
+        </p>
       </section>
+
       <section>
         <h2>Forecast (tomorrow)</h2>
+        <% if (data.forecast && data.forecast.daily) { %> <% if
+        (data.forecast.daily.o3 && data.forecast.daily.o3[1]) { %>
         <p>
           <strong>O3:</strong> Avg: <%= data.forecast.daily.o3[1].avg %>, Max:
           <%= data.forecast.daily.o3[1].max %>, Min: <%=
           data.forecast.daily.o3[1].min %>
         </p>
+        <% } else { %>
+        <p>Data for O3 is not available.</p>
+        <% } %> <% if (data.forecast.daily.pm10 && data.forecast.daily.pm10[1])
+        { %>
         <p>
           <strong>PM10:</strong> Avg: <%= data.forecast.daily.pm10[1].avg %>,
           Max: <%= data.forecast.daily.pm10[1].max %>, Min: <%=
           data.forecast.daily.pm10[1].min %>
         </p>
+        <% } else { %>
+        <p>Data for PM10 is not available.</p>
+        <% } %> <% if (data.forecast.daily.pm25 && data.forecast.daily.pm25[1])
+        { %>
         <p>
           <strong>PM2.5:</strong> Avg: <%= data.forecast.daily.pm25[1].avg %>,
           Max: <%= data.forecast.daily.pm25[1].max %>, Min: <%=
           data.forecast.daily.pm25[1].min %>
         </p>
+        <% } else { %>
+        <p>Data for PM2.5 is not available.</p>
+        <% } %> <% if (data.forecast.daily.uvi && data.forecast.daily.uvi[1]) {
+        %>
         <p>
           <strong>UV Index Forecast:</strong> Avg: <%=
           data.forecast.daily.uvi[1].avg %>
         </p>
+        <% } else { %>
+        <p>Data for UV Index Forecast is not available.</p>
+        <% } %> <% } else { %>
+        <p>Forecast data is not available.</p>
+        <% } %>
       </section>
+
       <section>
         <form method="post" action="/weather">
           <input type="hidden" name="city" value="<%= city %>" />
@@ -98,11 +147,13 @@
 
     function updateAQIDisplay() {
       const aqiElement = document.querySelector(".aqi-highlight");
+      console.log(aqiElement.getAttribute("data-temp"));
       const aqiValue = parseInt(aqiElement.getAttribute("data-temp"));
+      console.log(aqiValue);
       const aqiLevel = getAQILevel(aqiValue);
       aqiElement.classList.add(aqiLevel);
       aqiElement.textContent = `AQI (Air Quality Index): ${aqiValue} (${aqiLevel})`;
     }
-    document.addEventListener('DOMContentLoaded', updateAQIDisplay);
+    document.addEventListener("DOMContentLoaded", updateAQIDisplay);
   </script>
 </html>

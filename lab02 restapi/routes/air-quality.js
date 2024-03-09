@@ -11,7 +11,6 @@ router.post("/air-quality", checkAuth, async (req, res) => {
     console.log(city, startDate, endDate);
     try {
         const airData = await fetchAirQuality(city);
-      
         res.render("air-quality", { 
             data:airData.data,
             city,
@@ -19,8 +18,8 @@ router.post("/air-quality", checkAuth, async (req, res) => {
             endDate
         });
     } catch (error) {
-        console.error("Error fetching air quality data:", error);
-        res.redirect("/not-found?message=City not found");
+        console.log("Error fetching air quality data:", error);
+        res.status(404).redirect("/not-found?message=City not found");
     }
   });
   

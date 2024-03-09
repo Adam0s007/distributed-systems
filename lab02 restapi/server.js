@@ -19,7 +19,7 @@ app.use(weatherRoutes);
 app.use(airQualityRoutes);
 
 app.get("/",checkAuth, async (req, res) => {
-  res.render("search");
+  res.status(200).render("search");
 });
 
 app.get("/not-found", (req, res) => {

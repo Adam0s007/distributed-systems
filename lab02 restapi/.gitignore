@@ -5,7 +5,8 @@ yarn-error.log
 
 # Express.js
 .env
-
+# testing
+test-data.txt
 # IDE/Editor specific
 .vscode/
 .idea/

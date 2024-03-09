@@ -20,7 +20,7 @@ function checkAuthMiddleware(req, res, next) {
   const token = req.cookies.authToken;
   if (!token) {
     console.log('NOT AUTH. TOKEN MISSING.');
-    return res.redirect('/login');
+    return res.status(403).redirect('/login');
   }
   try {
     const validatedToken = validateJSONToken(token);
@@ -28,7 +28,7 @@ function checkAuthMiddleware(req, res, next) {
     next();
   } catch (error) {
     console.log('NOT AUTH. TOKEN INVALID.');
-    return res.redirect('/login');
+    return res.status(302).redirect('/login');
   }
 }
 

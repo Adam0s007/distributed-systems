@@ -29,12 +29,22 @@ p {
 }
 
 .forecast {
+
   display: flex;
   overflow-x: auto;
-  padding: 10px 0;
+  overflow-y: auto;
+  padding: 20px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #007bff #eef1f5;
+  -webkit-overflow-scrolling: touch;
+  max-height: 500px;
+  box-sizing: border-box;
+  
+  
 }
 
 .forecast-day {
+  
   flex: 0 0 auto;
   width: 220px;
   margin-right: 15px;
@@ -44,8 +54,10 @@ p {
   padding: 15px;
   margin-bottom: 20px;
   display: flex;
+  height:100%;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+
 }
 
 .forecast-day h3 {

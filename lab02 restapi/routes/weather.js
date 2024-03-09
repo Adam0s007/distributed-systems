@@ -25,12 +25,15 @@ router.post("/weather", checkAuth, async (req, res) => {
             startDate,
             endDate,
             days: weatherData.days,
-            statistics 
+            statistics,
         });
     } catch (error) {
         console.error("Error fetching weather data:", error);
-        res.redirect("/not-found?message=City not found");
+        res.status(404).redirect("/not-found?message=City not found");
     }
   });
   
 module.exports = router;
+
+
+
