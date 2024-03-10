@@ -13,5 +13,5 @@ async function fetchLocation() {
     throw error;
   }
 }
-fetchLocation();
+
 exports.fetchLocation = fetchLocation;
