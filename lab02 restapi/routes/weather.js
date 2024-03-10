@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const { checkAuth } = require("../util/auth");
 const { validateWeatherRequest } = require("../util/validation");
-const { fetchWeatherData } = require("../api/fetchWeatherData");
+const { fetchWeatherDataByCity, fetchWeatherDataByCoordinates } = require("../api/fetchWeatherData");
 const { getStats } = require("../util/statistics");
 const {fetchLocation} = require("../api/my-location");
 const router = express.Router();
@@ -35,9 +35,14 @@ router.post("/weather", checkAuth, async (req, res) => {
             return res.redirect(`/not-found?message=${encodeURIComponent("Error fetching location data")}`);
         }
     }
-  //console.log(city, startDate, endDate);
+  console.log(city, startDate, endDate);
   try {
-    const weatherData = await fetchWeatherData(city, startDate, endDate);
+    let weatherData;
+    if(latitude && longitude){
+      weatherData = await fetchWeatherDataByCoordinates(latitude, longitude, startDate, endDate);
+    }else{
+      weatherData = await fetchWeatherDataByCity(city, startDate, endDate);
+    }
     const statistics = getStats(weatherData);
     res.render("weather", {
       city: weatherData.resolvedAddress,
