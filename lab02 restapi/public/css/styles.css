@@ -89,10 +89,11 @@ h3 {
   margin-top: 0;
 }
 
-.error-message {
+.form > .error-message, .form > .error {
   color: #dc3545;
+  font-weight:bold;
   margin-bottom: 20px;
-  text-align: center;
+  text-align: left;
 }header {
   background-color: #007bff; 
   padding: 20px 0;
@@ -167,6 +168,48 @@ header form {
   align-items: center; 
 }
 
+
+
+.form {
+  background-color: #ffffff; 
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  width: 90%;
+  max-width: 600px; 
+  margin: 40px auto; 
+}
+
+.form h1 {
+  color: #007bff; 
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form p {
+  color: #666;
+  text-align: left; 
+  margin-bottom: 20px; 
+  font-size:15px;
+}
+
+
+input[type="hidden"] {
+  display: none; 
+}
+
+
+.form .btn {
+  margin-top: 20px; 
+  font-size: 18px; 
+  padding: 15px 20px; 
+}
+
+
+.form .btn:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
 
 
 @media (max-width: 600px) {
