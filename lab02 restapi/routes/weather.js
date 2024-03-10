@@ -9,17 +9,24 @@ const router = express.Router();
 
 router.post("/weather", checkAuth, async (req, res) => {
   let { city, startDate, endDate } = req.body;
-    
+  let latitude = null;
+  let longitude = null;
     if (!req.body.location) {
         const errMess = validateWeatherRequest(req);
         if (errMess !== "") {
             return res.redirect(`/not-found?message=${encodeURIComponent(errMess)}`);
         }
     }
-    
-    if (req.body.location) {
+    else {
+        if(req.body.location !== "true") {
+          // we have location data as: `${position.coords.latitude},${position.coords.longitude}`
+          const locationData = req.body.location.split(",");
+          latitude = locationData[0];
+          longitude = locationData[1];
+          //console.log(latitude, longitude);
+        }
         try {
-            const locationData = await fetchLocation();
+            const locationData = await fetchLocation(latitude, longitude);
             city = locationData.city;
             startDate = new Date().toISOString();
             endDate = new Date(new Date().setDate(new Date().getDate() + 5)).toISOString(); // Add 5 days to current date
@@ -28,7 +35,7 @@ router.post("/weather", checkAuth, async (req, res) => {
             return res.redirect(`/not-found?message=${encodeURIComponent("Error fetching location data")}`);
         }
     }
-  console.log(city, startDate, endDate);
+  //console.log(city, startDate, endDate);
   try {
     const weatherData = await fetchWeatherData(city, startDate, endDate);
     const statistics = getStats(weatherData);
