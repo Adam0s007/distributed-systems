@@ -29,8 +29,8 @@
 
         <p>
           <strong>Measurement Time:</strong>
-          <% if (data.time && data.time.iso) { %> <%= data.time.iso %> <% } else
-          { %> Data Unavailable <% } %>
+          <% if (data.time && data.time.s) { %> <%= data.time.s %> <% } else {
+          %> Data Unavailable <% } %>
         </p>
 
         <p>
@@ -61,6 +61,12 @@
           <strong>PM10 (Particulate Matter < 10µm) Levels:</strong>
           <% if (data.iaqi && data.iaqi.pm10 && data.iaqi.pm10.v) { %> <%=
           data.iaqi.pm10.v %> µg/m³ <% } else { %> Data Unavailable <% } %>
+        </p>
+
+        <p>
+          <strong>PM2.5 (Particulate Matter < 2.5µm) Levels:</strong>
+          <% if (data.iaqi && data.iaqi.pm25 && data.iaqi.pm25.v) { %> <%=
+          data.iaqi.pm25.v %> µg/m³ <% } else { %> Data Unavailable <% } %>
         </p>
 
         <p>
@@ -105,14 +111,6 @@
         </p>
         <% } else { %>
         <p>Data for PM2.5 is not available.</p>
-        <% } %> <% if (data.forecast.daily.uvi && data.forecast.daily.uvi[1]) {
-        %>
-        <p>
-          <strong>UV Index Forecast:</strong> Avg: <%=
-          data.forecast.daily.uvi[1].avg %>
-        </p>
-        <% } else { %>
-        <p>Data for UV Index Forecast is not available.</p>
         <% } %> <% } else { %>
         <p>Forecast data is not available.</p>
         <% } %>

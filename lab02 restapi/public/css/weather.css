@@ -119,13 +119,24 @@ p.highlight {
     margin: 10px 0;
     font-weight: bold;
 }
-
+.temp-data{
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 0;
+  height: 30px;
+}
 .temperature-high { color: #cc0000; }
 .temperature-low { color: #005cbf; }
 .temperature-warm { color: #2d922d}
-.red-highlight { color: #5d2626; }
-.gray-highlight { color: #4d4d4d; }
-.yellow-highlight{ color: #937704; }
+.red-highlight { 
+  color: #5d2626;
+ }
+.gray-highlight { 
+  color: #4d4d4d; 
+}
+.yellow-highlight{ 
+  color: #937704; 
+}
 .button {
     margin-top: 25px;
     font-weight: 600;

@@ -48,8 +48,8 @@
                 <% days.forEach(function(day) { %>
                 <div class="forecast-day">
                     <h3><%= day.datetime %></h3>
-                    <p class="temp-data highlight" data-temp="<%= day.tempmax %>"><strong>Max Temperature:</strong> <%= day.tempmax %>°C</p>
-                    <p class="temp-data highlight" data-temp="<%= day.tempmin %>"><strong>Min Temperature:</strong> <%= day.tempmin %>°C</p>
+                    <p class="temp-data highlight" data-temp="<%= day.tempmax %>"><strong>Max Temp.:</strong> <%= day.tempmax %>°C</p>
+                    <p class="temp-data highlight" data-temp="<%= day.tempmin %>"><strong>Min Temp.:</strong> <%= day.tempmin %>°C</p>
                     <p class="highlight red-highlight"><strong>Conditions:</strong> <%= day.conditions %></p>
                     <p class="highlight gray-highlight"><strong>Humidity:</strong> <%= day.humidity %>%</p>
                     <p class="highlight gray-highlight"><strong>Precipitation Probability:</strong> <%= day.precipprob %>%</p>

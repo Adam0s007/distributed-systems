@@ -11,6 +11,7 @@ router.post("/air-quality", checkAuth, async (req, res) => {
     console.log(city, startDate, endDate);
     try {
         const airData = await fetchAirQuality(city);
+        console.log(airData.data);
         res.render("air-quality", { 
             data:airData.data,
             city,
