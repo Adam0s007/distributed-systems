@@ -1,94 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/styles.css" />
     <link rel="stylesheet" href="/css/weather.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto"
+    />
     <title>Weather Forecast</title>
-</head>
-<body class="body">
+  </head>
+  <body class="body">
     <header>
-        <ul>
-            <li><a href="/">Return to search</a></li>
-            <li><a href="/logout">Logout</a></li>
-        </ul>
+      <ul>
+        <li><a href="/">Return to search</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
     </header>
     <main class="container">
-        <section class="column">
-            <h1 class="title">Weather Forecast for <%= cityOrigin %></h1>
-            <p class="temp-data highlight" data-temp="<%= statistics.averageTemp %>">
-                <strong>Average Temperature:</strong> <%= statistics.averageTemp.toFixed(2) %>°C
+      <section class="row">
+        <div class="col weather-summary">
+          <h1 class="title">Weather Forecast for <%= cityOrigin %></h1>
+          <p
+            class="temp-data highlight"
+            data-temp="<%= statistics.averageTemp %>"
+          >
+            <strong>Average Temperature: </strong> <%=
+            statistics.averageTemp.toFixed(2) %>°C
+          </p>
+          <p class="temp-data highlight" data-temp="<%= statistics.maxTemp %>">
+            <strong>Max Temperature: </strong> <%= statistics.maxTemp %>°C
+          </p>
+          <p class="temp-data highlight" data-temp="<%= statistics.minTemp %>">
+            <strong>Min Temperature: </strong> <%= statistics.minTemp %>°C
+          </p>
+          <p class="highlight gray-highlight">
+            <strong>Average UV Index: </strong> <%=
+            statistics.averageUVIndex.toFixed(2) %>
+          </p>
+          <p class="highlight gray-highlight">
+            <strong>Average Humidity: </strong> <%=
+            statistics.averageHumidity.toFixed(2) %>%
+          </p>
+          <p class="highlight gray-highlight">
+            <strong>Average Precip. Probability: </strong> <%=
+            statistics.averagePrecipProb.toFixed(2) %>%
+          </p>
+          <p class="highlight gray-highlight">
+            <strong>Average Cloud Cover: </strong> <%=
+            statistics.averageCloudCover.toFixed(2) %>%
+          </p>
+          <p class="highlight gray-highlight">
+            <strong>Average Wind Speed: </strong> <%=
+            statistics.averageWindSpeed.toFixed(2) %> km/h
+          </p>
+        </div>
+        <div class="col current-conditions">
+            <div class="forecast-day">
+                <h2 class="title">Current Conditions</h2>
+                <h3>Measured at: <%= currentConditions.datetime %></h3>
+                <p class="temp-data highlight" data-temp="<%= currentConditions.temp %>">
+                  <strong>Temp.: </strong> <%= currentConditions.temp %>°C
+                </p>
+                <p class="highlight red-highlight">
+                  <strong>Conditions: </strong> <%= currentConditions.conditions %>
+                </p>
+                <p class="highlight gray-highlight">
+                  <strong>Humidity: </strong> <%= currentConditions.humidity %>%
+                </p>
+                <p class="highlight gray-highlight">
+                  <strong>Precip. Probability: </strong> <%= currentConditions.precipprob %>%
+                </p>
+                <p class="highlight gray-highlight">
+                  <strong>Cloud Cover: </strong> <%= currentConditions.cloudcover %>%
+                </p>
+                <p class="highlight gray-highlight">
+                  <strong>UV Index: </strong> <%= currentConditions.uvindex %>
+                </p>
+                <p class="highlight gray-highlight">
+                  <strong>Wind Speed: </strong> <%= currentConditions.windspeed %> km/h
+                </p>
+                <p class="highlight yellow-highlight">
+                  <strong>Sunrise: </strong> <%= currentConditions.sunrise %>
+                </p>
+                <p class="highlight yellow-highlight">
+                  <strong>Sunset: </strong> <%= currentConditions.sunset %>
+                </p>
+              </div>
+        </div>
+      </section>
+      <section class="row">
+        <h2>Detailed Forecast</h2>
+      </section>
+      <section class="row">
+        
+        <div class="forecast">
+          <% days.forEach(function(day) { %>
+          <div class="forecast-day">
+            <h3><%= day.datetime %></h3>
+            <p class="temp-data highlight" data-temp="<%= day.tempmax %>">
+              <strong>Max Temp.: </strong> <%= day.tempmax %>°C
             </p>
-            <p class="temp-data highlight" data-temp="<%= statistics.maxTemp %>">
-                <strong>Max Temperature:</strong> <%= statistics.maxTemp %>°C
+            <p class="temp-data highlight" data-temp="<%= day.tempmin %>">
+              <strong>Min Temp.: </strong> <%= day.tempmin %>°C
             </p>
-            <p class="temp-data highlight" data-temp="<%= statistics.minTemp %>">
-                <strong>Min Temperature:</strong> <%= statistics.minTemp %>°C
+            <p class="highlight red-highlight">
+              <strong>Conditions: </strong> <%= day.conditions %>
             </p>
             <p class="highlight gray-highlight">
-                <strong>Average UV Index:</strong> <%= statistics.averageUVIndex.toFixed(2) %>
+              <strong>Humidity: </strong> <%= day.humidity %>%
             </p>
             <p class="highlight gray-highlight">
-                <strong>Average Humidity:</strong> <%= statistics.averageHumidity.toFixed(2) %>%
+              <strong>Precip. Probability: </strong> <%= day.precipprob %>%
             </p>
             <p class="highlight gray-highlight">
-                <strong>Average Precipitation Probability:</strong> <%= statistics.averagePrecipProb.toFixed(2) %>%
+              <strong>Cloud Cover: </strong> <%= day.cloudcover %>%
             </p>
             <p class="highlight gray-highlight">
-                <strong>Average Cloud Cover:</strong> <%= statistics.averageCloudCover.toFixed(2) %>%
+              <strong>UV Index: </strong> <%= day.uvindex %>
             </p>
             <p class="highlight gray-highlight">
-                <strong>Average Wind Speed:</strong> <%= statistics.averageWindSpeed.toFixed(2) %> km/h
+              <strong>Wind Speed: </strong> <%= day.windspeed %> km/h
             </p>
-
-            <h2>Detailed Forecast</h2>
-            <div class="forecast">
-                <% days.forEach(function(day) { %>
-                <div class="forecast-day">
-                    <h3><%= day.datetime %></h3>
-                    <p class="temp-data highlight" data-temp="<%= day.tempmax %>"><strong>Max Temp.:</strong> <%= day.tempmax %>°C</p>
-                    <p class="temp-data highlight" data-temp="<%= day.tempmin %>"><strong>Min Temp.:</strong> <%= day.tempmin %>°C</p>
-                    <p class="highlight red-highlight"><strong>Conditions:</strong> <%= day.conditions %></p>
-                    <p class="highlight gray-highlight"><strong>Humidity:</strong> <%= day.humidity %>%</p>
-                    <p class="highlight gray-highlight"><strong>Precipitation Probability:</strong> <%= day.precipprob %>%</p>
-                    <p class="highlight gray-highlight"><strong>Cloud Cover:</strong> <%= day.cloudcover %>%</p>
-                    <p class="highlight gray-highlight"><strong>UV Index:</strong> <%= day.uvindex %></p>
-                    <p class="highlight gray-highlight"><strong>Wind Speed:</strong> <%= day.windspeedmean %> km/h</p>
-                    <p class="highlight yellow-highlight"><strong>Sunrise:</strong> <%= day.sunrise %></p>
-                    <p class="highlight yellow-highlight"><strong>Sunset:</strong> <%= day.sunset %></p>
-                </div>
-                <% }); %>
-            </div>
-        </section>
-        <section class="column">
-            <form method="post" action="/air-quality">
-                <h1>Check Air quality for this city</h1>
-                <input type="hidden" name="city" value="<%= cityOrigin %>" />
-                <input type="hidden" name="startDate" value="<%= startDate %>" />
-                <input type="hidden" name="endDate" value="<%= endDate %>" />
-                <button type="submit" class="button">Check</button>
-            </form>
-        </section>
+            <p class="highlight yellow-highlight">
+              <strong>Sunrise: </strong> <%= day.sunrise %>
+            </p>
+            <p class="highlight yellow-highlight">
+              <strong>Sunset: </strong> <%= day.sunset %>
+            </p>
+          </div>
+          <% }); %>
+        </div>
+      </section>
+      <section class="row">
+        <form method="post" action="/air-quality">
+          <h1>Check Air quality for this city</h1>
+          <input type="hidden" name="city" value="<%= cityOrigin %>" />
+          <input type="hidden" name="startDate" value="<%= startDate %>" />
+          <input type="hidden" name="endDate" value="<%= endDate %>" />
+          <button type="submit" class="button">Check</button>
+        </form>
+      </section>
     </main>
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
-          const temperatureElements = document.querySelectorAll('.temp-data');
+      document.addEventListener("DOMContentLoaded", function () {
+        const temperatureElements = document.querySelectorAll(".temp-data");
 
-          temperatureElements.forEach(function (element) {
-              const tempValue = parseInt(element.getAttribute('data-temp'));
-              element.classList.remove('temperature-high', 'temperature-low', 'temperature-warm');
-              if (tempValue > 35) {
-                  element.classList.add('temperature-high');
-              } else if (tempValue < 6) {
-                  element.classList.add('temperature-low');
-              } else {
-                  element.classList.add('temperature-warm');
-              }
-          });
+        temperatureElements.forEach(function (element) {
+          const tempValue = parseInt(element.getAttribute("data-temp"));
+          element.classList.remove(
+            "temperature-high",
+            "temperature-low",
+            "temperature-warm"
+          );
+          if (tempValue > 35) {
+            element.classList.add("temperature-high");
+          } else if (tempValue < 6) {
+            element.classList.add("temperature-low");
+          } else {
+            element.classList.add("temperature-warm");
+          }
+        });
       });
     </script>
-</body>
+  </body>
 </html>
-

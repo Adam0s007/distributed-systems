@@ -7,7 +7,7 @@ function getStats(weatherData) {
     let averageHumidity = weatherData.days.reduce((acc, day) => acc + day.humidity, 0)/weatherData.days.length;
     let averagePrecipProb = weatherData.days.reduce((acc, day) => acc + day.precipprob, 0)/weatherData.days.length;
     let averageCloudCover = weatherData.days.reduce((acc, day) => acc + day.cloudcover, 0)/weatherData.days.length;
-    let averageWindSpeed = weatherData.days.reduce((acc, day) => acc + day.windspeedmean, 0)/weatherData.days.length;
+    let averageWindSpeed = weatherData.days.reduce((acc, day) => acc + day.windspeed, 0)/weatherData.days.length;
     maxTemp = Math.max(...weatherData.days.map(day => day.tempmax), maxTemp);
     minTemp = Math.min(...weatherData.days.map(day => day.tempmin), minTemp);
 

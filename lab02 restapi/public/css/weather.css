@@ -10,11 +10,54 @@ body, html {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
-.column {
-  margin: 20px 0;
+.row {
+  margin: 20px -10px;
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: center; 
+  align-items: flex-start; 
 }
+
+.col {
+  flex: 1 1 300px; 
+  margin: 0 10px; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  background-color: #ffffff; 
+}
+
+.weather-summary {
+  box-sizing:border-box;
+  padding: 15px;
+  margin-bottom: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.122);
+  flex-grow: 1; 
+  flex-basis: 50%; 
+  display:flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.weather-summary > p.highlight{
+  box-sizing:border-box;
+  width:100%;
+  height:2em;
+}
+strong{
+  margin-right:5px;
+}
+.current-conditions {
+  flex-grow: 0; 
+  flex-shrink: 1; 
+  flex-basis: auto; 
+}
+
 
 .title {
   font-size: 24px;
@@ -39,7 +82,7 @@ p {
   -webkit-overflow-scrolling: touch;
   max-height: 500px;
   box-sizing: border-box;
-  
+  width:100%;
   
 }
 
@@ -50,7 +93,7 @@ p {
   margin-right: 15px;
   background: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.122);
   padding: 15px;
   margin-bottom: 20px;
   display: flex;
@@ -115,6 +158,8 @@ form {
 .yellow-highlight{ background-color: #ffffcc; }
 p.highlight {
     padding: 8px;
+    display:flex;
+    align-items: center;
     border-radius: 5px;
     margin: 10px 0;
     font-weight: bold;

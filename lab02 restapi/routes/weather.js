@@ -44,12 +44,15 @@ router.post("/weather", checkAuth, async (req, res) => {
       weatherData = await fetchWeatherDataByCity(city, startDate, endDate);
     }
     const statistics = getStats(weatherData);
+    
+    console.log("lookup:",weatherData)
     res.render("weather", {
       city: weatherData.resolvedAddress,
       cityOrigin: city,
       startDate,
       endDate,
       days: weatherData.days,
+      currentConditions: weatherData.currentConditions,
       statistics,
     });
   } catch (error) {
