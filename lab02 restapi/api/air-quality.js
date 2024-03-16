@@ -12,7 +12,7 @@ async function fetchAirQuality(city) {
        throw new Error("Failed to load AQI data.");
     }
   } catch (error) {
-    console.error("Error fetching weather data:", error);
+    //console.error("Error fetching weather data:", error);
     throw error; 
   }
 }

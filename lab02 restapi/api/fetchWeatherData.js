@@ -11,7 +11,7 @@ async function fetchWeatherDataByCity(city, startDate, endDate) {
       let weatherData = response.data;
       return weatherData; 
     } catch (error) {
-      console.error("Error fetching weather data:", error);
+      //console.error("Error fetching weather data:", error);
       throw error; 
     }
   }
@@ -24,7 +24,7 @@ async function fetchWeatherDataByCoordinates(latitude, longitude, startDate, end
       let weatherData = response.data;
       return weatherData;
     } catch (error) {
-      console.error("Error fetching weather data:", error);
+      //console.error("Error fetching weather data:", error);
       throw error;
     }
   }
