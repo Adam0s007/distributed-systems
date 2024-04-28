@@ -18,8 +18,7 @@ public class PTZCamera extends Camera implements IPTZCamera {
 
     @Override
     public boolean setPtz(PtzPosition ptzPosition, Current current) throws PTZOperationException {
-        System.out.println("Method PTZCamera.setPtz called with pan: " + ptzPosition.pan + ", tilt: " + ptzPosition.tilt + ", zoom: " + ptzPosition.zoom + " by: " + current.id.name + ", category: " + current.id.category);
-
+        System.out.println("Method PTZCamera.setPtz with args " + ptzPosition + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
         if (ptzPosition.pan < -180 || ptzPosition.pan > 180) {
             throw new PTZOperationException("Invalid pan degrees", "pan", "degrees");
         }

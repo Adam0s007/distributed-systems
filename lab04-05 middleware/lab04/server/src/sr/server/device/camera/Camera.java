@@ -15,13 +15,13 @@ public class Camera extends Device implements ICamera {
 
     @Override
     public CameraMode getCameraMode(Current current) {
-        System.out.println("Method Camera.getCameraMode with no args called by: " + current.id.name + ", category: " + current.id.category);
+        System.out.println("Method Camera.getCameraMode with no args, current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
         return cameraMode;
     }
 
     @Override
     public boolean setCameraMode(CameraMode mode, Current current) throws CameraOperationException {
-        System.out.println("Method Camera.setCameraMode with args " + mode + " called by: " + current.id.name + ", category: " + current.id.category);
+        System.out.println("Method Camera.setCameraMode with args " + mode + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
         if (mode == null) {
             throw new CameraOperationException("Invalid camera mode", "setCameraMode");
         }

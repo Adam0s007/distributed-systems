@@ -1,8 +1,8 @@
 const Ice = require('ice').Ice
 const SmartHome = require('./generated/smarthome').SmartHome
 const prompt = require('prompt-sync')()
-const devices = require('./commons').devices
-const servers = require('./commons').config
+const devices = require('./config').devices
+const servers = require('./config').servers
 
 const drinksMachineHandler = require('./handlers/drinksmachine');
 const cafeMachineHandler = require('./handlers/cafemachine');
@@ -15,68 +15,87 @@ const homeCinemaTVHandler = require('./handlers/homecinematv');
 const outdoorTelevisionHandler = require('./handlers/outdoortelevision');
 
 const getDevices = async (communicator) => {
-    let smartHome, deviceList;
+    let smartHome, deviceList = null;
+    let allServersFailed = true;
 
-    try {
-        const proxy = communicator.stringToProxy('SmartHome/Adam : ' + servers[1]);
-        smartHome = await SmartHome.ISmartHomePrx.checkedCast(proxy);
-        deviceList = await smartHome.getDevices();
-        console.log('Connected to server: ', servers[1]);
-    } catch (error) {
-        console.log(`Failed to connect to server ${servers[1]} or retrieve devices:`, error.toString());
-        console.log('Trying to connect to server: ', servers[2], '...')
+    for (let [serverKey, serverAddress] of Object.entries(servers)) {
         try {
-            const proxy2 = communicator.stringToProxy('SmartHome/Adam : ' + servers[2]);
-            smartHome = await SmartHome.ISmartHomePrx.checkedCast(proxy2);
-            deviceList = await smartHome.getDevices();
-            console.log('Connected to server: ', servers[2]);
-        } catch (error2) {
-            console.log(`Failed to connect to server ${servers[2]} or retrieve devices:`, error2.toString());
-            return false;
+            const proxy = communicator.stringToProxy(`SmartHome/Adam : ${serverAddress}`);
+            smartHome = await SmartHome.ISmartHomePrx.checkedCast(proxy);
+
+            if (!deviceList) {
+                smartHome = await SmartHome.ISmartHomePrx.checkedCast(proxy);
+                deviceList = await smartHome.getDevices();
+                retrieveDeviceList(deviceList);
+            }
+            updateDeviceStatus("Online", serverKey);
+            // console.log('Connected to server:', serverAddress);
+            allServersFailed = false;
+        } catch (error) {
+            console.log(`Failed to connect to server ${serverAddress} or retrieve devices:`, error.toString());
         }
     }
-    getDeviceList(deviceList);
+
+    if (allServersFailed) {
+        console.log('All server connections failed.');
+        return false;
+    }
     return true;
 }
-const getDeviceList = (deviceList) => {
-    console.log('<<<----- Devices ----->>>');
+
+const retrieveDeviceList = (deviceList) => {
     deviceList.forEach((device) => {
-        devices[device.name.toString()] = {type: device.type, server: device.server};
-        console.log(`Device: ${device.name} Type: ${device.type} Server: ${device.server}`);
+        const deviceName = String(device.name);
+        devices[deviceName] = { type: device.type, server: device.server, connection: "Offline" };
     });
 }
 
+const updateDeviceStatus = (status, serverAddress) => {
+    Object.keys(devices).forEach((deviceName) => {
+        //console.log("<<<<",devices[deviceName].server, serverAddress)
+        if (String(devices[deviceName].server) === String(serverAddress)) {
+            devices[deviceName].connection = status;
+        }
+    });
+}
+
+function displayDevices(devices) {
+    console.log('\nList of Devices:');
+    console.log('--------------------------------------------------------------------');
+    console.log('| Device Name | Device Type            | Server | Connection |');
+    console.log('--------------------------------------------------------------------');
+    Object.entries(devices).forEach(([name, info]) => {
+        const deviceType = info.type._name;
+        const server = info.server;
+        const connection = info.connection;
+        console.log(`| ${name.padEnd(11)} | ${deviceType.padEnd(22)} | ${server.toString().padEnd(6)} | ${connection.padEnd(10)} |`);
+    });
+    console.log('--------------------------------------------------------------------');
+}
 
 const main = async () => {
     const communicator = Ice.initialize()
     console.log(communicator)
     if(!await getDevices(communicator)){
-        console.log('Failed to retrieve devices. Exiting...')
-        communicator.destroy()
-        return
-    }
-
-    while (true) {
-
-        console.log('Commands: [device-name] , list, exit')
-        deviceName = prompt('> ')
-        if (deviceName === 'exit') {
-            break
-        }
+        console.log('Exiting...');
+        communicator.destroy();
+        return;
+    };
+    displayDevices(devices);
+    let deviceName;
+    while ((deviceName = prompt('Commands: [device-name] , list, exit >')) !== 'exit') {
 
         if (deviceName === 'list') {
-            console.log(devices)
+            displayDevices(devices)
             continue
         }
-
         if (!devices[deviceName]) {
             console.log(`${deviceName} is unreachable`)
             continue
         }
         try {
             console.log(`Device: ${deviceName} Type: ${devices[deviceName].type}`)
-            let stringType = String(devices[deviceName].type)
-            switch (stringType) {
+            switch (String(devices[deviceName].type)) {
                 case 'DrinksMachine':
                     await drinksMachineHandler(deviceName, communicator)
                     break
@@ -106,10 +125,10 @@ const main = async () => {
                     break
             }
         } catch (e) {
-            console.log(e)
+            console.log(e.toString())
+            console.log(e.message)
         }
     }
-
     communicator.destroy()
 }
 

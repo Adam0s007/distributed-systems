@@ -24,8 +24,8 @@ public class Device implements IDevice {
 
     @Override
     public DeviceStatus turnOn(Current current) throws DeviceOperationException {
-        if (this.status == DeviceStatus.Enabled || this.status == DeviceStatus.Starting) {
-            throw new DeviceOperationException("Device is already on or is starting.", "turnOn");
+        if (this.status != DeviceStatus.Disabled) {
+            throw new DeviceOperationException("Device must be Disabled to be turned on.", "turnOn");
         }
 
             try {
@@ -42,8 +42,8 @@ public class Device implements IDevice {
 
     @Override
     public DeviceStatus turnOff(Current current) throws DeviceOperationException {
-        if (this.status == DeviceStatus.Disabled || this.status == DeviceStatus.ShuttingDown) {
-            throw new DeviceOperationException("Device is already off or is shutting down.", "turnOff");
+        if (this.status != DeviceStatus.Enabled) {
+            throw new DeviceOperationException("Device must be Enabled to be turned off.", "turnOff");
         }
         try {
             System.out.println("Device " + this.deviceInfo.name + " is shutting down...");
@@ -58,6 +58,7 @@ public class Device implements IDevice {
 
     @Override
     public String getDetails(Current current) throws SmarthomeException {
+
         return "\nDevice Details: \n" +
                 "Name: " + this.deviceInfo.name + "\n" +
                 "Category: " + this.deviceInfo.type + "\n" +

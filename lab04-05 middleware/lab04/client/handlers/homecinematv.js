@@ -1,13 +1,15 @@
 
 const { SmartHome } = require('../generated/smarthome');
-const getStub = require('./stub');
+const stubHandler = require('./stub');
 const handleDeviceCommands = require('../commands/devicecommands');
 const handleTelevisionCommands = require('../commands/televisioncommands');
 const handleHomeCinemaCommands = require('../commands/homecinematvcommands');
 const prompt = require('prompt-sync')();
 
 const homeCinemaTVHandler = async (name, communicator) => {
-    const stub = await getStub(name, communicator);
+    const stub = await stubHandler(name, communicator);
+    if(!stub)return;
+
     const command = prompt('Commands: getState, getDetails, turnOn, turnOff, setChannel, getCurrentChannel, getChannelList, setEffect, getCurrentEffect, getEffects,disableSound:');
     const deviceStatus  = await handleDeviceCommands(command, stub);
     if (deviceStatus !== 'Enabled') {

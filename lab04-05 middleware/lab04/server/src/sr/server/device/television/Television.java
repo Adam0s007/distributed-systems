@@ -28,13 +28,13 @@ public class Television extends Device implements ITelevision {
     }
     @Override
     public TVChannel getCurrentChannel(Current current) throws TelevisionOperationException {
-        System.out.println("Method Television.getCurrentChannel with no args called by " + current.id.name + ", category: " + current.id.category);
+        System.out.println("Method Television.getCurrentChannel with no args, current.id.name " + current.id.name + ", current.id.category: " + current.id.category);
         return channelList.get(currentChannel);
     }
 
     @Override
     public boolean setChannel(int newChannel, Current current) throws InvalidChannelException {
-        System.out.println("Method Television.setChannel with args " +newChannel+ " called by " + current.id.name + ", category: " + current.id.category);
+        System.out.println("Method Television.setChannel with args " +newChannel+ ", current.id.name " + current.id.name + ", current.id.category: " + current.id.category);
         if(newChannel < 0 || newChannel >= channelList.size()) {
             throw new InvalidChannelException("Invalid channel number","setChannel");
         }
@@ -44,7 +44,7 @@ public class Television extends Device implements ITelevision {
 
     @Override
     public List<TVChannel> getChannelList(Current current) {
-        System.out.println("Method Television.getChannelList with no args called by " + current.id.name + ", category: " + current.id.category);
+        System.out.println("Method Television.getChannelList with no args, current.id.name " + current.id.name + ", current.id.category: " + current.id.category);
         return this.channelList;
     }
 

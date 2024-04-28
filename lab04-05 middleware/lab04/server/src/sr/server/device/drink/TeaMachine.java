@@ -24,7 +24,7 @@ public class TeaMachine extends DrinksMachine implements ITeaMachine {
 
     @Override
     public boolean makeTea(Tea tea, Current current) throws ResourceLimitException {
-        System.out.println("Method TeaMachine.makeTea with args " + tea.type + ", " + tea.amountOfLeaves + " called by: " + current.id.name + ", category: " + current.id.category);
+        System.out.println("Method TeaMachine.makeTea with args " + tea.type + ", " + tea.amountOfLeaves + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
 
         MachineTeaInfo teaInfo = teaInventory.get(tea.type);
         if (teaInfo == null || tea.amountOfLeaves > teaInfo.currentAmountOfLeaves) {
@@ -44,7 +44,7 @@ public class TeaMachine extends DrinksMachine implements ITeaMachine {
 
     @Override
     public void addTeaLeavesOfType(TeaType type, int amount, Current current) throws TeaLeafCapacityException {
-        System.out.println("Method TeaMachine.addTeaLeavesOfType with args " + type + ", " + amount + " called by: " + current.id.name + ", category: " + current.id.category);
+        System.out.println("Method TeaMachine.addTeaLeavesOfType with args " + type + ", " + amount + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
 
         MachineTeaInfo teaInfo = teaInventory.get(type);
         if (teaInfo == null || amount + teaInfo.currentAmountOfLeaves > teaInfo.maxAmountOfLeaves) {
@@ -63,7 +63,7 @@ public class TeaMachine extends DrinksMachine implements ITeaMachine {
 
     @Override
     public List<MachineTeaInfo> getTeaList(Current current) {
-        System.out.println("Method TeaMachine.getTeaList called by: " + current.id.name + ", category: " + current.id.category);
+        System.out.println("Method TeaMachine.getTeaList with no args, current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
         return new ArrayList<>(teaInventory.values());
     }
 

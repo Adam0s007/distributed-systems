@@ -7,21 +7,21 @@ const deviceCommands = async (command, stub) => {
                 console.log(`Device status: ${status}`);
                 break;
             case 'turnOn':
-                if (status === 'Disabled') {
+                try{
                     const onStatus = String(await stub.turnOn());
                     console.log(`Turned on: ${onStatus}`);
                     status = onStatus;
-                } else {
-                    console.log('Device is not in a state that allows it to be turned on (must be Disabled).');
+                } catch (e) {
+                    console.log(e.message);
                 }
                 break;
             case 'turnOff':
-                if (status === 'Enabled') {
+                try {
                     const offStatus = String(await stub.turnOff());
                     console.log(`Turned off: ${offStatus}`);
                     status = offStatus;
-                } else {
-                    console.log('Device is not in a state that allows it to be turned off (must be Enabled).');
+                } catch(e) {
+                    console.log(e.message);
                 }
                 break;
             case 'getDetails':
@@ -31,7 +31,7 @@ const deviceCommands = async (command, stub) => {
         }
         return status;
     } catch (error) {
-        console.log('Error handling device command:', error.toString());
+        console.log('Error handling device command:', error.message);
     }
     return null;
 }

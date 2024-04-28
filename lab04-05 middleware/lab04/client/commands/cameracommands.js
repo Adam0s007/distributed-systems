@@ -18,8 +18,8 @@ const cameraCommands = async (command, stub) => {
                 return true;
             }
             try {
-                const result = await stub.setCameraMode(cameraMode);
-                console.log(result ? 'Camera mode set.' : 'Failed to set camera mode.');
+                await stub.setCameraMode(cameraMode);
+                console.log('Camera mode set.');
             } catch (error) {
                 console.log('Error:', error.message);
             }

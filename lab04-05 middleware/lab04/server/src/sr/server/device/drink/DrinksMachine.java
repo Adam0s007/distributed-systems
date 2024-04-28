@@ -18,7 +18,7 @@ public class DrinksMachine extends Device implements IDrinksMachine {
     }
     @Override
     public boolean makeHotWater(int amount, Current current) throws WaterCapacityException {
-        System.out.println("Method DrinksMachine.makeHotWater with args " + amount + " called by: " + current.id.name + ", category: " + current.id.category);
+        System.out.println("Method DrinksMachine.makeHotWater with args " + amount + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
 
         if(amount > waterCapacity) {
             throw new WaterCapacityException("Not enough water in the tank", "makeHotWater");
@@ -36,7 +36,7 @@ public class DrinksMachine extends Device implements IDrinksMachine {
 
     @Override
     public boolean makeColdWater(int amount, Current current) throws WaterCapacityException {
-        System.out.println("Method DrinksMachine.makeColdWater with args " + amount + " called by: " + current.id.name + ", category: " + current.id.category);
+        System.out.println("Method DrinksMachine.makeColdWater with args " + amount + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
 
         if(amount > waterCapacity) {
             throw new WaterCapacityException("Not enough water in the tank", "makeColdWater");
@@ -53,7 +53,7 @@ public class DrinksMachine extends Device implements IDrinksMachine {
 
     @Override
     public void addWater(int amount, Current current) throws WaterCapacityException {
-        System.out.println("Method DrinksMachine.addWater with args " + amount + " called by: " + current.id.name + ", category: " + current.id.category);
+        System.out.println("Method DrinksMachine.addWater with args " + amount + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
 
         if(amount + waterCapacity > this.MAX_WATER_CAPACITY) {
             throw new WaterCapacityException("Water tank is full", "addWater");
@@ -69,7 +69,7 @@ public class DrinksMachine extends Device implements IDrinksMachine {
 
     @Override
     public void addSugar(int amount, Current current) throws SugarCapacityException {
-        System.out.println("Method DrinksMachine.addSugar with args " + amount + " called by: " + current.id.name + ", category: " + current.id.category);
+        System.out.println("Method DrinksMachine.addSugar with args " + amount + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
 
         if(amount + sugarCapacity > this.MAX_SUGAR_CAPACITY) {
             throw new SugarCapacityException("Sugar tank is full", "addSugar");

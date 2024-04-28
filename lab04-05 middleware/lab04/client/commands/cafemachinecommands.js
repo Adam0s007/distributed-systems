@@ -35,7 +35,7 @@ const cafeMachineCommands = async (command, stub) => {
                 await stub.addMilk(milkVolume);
                 console.log('Milk added.');
             } catch (error) {
-                console.log('Error: Exceeded milk capacity.');
+                console.log('Error:',error.message);
             }
             return true;
 
@@ -45,7 +45,7 @@ const cafeMachineCommands = async (command, stub) => {
                 await stub.addCoffeeBeans(beansAmount);
                 console.log('Coffee beans added.');
             } catch (error) {
-                console.log('Error: Exceeded coffee bean capacity.');
+                console.log('Error:',error.message);
             }
             return true;
 
@@ -54,7 +54,7 @@ const cafeMachineCommands = async (command, stub) => {
                 const coffeeList = await stub.getCoffeeList();
                 console.log('Available Coffees:', coffeeList);
             } catch (error) {
-                console.log('Error fetching coffee list:', error);
+                console.log('Error:',error.message);
             }
             return true;
 

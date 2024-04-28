@@ -1,12 +1,13 @@
 
 const { SmartHome } = require('../generated/smarthome');
-const getStub = require('./stub');
+const stubHandler = require('./stub');
 const handleCommonDeviceCommands = require('../commands/devicecommands');
 const drinksMachineCommands = require('../commands/drinksmachinecommands');
 const prompt = require('prompt-sync')();
 
 const drinksMachineHandler = async (name, communicator) => {
-    const stub = await getStub(name, communicator);
+    const stub = await stubHandler(name, communicator);
+    if(!stub)return;
 
     const command = prompt('Commands: getState, getDetails, turnOn, turnOff, addWater, addSugar, makeHotWater, makeColdWater: ');
 

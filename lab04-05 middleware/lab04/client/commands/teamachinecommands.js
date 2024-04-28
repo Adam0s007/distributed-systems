@@ -43,7 +43,7 @@ const teaMachineCommands = async (command, stub) => {
                 await stub.addTeaLeavesOfType(type, amountToAdd);
                 console.log('Tea leaves added.');
             } catch (error) {
-                console.log('Error: Exceeded tea leaves capacity.');
+                console.log('Error:', error.message);
             }
             return true;
 
