@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "sr.grpc.gen";
+option java_outer_classname = "EulerServiceProto";
+
+package euler;
+
+message EulerInput {
+  int64 terms = 1;
+}
+
+message EulerStream {
+  double termValue = 1;
+  double partialSum = 2;
+}
+
+message EulerList {
+  repeated double terms = 1;
+}
+
+service EulerService {
+  rpc StreamEulerNumber(EulerInput) returns (stream EulerStream) {}
+  rpc ListEulerNumber(EulerInput) returns (EulerList) {}
+}

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package fibonacci;
+
+option java_multiple_files = true;
+option java_package = "sr.grpc.gen";
+option java_outer_classname = "FibonacciServiceProto";
+
+message FibonacciInput {
+  int64 number = 1;
+}
+
+
+message FibonacciNumber {
+  int64 fibonacciNum = 1;
+  int64 sequence_index = 2;  // in case we need to know the index of the number in the fibonacci sequence
+}
+
+message FibonacciList {
+  repeated FibonacciInput numbers = 1;
+}
+
+service FibonacciService {
+  rpc FindFibonacciNumbers(FibonacciList) returns (stream FibonacciNumber) {}
+}
