@@ -44,4 +44,11 @@ const stubHandler = async (name, communicator) => {
     }
 }
 
-module.exports = stubHandler;
+const clearStub = (name) => {
+    if (stubs[name]) {
+        delete stubs[name];
+    }
+}
+
+exports.stubHandler = stubHandler;
+exports.clearStub = clearStub;

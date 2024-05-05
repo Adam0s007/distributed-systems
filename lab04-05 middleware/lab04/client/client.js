@@ -1,8 +1,13 @@
 const Ice = require('ice').Ice
 const SmartHome = require('./generated/smarthome').SmartHome
+
 const prompt = require('prompt-sync')()
+const readline = require('readline');
+
 const devices = require('./config').devices
 const servers = require('./config').servers
+const clearStub = require('./handlers/stub').clearStub;
+
 
 const drinksMachineHandler = require('./handlers/drinksmachine');
 const cafeMachineHandler = require('./handlers/cafemachine');
@@ -14,6 +19,8 @@ const televisionHandler = require('./handlers/television');
 const homeCinemaTVHandler = require('./handlers/homecinematv');
 const outdoorTelevisionHandler = require('./handlers/outdoortelevision');
 
+const { exit } = require('process');
+
 const getDevices = async (communicator) => {
     let smartHome, deviceList = null;
     let allServersFailed = true;
@@ -22,9 +29,7 @@ const getDevices = async (communicator) => {
         try {
             const proxy = communicator.stringToProxy(`SmartHome/Adam : ${serverAddress}`);
             smartHome = await SmartHome.ISmartHomePrx.checkedCast(proxy);
-
             if (!deviceList) {
-                smartHome = await SmartHome.ISmartHomePrx.checkedCast(proxy);
                 deviceList = await smartHome.getDevices();
                 retrieveDeviceList(deviceList);
             }
@@ -32,7 +37,7 @@ const getDevices = async (communicator) => {
             // console.log('Connected to server:', serverAddress);
             allServersFailed = false;
         } catch (error) {
-            console.log(`Failed to connect to server ${serverAddress} or retrieve devices:`, error.toString());
+            console.log(`Failed to connect to server ${serverAddress}`);
         }
     }
 
@@ -55,6 +60,10 @@ const updateDeviceStatus = (status, serverAddress) => {
         //console.log("<<<<",devices[deviceName].server, serverAddress)
         if (String(devices[deviceName].server) === String(serverAddress)) {
             devices[deviceName].connection = status;
+            if(status == "Offline"){
+                clearStub(deviceName)
+            }
+
         }
     });
 }
@@ -73,63 +82,122 @@ function displayDevices(devices) {
     console.log('--------------------------------------------------------------------');
 }
 
-const main = async () => {
-    const communicator = Ice.initialize()
-    console.log(communicator)
-    if(!await getDevices(communicator)){
-        console.log('Exiting...');
-        communicator.destroy();
-        return;
-    };
-    displayDevices(devices);
-    let deviceName;
-    while ((deviceName = prompt('Commands: [device-name] , list, exit >')) !== 'exit') {
 
-        if (deviceName === 'list') {
-            displayDevices(devices)
-            continue
-        }
-        if (!devices[deviceName]) {
-            console.log(`${deviceName} is unreachable`)
-            continue
-        }
-        try {
-            console.log(`Device: ${deviceName} Type: ${devices[deviceName].type}`)
-            switch (String(devices[deviceName].type)) {
-                case 'DrinksMachine':
-                    await drinksMachineHandler(deviceName, communicator)
-                    break
-                case 'CoffeeMachine':
-                    await cafeMachineHandler(deviceName, communicator)
-                    break
-                case 'TeaMachine':
-                    await teaMachineHandler(deviceName, communicator)
-                    break
-                case 'Camera':
-                    await cameraHandler(deviceName, communicator)
-                    break
-                case 'PTZCamera':
-                    await ptzCameraHandler(deviceName, communicator)
-                    break
-                case 'MotionDetectionCamera':
-                    await motionDetectionCameraHandler(deviceName, communicator)
-                    break
-                case 'Television':
-                    await televisionHandler(deviceName, communicator)
-                    break
-                case 'HomeCinemaTV':
-                    await homeCinemaTVHandler(deviceName, communicator)
-                    break
-                case 'OutdoorTelevision':
-                    await outdoorTelevisionHandler(deviceName, communicator)
-                    break
+
+const updateConnections = async (communicator) => {
+    console.log('Checking device connections every 30 seconds...');
+    const intervalId = setInterval(async () => {
+        //console.log('Checking device connections...');
+        for (let [serverKey, serverAddress] of Object.entries(servers)) {
+            try {
+                const proxy = communicator.stringToProxy(`SmartHome/Adam : ${serverAddress}`);
+                const smtHome = await SmartHome.ISmartHomePrx.checkedCast(proxy);
+                if (smtHome) {
+                    updateDeviceStatus("Online", serverKey);
+                } else {
+                    updateDeviceStatus("Offline", serverKey);
+                }
+            } catch (error) {
+                //console.log(`Failed to connect to server ${serverAddress}:`, error.toString());
+                updateDeviceStatus("Offline", serverKey);
             }
-        } catch (e) {
-            console.log(e.toString())
-            console.log(e.message)
         }
-    }
-    communicator.destroy()
+    }, 30000);
+    return intervalId; 
 }
 
-main()
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+const main = async () => {
+    const communicator = Ice.initialize();
+    const initializationSuccess = await getDevices(communicator);
+    if (!initializationSuccess) {
+        console.log('Initialization failed, exiting...');
+        communicator.destroy();
+        exit(1);
+        
+    }
+
+    displayDevices(devices);
+    const intervalId = updateConnections(communicator);
+    
+    console.log('Commands: [device-name], list, exit >');
+    rl.prompt();
+    rl.on('line', async (input) => {
+        
+        const deviceName = input.trim();
+        console.log(`Received command: ${deviceName}`);
+
+        if (deviceName === 'exit') {
+            console.log('Exiting...');
+            clearInterval(intervalId);
+            try {
+                await communicator.destroy();
+                console.log('Communicator destroyed.');
+            } catch (error) {
+                console.log(`Error destroying communicator: ${error}`);
+            }
+            rl.close();
+            console.log('Interface closed.');
+            exit(1);
+        }
+
+        if (deviceName === 'list') {
+            displayDevices(devices);
+            rl.prompt();
+            return;
+        }
+
+        const device = devices[deviceName];
+        if (!device) {
+            console.log(`${deviceName} is unreachable`);
+            rl.prompt();
+            return;
+        }
+
+        try {
+            console.log(`Device: ${deviceName}, Type: ${device.type}`);
+            switch (String(device.type)) {
+                case 'DrinksMachine':
+                    await drinksMachineHandler(deviceName, communicator);
+                    break;
+                case 'CoffeeMachine':
+                    await cafeMachineHandler(deviceName, communicator);
+                    break;
+                case 'TeaMachine':
+                    await teaMachineHandler(deviceName, communicator);
+                    break;
+                case 'Camera':
+                    await cameraHandler(deviceName, communicator);
+                    break;
+                case 'PTZCamera':
+                    await ptzCameraHandler(deviceName, communicator);
+                    break;
+                case 'MotionDetectionCamera':
+                    await motionDetectionCameraHandler(deviceName, communicator);
+                    break;
+                case 'Television':
+                    await televisionHandler(deviceName, communicator);
+                    break;
+                case 'HomeCinemaTV':
+                    await homeCinemaTVHandler(deviceName, communicator);
+                    break;
+                case 'OutdoorTelevision':
+                    await outdoorTelevisionHandler(deviceName, communicator);
+                    break;
+                default:
+                    console.log(`No handler available for type ${device.type}`);
+                    break;
+            }
+        } catch (e) {
+            console.log(`Error handling device operation: ${e.toString()}`);
+        }
+        rl.prompt();
+    });
+};
+
+main();
