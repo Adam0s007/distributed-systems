@@ -27,13 +27,15 @@ public class Television extends Device implements ITelevision {
         );
     }
     @Override
-    public TVChannel getCurrentChannel(Current current) throws TelevisionOperationException {
+    public TVChannel getCurrentChannel(Current current) throws TelevisionOperationException,NotEnabledException {
+        this.isTurnedOn(current);
         System.out.println("Method Television.getCurrentChannel with no args, current.id.name " + current.id.name + ", current.id.category: " + current.id.category);
         return channelList.get(currentChannel);
     }
 
     @Override
-    public boolean setChannel(int newChannel, Current current) throws InvalidChannelException {
+    public boolean setChannel(int newChannel, Current current) throws InvalidChannelException,NotEnabledException {
+        this.isTurnedOn(current);
         System.out.println("Method Television.setChannel with args " +newChannel+ ", current.id.name " + current.id.name + ", current.id.category: " + current.id.category);
         if(newChannel < 0 || newChannel >= channelList.size()) {
             throw new InvalidChannelException("Invalid channel number","setChannel");
@@ -43,7 +45,8 @@ public class Television extends Device implements ITelevision {
     }
 
     @Override
-    public List<TVChannel> getChannelList(Current current) {
+    public List<TVChannel> getChannelList(Current current) throws NotEnabledException {
+        this.isTurnedOn(current);
         System.out.println("Method Television.getChannelList with no args, current.id.name " + current.id.name + ", current.id.category: " + current.id.category);
         return this.channelList;
     }
@@ -51,5 +54,10 @@ public class Television extends Device implements ITelevision {
     @Override
     public String getDetails(Current current) throws SmarthomeException {
         return super.getDetails(current) + "current channel: " + channelList.get(currentChannel).name + ", description: " + channelList.get(currentChannel).description + " \n";
+    }
+
+    @Override
+    public void isTurnedOn(Current current) throws NotEnabledException {
+        super.isTurnedOn(current);
     }
 }

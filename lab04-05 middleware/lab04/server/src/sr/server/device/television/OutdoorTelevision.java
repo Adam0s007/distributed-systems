@@ -16,7 +16,8 @@ public class OutdoorTelevision extends Television implements IOutdoorTelevision 
     }
 
     @Override
-    public boolean setBrightness(int level, Current current) throws BrightnessAdjustmentException {
+    public boolean setBrightness(int level, Current current) throws BrightnessAdjustmentException,NotEnabledException {
+        this.isTurnedOn(current);
         System.out.println("Method OutdoorTelevision.setBrightness with args " + level + ", current.id.name " + current.id.name + ", current.id.category: " + current.id.category);
 
         if(level < 0 || level > 100) {
@@ -41,7 +42,8 @@ public class OutdoorTelevision extends Television implements IOutdoorTelevision 
     }
 
     @Override
-    public boolean waterproofMode(boolean enable, Current current) throws TelevisionOperationException {
+    public boolean waterproofMode(boolean enable, Current current) throws TelevisionOperationException,NotEnabledException {
+        this.isTurnedOn(current);
         System.out.println("Method OutdoorTelevision.waterproofMode with args " + enable + ", current.id.name " + current.id.name + ", current.id.category: " + current.id.category);
         if (enable == waterproofMode) {
             throw new TelevisionOperationException("Waterproof mode is already " + (enable ? "enabled" : "disabled"), "waterproofMode");
@@ -53,5 +55,10 @@ public class OutdoorTelevision extends Television implements IOutdoorTelevision 
     @Override
     public String getDetails(Current current) throws SmarthomeException {
         return super.getDetails(current) + "brightness: " + brightnessLevel + ", waterproof mode: " + waterproofMode +" \n";
+    }
+
+    @Override
+    public void isTurnedOn(Current current) throws NotEnabledException {
+        super.isTurnedOn(current);
     }
 }

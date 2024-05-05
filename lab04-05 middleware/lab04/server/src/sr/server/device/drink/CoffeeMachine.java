@@ -43,7 +43,7 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
 
     }
 
-    private int coffeeMapper(CoffeeType type, CoffeeStrength strength) {
+    private int coffeeMapper(CoffeeType type, CoffeeStrength strength){
         int baseBeanCount = this.coffeeMapper.getOrDefault(type, 20);
         double modifier = strengthModifiers.getOrDefault(strength,0.0);
         return (int) (baseBeanCount * (1 + modifier));
@@ -51,7 +51,8 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
 
 
     @Override
-    public boolean makeCoffee(Coffee coffee, Current current) throws ResourceLimitException {
+    public boolean makeCoffee(Coffee coffee, Current current) throws ResourceLimitException,NotEnabledException {
+        this.isTurnedOn(current);
         System.out.println("Method CoffeeMachine.makeCoffee with args " + coffee.milkAmount+"," +coffee.strength + "," + coffee.type + ", current.id.name: " + current.id.name + ",  current.id.category: " + current.id.category);
 
         CoffeeType type = coffee.type;
@@ -78,7 +79,8 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
     }
 
     @Override
-    public void addMilk(int amount, Current current) throws MilkCapacityException {
+    public void addMilk(int amount, Current current) throws MilkCapacityException,NotEnabledException {
+        this.isTurnedOn(current);
         System.out.println("Method CoffeeMachine.addMilk with args " + amount + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
         if(amount + milkCapacity > this.MAX_MILK_CAPACITY){
             throw new MilkCapacityException("Milk tank is full", "addMilk");
@@ -93,7 +95,8 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
     }
 
     @Override
-    public void addCoffeeBeans(int amount, Current current) throws CoffeeBeanCapacityException {
+    public void addCoffeeBeans(int amount, Current current) throws CoffeeBeanCapacityException,NotEnabledException {
+        this.isTurnedOn(current);
         System.out.println("Method CoffeeMachine.addCoffeeBeans with args " + amount + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
         if(amount + coffeeBeansCapacity > this.MAX_COFFEE_BEANS_CAPACITY){
             throw new CoffeeBeanCapacityException("Coffee beans tank is full", "addCoffeeBeans");
@@ -109,7 +112,8 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
     }
 
     @Override
-    public List<Coffee> getCoffeeList(Current current) {
+    public List<Coffee> getCoffeeList(Current current) throws NotEnabledException{
+        this.isTurnedOn(current);
         System.out.println("Method CoffeeMachine.getCoffeeList with not args, current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
         return coffeeList;
     }
@@ -120,5 +124,10 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
         return mess + "\n{CoffeeMachine: \n" +
                 "Coffee beans: " + this.coffeeBeansCapacity + "/" + this.MAX_COFFEE_BEANS_CAPACITY + "\n" +
                 "Milk: " + this.milkCapacity + "/" + this.MAX_MILK_CAPACITY + "}\n";
+    }
+
+    @Override
+    public void isTurnedOn(Current current) throws NotEnabledException {
+        super.isTurnedOn(current);
     }
 }

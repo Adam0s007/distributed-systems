@@ -10,7 +10,8 @@ const televisionCommands = async (command, stub) => {
                 return true;
             }
             try {
-                console.log(await stub.setChannel(newChannel) ? 'Channel set successfully.' : 'Failed to set channel.');
+                await stub.setChannel(newChannel);
+                console.log('Channel set to', newChannel);
             } catch (error) {
                 console.log('Error:', error.message);
             }

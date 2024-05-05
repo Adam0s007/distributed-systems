@@ -17,7 +17,8 @@ public class DrinksMachine extends Device implements IDrinksMachine {
         this.waterCapacity = 0;
     }
     @Override
-    public boolean makeHotWater(int amount, Current current) throws WaterCapacityException {
+    public boolean makeHotWater(int amount, Current current) throws WaterCapacityException,NotEnabledException {
+        this.isTurnedOn(current);
         System.out.println("Method DrinksMachine.makeHotWater with args " + amount + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
 
         if(amount > waterCapacity) {
@@ -35,7 +36,8 @@ public class DrinksMachine extends Device implements IDrinksMachine {
     }
 
     @Override
-    public boolean makeColdWater(int amount, Current current) throws WaterCapacityException {
+    public boolean makeColdWater(int amount, Current current) throws WaterCapacityException,NotEnabledException {
+        this.isTurnedOn(current);
         System.out.println("Method DrinksMachine.makeColdWater with args " + amount + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
 
         if(amount > waterCapacity) {
@@ -52,7 +54,8 @@ public class DrinksMachine extends Device implements IDrinksMachine {
     }
 
     @Override
-    public void addWater(int amount, Current current) throws WaterCapacityException {
+    public void addWater(int amount, Current current) throws WaterCapacityException,NotEnabledException {
+        this.isTurnedOn(current);
         System.out.println("Method DrinksMachine.addWater with args " + amount + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
 
         if(amount + waterCapacity > this.MAX_WATER_CAPACITY) {
@@ -68,7 +71,8 @@ public class DrinksMachine extends Device implements IDrinksMachine {
     }
 
     @Override
-    public void addSugar(int amount, Current current) throws SugarCapacityException {
+    public void addSugar(int amount, Current current) throws SugarCapacityException,NotEnabledException {
+        this.isTurnedOn(current);
         System.out.println("Method DrinksMachine.addSugar with args " + amount + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
 
         if(amount + sugarCapacity > this.MAX_SUGAR_CAPACITY) {
@@ -87,6 +91,11 @@ public class DrinksMachine extends Device implements IDrinksMachine {
     public String getDetails(Current current) throws SmarthomeException {
 
         return super.getDetails(current)+ "water capacity: " + this.waterCapacity + "/" + this.MAX_WATER_CAPACITY + "\n sugar capacity: " + this.sugarCapacity + "/" + this.MAX_SUGAR_CAPACITY + "\n";
+    }
+
+    @Override
+    public void isTurnedOn(Current current) throws NotEnabledException {
+        super.isTurnedOn(current);
     }
 
 

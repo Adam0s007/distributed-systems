@@ -1,0 +1,1 @@
+slice2js --output-dir client/generated slice/smarthome.ice

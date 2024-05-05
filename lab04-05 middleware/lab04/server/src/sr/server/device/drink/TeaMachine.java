@@ -23,7 +23,8 @@ public class TeaMachine extends DrinksMachine implements ITeaMachine {
     }
 
     @Override
-    public boolean makeTea(Tea tea, Current current) throws ResourceLimitException {
+    public boolean makeTea(Tea tea, Current current) throws ResourceLimitException,NotEnabledException {
+        this.isTurnedOn(current);
         System.out.println("Method TeaMachine.makeTea with args " + tea.type + ", " + tea.amountOfLeaves + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
 
         MachineTeaInfo teaInfo = teaInventory.get(tea.type);
@@ -43,7 +44,8 @@ public class TeaMachine extends DrinksMachine implements ITeaMachine {
     }
 
     @Override
-    public void addTeaLeavesOfType(TeaType type, int amount, Current current) throws TeaLeafCapacityException {
+    public void addTeaLeavesOfType(TeaType type, int amount, Current current) throws TeaLeafCapacityException,NotEnabledException {
+        this.isTurnedOn(current);
         System.out.println("Method TeaMachine.addTeaLeavesOfType with args " + type + ", " + amount + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
 
         MachineTeaInfo teaInfo = teaInventory.get(type);
@@ -62,7 +64,8 @@ public class TeaMachine extends DrinksMachine implements ITeaMachine {
     }
 
     @Override
-    public List<MachineTeaInfo> getTeaList(Current current) {
+    public List<MachineTeaInfo> getTeaList(Current current) throws NotEnabledException{
+        this.isTurnedOn(current);
         System.out.println("Method TeaMachine.getTeaList with no args, current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
         return new ArrayList<>(teaInventory.values());
     }
@@ -78,5 +81,10 @@ public class TeaMachine extends DrinksMachine implements ITeaMachine {
             stringBuilder.append("\n");
         }
         return mess + "\n{TeaMachine: \n" + stringBuilder.toString() + "}\n";
+    }
+
+    @Override
+    public void isTurnedOn(Current current) throws NotEnabledException {
+        super.isTurnedOn(current);
     }
 }

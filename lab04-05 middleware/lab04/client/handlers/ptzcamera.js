@@ -11,12 +11,9 @@ const ptzCameraHandler = async (name, communicator) => {
     if(!stub)return;
 
     const command = prompt('Commands: getState, getDetails, turnOn, turnOff, getCameraMode, setCameraMode, setPtz: ');
-    const deviceStatus  = await handleDeviceCommands(command, stub);
-    if (deviceStatus !== 'Enabled') {
-        console.log('Device is not enabled.');
-        return;
-    }
+    if(await handleDeviceCommands(command, stub))return;
     if(await handleCameraCommands(command, stub)) return;
-    await handlePTZCameraCommands(command, stub);
+    if(await handlePTZCameraCommands(command, stub)) return;
+    console.log("Unknown command")
 }
 module.exports = ptzCameraHandler;

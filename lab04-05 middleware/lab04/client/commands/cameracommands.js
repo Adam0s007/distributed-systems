@@ -10,12 +10,12 @@ const cameraCommands = async (command, stub) => {
             } catch (error) {
                 console.log('Error:', error.message);
             }
-            return true;
+            return true;;
         case 'setCameraMode':
             const cameraMode = SmartHome.CameraMode[prompt('Enter camera mode (Night, Day, Auto): ')];
             if (!SmartHome.CameraMode[cameraMode]) {
                 console.log('Unknown camera mode');
-                return true;
+                return true;;
             }
             try {
                 await stub.setCameraMode(cameraMode);
@@ -24,10 +24,8 @@ const cameraCommands = async (command, stub) => {
                 console.log('Error:', error.message);
             }
             return true;
-
     }
     return false;
-
 }
 
 module.exports = cameraCommands;

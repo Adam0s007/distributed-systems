@@ -5,6 +5,7 @@ import SmartHome.DeviceStatus;
 import SmartHome.IDevice;
 import SmartHome.SmarthomeException;
 import SmartHome.DeviceInfo;
+import SmartHome.NotEnabledException;
 import com.zeroc.Ice.Current;
 
 public class Device implements IDevice {
@@ -63,6 +64,13 @@ public class Device implements IDevice {
                 "Name: " + this.deviceInfo.name + "\n" +
                 "Category: " + this.deviceInfo.type + "\n" +
                 "Status: " + this.status + "\n";
+    }
+
+    @Override
+    public void isTurnedOn(Current current) throws NotEnabledException {
+        if(this.status != DeviceStatus.Enabled){
+            throw new NotEnabledException("Device is disabled", "isTurnedOff");
+        }
     }
 
 

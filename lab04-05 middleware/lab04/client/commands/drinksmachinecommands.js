@@ -8,7 +8,7 @@ const drinksMachineCommands = async (command,stub) =>{
                 await stub.addWater(waterAmount);
                 console.log('Water added.');
             } catch (error) {
-                console.log('Unhandled error:', error);
+                console.log(error.message);
             }
             return true;
 
@@ -18,7 +18,7 @@ const drinksMachineCommands = async (command,stub) =>{
                 await stub.addSugar(sugarAmount);
                 console.log('Sugar added.');
             } catch (error) {
-                    console.log(error.message);
+                console.log(error.message);
             }
             return true;
 
@@ -28,7 +28,7 @@ const drinksMachineCommands = async (command,stub) =>{
                 await stub.makeHotWater(hotWaterAmount);
                 console.log('Hot water prepared.');
             } catch (error) {
-                    console.log(error.message);
+                console.log(error.message);
             }
             return true;
 
@@ -38,7 +38,7 @@ const drinksMachineCommands = async (command,stub) =>{
                 await stub.makeColdWater(coldWaterAmount);
                 console.log('Cold water prepared.');
             } catch (error) {
-                    console.log(error.message);
+                console.log(error.message);
             }
             return true;
     }

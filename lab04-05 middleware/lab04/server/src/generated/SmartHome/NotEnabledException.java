@@ -15,38 +15,38 @@
 
 package SmartHome;
 
-public class TeaLeafCapacityException extends ResourceLimitException
+public class NotEnabledException extends DeviceOperationException
 {
-    public TeaLeafCapacityException()
+    public NotEnabledException()
     {
         super();
     }
 
-    public TeaLeafCapacityException(Throwable cause)
+    public NotEnabledException(Throwable cause)
     {
         super(cause);
     }
 
-    public TeaLeafCapacityException(String message, String resource)
+    public NotEnabledException(String message, String operation)
     {
-        super(message, resource);
+        super(message, operation);
     }
 
-    public TeaLeafCapacityException(String message, String resource, Throwable cause)
+    public NotEnabledException(String message, String operation, Throwable cause)
     {
-        super(message, resource, cause);
+        super(message, operation, cause);
     }
 
     public String ice_id()
     {
-        return "::SmartHome::TeaLeafCapacityException";
+        return "::SmartHome::NotEnabledException";
     }
 
     /** @hidden */
     @Override
     protected void _writeImpl(com.zeroc.Ice.OutputStream ostr_)
     {
-        ostr_.startSlice("::SmartHome::TeaLeafCapacityException", -1, false);
+        ostr_.startSlice("::SmartHome::NotEnabledException", -1, false);
         ostr_.endSlice();
         super._writeImpl(ostr_);
     }
@@ -61,5 +61,5 @@ public class TeaLeafCapacityException extends ResourceLimitException
     }
 
     /** @hidden */
-    public static final long serialVersionUID = 941933580L;
+    public static final long serialVersionUID = 285094326L;
 }

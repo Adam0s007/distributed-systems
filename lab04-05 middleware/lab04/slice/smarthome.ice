@@ -11,6 +11,7 @@ module SmartHome {
         string operation;
     };
 
+    exception NotEnabledException extends DeviceOperationException {};
 
     exception ResourceLimitException extends SmarthomeException {
         string resource;
@@ -87,19 +88,20 @@ module SmartHome {
         DeviceStatus turnOn() throws DeviceOperationException;
         DeviceStatus turnOff() throws DeviceOperationException;
         idempotent string getDetails() throws SmarthomeException;
+        idempotent void isTurnedOn() throws NotEnabledException;
     };
 
 
     enum CameraMode { Night,Day,Auto};
 
     interface ICamera extends IDevice {
-        idempotent CameraMode getCameraMode();
-        idempotent bool setCameraMode(CameraMode mode) throws CameraOperationException;
+        idempotent CameraMode getCameraMode() throws NotEnabledException;
+        idempotent bool setCameraMode(CameraMode mode) throws NotEnabledException,CameraOperationException;
     };
 
     interface IMotionDetectionCamera extends ICamera {
-            idempotent bool enableMotionDetection() throws CameraMotionDetectionException;
-            idempotent bool disableMotionDetection() throws CameraMotionDetectionException;
+            idempotent bool enableMotionDetection() throws NotEnabledException,CameraMotionDetectionException;
+            idempotent bool disableMotionDetection() throws NotEnabledException,CameraMotionDetectionException;
     };
 
     struct PtzPosition {
@@ -108,7 +110,7 @@ module SmartHome {
             int zoom;
         };
     interface IPTZCamera extends ICamera {
-            idempotent bool setPtz(PtzPosition ptzPosition)  throws PTZOperationException;
+            idempotent bool setPtz(PtzPosition ptzPosition)  throws NotEnabledException, PTZOperationException;
     };
 
 
@@ -120,9 +122,9 @@ module SmartHome {
    sequence<TVChannel> TVChannelList;
 
     interface ITelevision extends IDevice {
-            idempotent TVChannel getCurrentChannel() throws TelevisionOperationException;
-            idempotent bool setChannel(int newChannel) throws InvalidChannelException;
-            idempotent TVChannelList getChannelList();
+            idempotent TVChannel getCurrentChannel() throws NotEnabledException,TelevisionOperationException;
+            idempotent bool setChannel(int newChannel) throws NotEnabledException,InvalidChannelException;
+            idempotent TVChannelList getChannelList() throws NotEnabledException;
     };
 
     struct SurroundEffect {
@@ -133,15 +135,15 @@ module SmartHome {
     sequence<SurroundEffect> SurroundEffectList;
 
     interface IHomeCinemaTV extends ITelevision {
-            idempotent SurroundEffectList getSurroundEffects();
-            bool setSurroundEffect(SurroundEffect surroundEffect) throws TelevisionOperationException;
-            idempotent SurroundEffect getCurrentSurroundEffect() throws SurroundEffectException;
-            idempotent void disableSurroundSound();
+            idempotent SurroundEffectList getSurroundEffects() throws NotEnabledException;
+            bool setSurroundEffect(SurroundEffect surroundEffect) throws NotEnabledException,TelevisionOperationException;
+            idempotent SurroundEffect getCurrentSurroundEffect() throws NotEnabledException,SurroundEffectException;
+            idempotent void disableSurroundSound() throws NotEnabledException;
         };
 
     interface IOutdoorTelevision extends ITelevision {
-        idempotent bool setBrightness(int level) throws BrightnessAdjustmentException;
-        idempotent bool waterproofMode(bool enable) throws TelevisionOperationException;
+        idempotent bool setBrightness(int level) throws NotEnabledException, BrightnessAdjustmentException;
+        idempotent bool waterproofMode(bool enable) throws NotEnabledException, TelevisionOperationException;
     };
 
     enum CoffeeStrength { Light, Medium, Strong };
@@ -171,23 +173,23 @@ module SmartHome {
     sequence <MachineTeaInfo> TeaList;
 
     interface IDrinksMachine extends IDevice {
-        bool makeHotWater(int amount) throws WaterCapacityException;
-        bool makeColdWater(int amount) throws WaterCapacityException;
-        void addWater(int amount) throws WaterCapacityException;
-        void addSugar(int amount)  throws SugarCapacityException;
+        bool makeHotWater(int amount) throws NotEnabledException,WaterCapacityException;
+        bool makeColdWater(int amount) throws NotEnabledException,WaterCapacityException;
+        void addWater(int amount) throws NotEnabledException,WaterCapacityException;
+        void addSugar(int amount)  throws NotEnabledException,SugarCapacityException;
     };
 
     interface ICoffeeMachine extends IDrinksMachine {
-        bool makeCoffee(Coffee coffee) throws ResourceLimitException;
-        void addMilk(int amount) throws MilkCapacityException;
-        void addCoffeeBeans(int amount) throws CoffeeBeanCapacityException;
-        idempotent CoffeeList getCoffeeList();
+        bool makeCoffee(Coffee coffee) throws NotEnabledException,ResourceLimitException;
+        void addMilk(int amount) throws NotEnabledException,MilkCapacityException;
+        void addCoffeeBeans(int amount) throws NotEnabledException, CoffeeBeanCapacityException;
+        idempotent CoffeeList getCoffeeList() throws NotEnabledException;
     };
 
     interface ITeaMachine extends IDrinksMachine {
-        bool makeTea(Tea tea) throws ResourceLimitException;
-        void addTeaLeavesOfType(TeaType type, int amount) throws TeaLeafCapacityException;
-        idempotent TeaList getTeaList();
+        bool makeTea(Tea tea) throws NotEnabledException,ResourceLimitException;
+        void addTeaLeavesOfType(TeaType type, int amount) throws NotEnabledException,TeaLeafCapacityException;
+        idempotent TeaList getTeaList() throws NotEnabledException;
     };
 
 

@@ -8,7 +8,7 @@ const cafeMachineCommands = async (command, stub) => {
            const type = SmartHome.CoffeeType[prompt('Enter coffee type (Espresso, Americano, Latte, Cappuccino, Macchiato): ')]
             if (!SmartHome.CoffeeType[type]) {
                 console.log('Unknown coffee type')
-                return true
+                return true;
             }
             const coffeeStrength = SmartHome.CoffeeStrength[prompt('Enter coffee strength (Light, Medium, Strong): ')];
             if (!SmartHome.CoffeeStrength[coffeeStrength]) {
@@ -57,10 +57,8 @@ const cafeMachineCommands = async (command, stub) => {
                 console.log('Error:',error.message);
             }
             return true;
-
-        default:
-            return false;
     }
+    return false;
 }
 
 module.exports = cafeMachineCommands;

@@ -1,39 +1,45 @@
 
 const deviceCommands = async (command, stub) => {
     try {
-        let status = String(await stub.getStatus());
         switch (command) {
             case 'getState':
-                console.log(`Device status: ${status}`);
-                break;
+                try{
+                    const state = String(await stub.getStatus());
+                    console.log(`Device state: ${state}`);
+                } catch(e) {
+                    console.log(e.message);
+                }
+                return true;
             case 'turnOn':
                 try{
                     const onStatus = String(await stub.turnOn());
                     console.log(`Turned on: ${onStatus}`);
-                    status = onStatus;
+                    
                 } catch (e) {
                     console.log(e.message);
                 }
-                break;
+                return true;;
             case 'turnOff':
                 try {
                     const offStatus = String(await stub.turnOff());
                     console.log(`Turned off: ${offStatus}`);
-                    status = offStatus;
                 } catch(e) {
                     console.log(e.message);
                 }
-                break;
+                return true;;
             case 'getDetails':
+                try{
                 const details = String(await stub.getDetails());
                 console.log(`${details}`);
-                break;
+                } catch(e) {
+                    console.log(e.message);
+                }
+                return true;;
         }
-        return status;
     } catch (error) {
         console.log('Error handling device command:', error.message);
     }
-    return null;
+    return false;
 }
 
 module.exports = deviceCommands;

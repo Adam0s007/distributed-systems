@@ -10,11 +10,8 @@ const cameraHandler = async (name, communicator) => {
     if(!stub)return;
 
     const command = prompt('Commands: getState, getDetails, turnOn, turnOff, getCameraMode, setCameraMode:');
-    const deviceStatus  = await handleDeviceCommands(command, stub);
-    if (deviceStatus !== 'Enabled') {
-        console.log('Device is not enabled.');
-        return;
-    }
-    await handleCameraCommands(command, stub);
+    if(await handleDeviceCommands(command, stub))return;
+    if(await handleCameraCommands(command, stub))return;
+    console.log('Unknown command');
 }
 module.exports = cameraHandler;
