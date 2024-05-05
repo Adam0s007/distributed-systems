@@ -183,7 +183,7 @@ module SmartHome {
         bool makeCoffee(Coffee coffee) throws NotEnabledException,ResourceLimitException;
         void addMilk(int amount) throws NotEnabledException,MilkCapacityException;
         void addCoffeeBeans(int amount) throws NotEnabledException, CoffeeBeanCapacityException;
-        idempotent CoffeeList getCoffeeList() throws NotEnabledException;
+        idempotent CoffeeList getCoffeeHistory() throws NotEnabledException;
     };
 
     interface ITeaMachine extends IDrinksMachine {

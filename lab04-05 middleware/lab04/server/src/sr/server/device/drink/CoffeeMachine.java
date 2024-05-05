@@ -1,6 +1,16 @@
 package server.device.drink;
 
-import SmartHome.*;
+import SmartHome.CoffeeType;
+import SmartHome.CoffeeStrength;
+import SmartHome.Coffee;
+import SmartHome.DeviceInfo;
+import SmartHome.ICoffeeMachine;
+import SmartHome.NotEnabledException;
+import SmartHome.ResourceLimitException;
+import SmartHome.MilkCapacityException;
+import SmartHome.CoffeeBeanCapacityException;
+import SmartHome.SmarthomeException;
+
 import com.zeroc.Ice.Current;
 
 import java.util.*;
@@ -11,17 +21,17 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
     private int milkCapacity;
     private final int MAX_COFFEE_BEANS_CAPACITY = 500;
     private final int MAX_MILK_CAPACITY = 1000;
-
-    private List<Coffee> coffeeList;
-    private Map<CoffeeType,Integer> coffeeMapper;
-    private Map<CoffeeStrength, Double> strengthModifiers;
+    private final int MAX_COFFEE_HISTORY = 10;
+    private final List<Coffee> coffeeHistory;
+    private final Map<CoffeeType,Integer> coffeeMapper;
+    private final Map<CoffeeStrength, Double> strengthModifiers;
 
 
     public CoffeeMachine(DeviceInfo deviceInfo) {
         super(deviceInfo);
         this.coffeeBeansCapacity = 0;
         this.milkCapacity = 0;
-        this.coffeeList = new LinkedList<>();
+        this.coffeeHistory = new LinkedList<>();
         this.coffeeMapper = new HashMap<>();
         this.coffeeMapper.put(CoffeeType.Latte, 20);
         this.coffeeMapper.put(CoffeeType.Cappuccino, 40);
@@ -68,9 +78,13 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
+        coffeeHistory.add(coffee);
+
+        if (coffeeHistory.size() > this.MAX_COFFEE_HISTORY) {
+            coffeeHistory.remove(0);
+        }
         System.out.println("Coffee is ready");
         return true;
-
     }
 
     @Override
@@ -107,10 +121,10 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
     }
 
     @Override
-    public List<Coffee> getCoffeeList(Current current) throws NotEnabledException{
+    public List<Coffee> getCoffeeHistory(Current current) throws NotEnabledException{
         this.isTurnedOn(current);
-        System.out.println("Method CoffeeMachine.getCoffeeList with not args, current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
-        return coffeeList;
+        System.out.println("Method CoffeeMachine.getCoffeeHistory with not args, current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
+        return coffeeHistory;
     }
 
     @Override
@@ -124,13 +138,5 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
     @Override
     public void isTurnedOn(Current current) throws NotEnabledException {
         super.isTurnedOn(current);
-    }
-
-    @Override
-    public DeviceStatus turnOff(Current current) throws DeviceOperationException {
-        if(this.coffeeList.size() >= 7){
-            this.coffeeList = this.coffeeList.subList(0,7);
-        }
-        return super.turnOff(current);
     }
 }

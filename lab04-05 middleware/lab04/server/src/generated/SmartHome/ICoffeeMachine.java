@@ -29,7 +29,7 @@ public interface ICoffeeMachine extends IDrinksMachine
         throws CoffeeBeanCapacityException,
                NotEnabledException;
 
-    java.util.List<Coffee> getCoffeeList(com.zeroc.Ice.Current current)
+    java.util.List<Coffee> getCoffeeHistory(com.zeroc.Ice.Current current)
         throws NotEnabledException;
 
     /** @hidden */
@@ -129,12 +129,12 @@ public interface ICoffeeMachine extends IDrinksMachine
      * @return -
      * @throws com.zeroc.Ice.UserException -
     **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getCoffeeList(ICoffeeMachine obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getCoffeeHistory(ICoffeeMachine obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
         throws com.zeroc.Ice.UserException
     {
         com.zeroc.Ice.Object._iceCheckMode(com.zeroc.Ice.OperationMode.Idempotent, current.mode);
         inS.readEmptyParams();
-        java.util.List<Coffee> ret = obj.getCoffeeList(current);
+        java.util.List<Coffee> ret = obj.getCoffeeHistory(current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
         CoffeeListHelper.write(ostr, ret);
         inS.endWriteParams(ostr);
@@ -148,7 +148,7 @@ public interface ICoffeeMachine extends IDrinksMachine
         "addMilk",
         "addSugar",
         "addWater",
-        "getCoffeeList",
+        "getCoffeeHistory",
         "getDetails",
         "getStatus",
         "ice_id",
@@ -194,7 +194,7 @@ public interface ICoffeeMachine extends IDrinksMachine
             }
             case 4:
             {
-                return _iceD_getCoffeeList(this, in, current);
+                return _iceD_getCoffeeHistory(this, in, current);
             }
             case 5:
             {

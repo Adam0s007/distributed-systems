@@ -1067,7 +1067,7 @@
             SmartHome.CoffeeBeanCapacityException,
             SmartHome.NotEnabledException
         ], , ],
-        "getCoffeeList": [, 2, 2, , ["SmartHome.CoffeeListHelper"], , ,
+        "getCoffeeHistory": [, 2, 2, , ["SmartHome.CoffeeListHelper"], , ,
         [
             SmartHome.NotEnabledException
         ], , ]

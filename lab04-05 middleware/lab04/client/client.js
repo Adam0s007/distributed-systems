@@ -85,7 +85,7 @@ function displayDevices(devices) {
 
 
 const updateConnections = async (communicator) => {
-    console.log('Checking device connections every 30 seconds...');
+    //console.log('Checking device connections every 30 seconds...');
     const intervalId = setInterval(async () => {
         //console.log('Checking device connections...');
         for (let [serverKey, serverAddress] of Object.entries(servers)) {

@@ -207,18 +207,18 @@ public interface ICoffeeMachinePrx extends IDrinksMachinePrx
         NotEnabledException.class
     };
 
-    default java.util.List<Coffee> getCoffeeList()
+    default java.util.List<Coffee> getCoffeeHistory()
         throws NotEnabledException
     {
-        return getCoffeeList(com.zeroc.Ice.ObjectPrx.noExplicitContext);
+        return getCoffeeHistory(com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default java.util.List<Coffee> getCoffeeList(java.util.Map<String, String> context)
+    default java.util.List<Coffee> getCoffeeHistory(java.util.Map<String, String> context)
         throws NotEnabledException
     {
         try
         {
-            return _iceI_getCoffeeListAsync(context, true).waitForResponseOrUserEx();
+            return _iceI_getCoffeeHistoryAsync(context, true).waitForResponseOrUserEx();
         }
         catch(NotEnabledException ex)
         {
@@ -230,14 +230,14 @@ public interface ICoffeeMachinePrx extends IDrinksMachinePrx
         }
     }
 
-    default java.util.concurrent.CompletableFuture<java.util.List<Coffee>> getCoffeeListAsync()
+    default java.util.concurrent.CompletableFuture<java.util.List<Coffee>> getCoffeeHistoryAsync()
     {
-        return _iceI_getCoffeeListAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+        return _iceI_getCoffeeHistoryAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<java.util.List<Coffee>> getCoffeeListAsync(java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<java.util.List<Coffee>> getCoffeeHistoryAsync(java.util.Map<String, String> context)
     {
-        return _iceI_getCoffeeListAsync(context, false);
+        return _iceI_getCoffeeHistoryAsync(context, false);
     }
 
     /**
@@ -246,9 +246,9 @@ public interface ICoffeeMachinePrx extends IDrinksMachinePrx
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<java.util.List<Coffee>> _iceI_getCoffeeListAsync(java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<java.util.List<Coffee>> _iceI_getCoffeeHistoryAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<java.util.List<Coffee>> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getCoffeeList", com.zeroc.Ice.OperationMode.Idempotent, sync, _iceE_getCoffeeList);
+        com.zeroc.IceInternal.OutgoingAsync<java.util.List<Coffee>> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getCoffeeHistory", com.zeroc.Ice.OperationMode.Idempotent, sync, _iceE_getCoffeeHistory);
         f.invoke(true, context, null, null, istr -> {
                      java.util.List<Coffee> ret;
                      ret = CoffeeListHelper.read(istr);
@@ -258,7 +258,7 @@ public interface ICoffeeMachinePrx extends IDrinksMachinePrx
     }
 
     /** @hidden */
-    static final Class<?>[] _iceE_getCoffeeList =
+    static final Class<?>[] _iceE_getCoffeeHistory =
     {
         NotEnabledException.class
     };

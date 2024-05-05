@@ -1,16 +1,18 @@
-const { SmartHome, CoffeeStrength, CoffeeType } = require("../generated/smarthome");
+const { SmartHome } = require("../generated/smarthome");
 const prompt = require("prompt-sync")();
 
 const cafeMachineCommands = async (command, stub) => {
     switch (command) {
         case 'makeCoffee':
 
-           const type = SmartHome.CoffeeType[prompt('Enter coffee type (Espresso, Americano, Latte, Cappuccino, Macchiato): ')]
-            if (!SmartHome.CoffeeType[type]) {
+           const coffeeType = SmartHome.CoffeeType[prompt('Enter coffee type (Espresso, Americano, Latte, Cappuccino, Macchiato): ')]
+            if (!SmartHome.CoffeeType[coffeeType]) {
                 console.log('Unknown coffee type')
                 return true;
             }
+        
             const coffeeStrength = SmartHome.CoffeeStrength[prompt('Enter coffee strength (Light, Medium, Strong): ')];
+           
             if (!SmartHome.CoffeeStrength[coffeeStrength]) {
                 console.log('Unknown coffee strength');
                 return true;
@@ -21,8 +23,9 @@ const cafeMachineCommands = async (command, stub) => {
                 console.log('Error: Invalid milk amount.');
                 return true;
             }
+            console.log(coffeeType, coffeeStrength, milkAmount)
             try {
-                await stub.makeCoffee(new SmartHome.Coffee(type, coffeeStrength, milkAmount));
+                await stub.makeCoffee(new SmartHome.Coffee(coffeeStrength,coffeeType, milkAmount));
                 console.log('Coffee prepared.');
             } catch (error) {
                 console.log('Error:', error.message);
@@ -49,10 +52,10 @@ const cafeMachineCommands = async (command, stub) => {
             }
             return true;
 
-        case 'getCoffeeList':
+        case 'getCoffeeHistory':
             try {
-                const coffeeList = await stub.getCoffeeList();
-                console.log('Available Coffees:', coffeeList);
+                const coffeeList = await stub.getCoffeeHistory();
+                console.log('Coffee History:', coffeeList);
             } catch (error) {
                 console.log('Error:',error.message);
             }
