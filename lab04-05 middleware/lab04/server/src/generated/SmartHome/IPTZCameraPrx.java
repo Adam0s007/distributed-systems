@@ -83,6 +83,62 @@ public interface IPTZCameraPrx extends ICameraPrx
         PTZOperationException.class
     };
 
+    default PtzPosition getPtz()
+        throws NotEnabledException
+    {
+        return getPtz(com.zeroc.Ice.ObjectPrx.noExplicitContext);
+    }
+
+    default PtzPosition getPtz(java.util.Map<String, String> context)
+        throws NotEnabledException
+    {
+        try
+        {
+            return _iceI_getPtzAsync(context, true).waitForResponseOrUserEx();
+        }
+        catch(NotEnabledException ex)
+        {
+            throw ex;
+        }
+        catch(com.zeroc.Ice.UserException ex)
+        {
+            throw new com.zeroc.Ice.UnknownUserException(ex.ice_id(), ex);
+        }
+    }
+
+    default java.util.concurrent.CompletableFuture<PtzPosition> getPtzAsync()
+    {
+        return _iceI_getPtzAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+    }
+
+    default java.util.concurrent.CompletableFuture<PtzPosition> getPtzAsync(java.util.Map<String, String> context)
+    {
+        return _iceI_getPtzAsync(context, false);
+    }
+
+    /**
+     * @hidden
+     * @param context -
+     * @param sync -
+     * @return -
+     **/
+    default com.zeroc.IceInternal.OutgoingAsync<PtzPosition> _iceI_getPtzAsync(java.util.Map<String, String> context, boolean sync)
+    {
+        com.zeroc.IceInternal.OutgoingAsync<PtzPosition> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getPtz", com.zeroc.Ice.OperationMode.Idempotent, sync, _iceE_getPtz);
+        f.invoke(true, context, null, null, istr -> {
+                     PtzPosition ret;
+                     ret = PtzPosition.ice_read(istr);
+                     return ret;
+                 });
+        return f;
+    }
+
+    /** @hidden */
+    static final Class<?>[] _iceE_getPtz =
+    {
+        NotEnabledException.class
+    };
+
     /**
      * Contacts the remote server to verify that the object implements this type.
      * Raises a local exception if a communication error occurs.

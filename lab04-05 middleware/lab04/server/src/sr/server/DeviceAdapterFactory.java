@@ -36,7 +36,7 @@ class DeviceAdapterFactory {
 
         addDevice(new DeviceInfo("Allie", DeviceType.TeaMachine, 3));
         addDevice(new DeviceInfo("Marry", DeviceType.Camera, 3));
-        addDevice(new DeviceInfo("Marry", DeviceType.Television, 3));
+        addDevice(new DeviceInfo("Marry2", DeviceType.Television, 3));
     }
 
     public void addDevice(DeviceInfo device) {

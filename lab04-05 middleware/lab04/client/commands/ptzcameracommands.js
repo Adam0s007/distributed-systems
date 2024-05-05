@@ -14,6 +14,14 @@ const ptzCameraCommands = async (command, stub) => {
             console.log(error.message);
         }
         return true;
+    }else if(command === 'getPtz'){
+        try {
+            const ptzPosition = await stub.getPtz();
+            console.log(ptzPosition);
+        } catch (error) {
+            console.log(error.message);
+        }
+        return true;
     }
     return false;
 }

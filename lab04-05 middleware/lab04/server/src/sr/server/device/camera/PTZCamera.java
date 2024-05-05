@@ -43,6 +43,13 @@ public class PTZCamera extends Camera implements IPTZCamera {
     }
 
     @Override
+    public PtzPosition getPtz(Current current) throws NotEnabledException {
+        this.isTurnedOn(current);
+        System.out.println("Method PTZCamera.getPtz with not args, current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
+        return new PtzPosition(this.pan_attr, this.tilt_attr, this.zoom_attr);
+    }
+
+    @Override
     public String toString() {
         return "PTZCamera: " + super.toString() + ", pan: " + pan_attr + ", tilt: " + tilt_attr + ", zoom: " + zoom_attr;
     }

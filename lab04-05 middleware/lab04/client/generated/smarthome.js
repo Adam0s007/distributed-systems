@@ -678,6 +678,10 @@
         [
             SmartHome.NotEnabledException,
             SmartHome.PTZOperationException
+        ], , ],
+        "getPtz": [, 2, 2, , [SmartHome.PtzPosition], , ,
+        [
+            SmartHome.NotEnabledException
         ], , ]
     });
 

@@ -111,6 +111,7 @@ module SmartHome {
         };
     interface IPTZCamera extends ICamera {
             idempotent bool setPtz(PtzPosition ptzPosition)  throws NotEnabledException, PTZOperationException;
+            idempotent PtzPosition getPtz() throws NotEnabledException;
     };
 
 

@@ -22,21 +22,7 @@ public class OutdoorTelevision extends Television implements IOutdoorTelevision 
         if(level < 0 || level > 100) {
             throw new BrightnessAdjustmentException("Brightness level must be between 0 and 100","setBrightness");
         }
-        //simulate brightness adjustment
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        try {
-            scheduler.scheduleAtFixedRate(() -> {
-                if (this.brightnessLevel != level) {
-                    this.brightnessLevel += (brightnessLevel < level) ? 1 : -1;
-                    System.out.println("Adjusted brightness to: " + brightnessLevel);
-                } else {
-                    scheduler.shutdown();
-                    System.out.println("Target brightness level reached: " + brightnessLevel);
-                }
-            }, 0, 200, TimeUnit.MILLISECONDS);
-        } catch (Exception e) {
-            throw new BrightnessAdjustmentException("Error while adjusting brightness level", "setBrightness");
-        }
+        this.brightnessLevel = level;
         return true;
     }
 

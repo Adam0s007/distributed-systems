@@ -21,6 +21,9 @@ public interface IPTZCamera extends ICamera
         throws NotEnabledException,
                PTZOperationException;
 
+    PtzPosition getPtz(com.zeroc.Ice.Current current)
+        throws NotEnabledException;
+
     /** @hidden */
     static final String[] _iceIds =
     {
@@ -70,11 +73,32 @@ public interface IPTZCamera extends ICamera
         return inS.setResult(ostr);
     }
 
+    /**
+     * @hidden
+     * @param obj -
+     * @param inS -
+     * @param current -
+     * @return -
+     * @throws com.zeroc.Ice.UserException -
+    **/
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getPtz(IPTZCamera obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+        throws com.zeroc.Ice.UserException
+    {
+        com.zeroc.Ice.Object._iceCheckMode(com.zeroc.Ice.OperationMode.Idempotent, current.mode);
+        inS.readEmptyParams();
+        PtzPosition ret = obj.getPtz(current);
+        com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
+        PtzPosition.ice_write(ostr, ret);
+        inS.endWriteParams(ostr);
+        return inS.setResult(ostr);
+    }
+
     /** @hidden */
     final static String[] _iceOps =
     {
         "getCameraMode",
         "getDetails",
+        "getPtz",
         "getStatus",
         "ice_id",
         "ice_ids",
@@ -110,41 +134,45 @@ public interface IPTZCamera extends ICamera
             }
             case 2:
             {
-                return IDevice._iceD_getStatus(this, in, current);
+                return _iceD_getPtz(this, in, current);
             }
             case 3:
             {
-                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
+                return IDevice._iceD_getStatus(this, in, current);
             }
             case 4:
             {
-                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
             }
             case 5:
             {
-                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
             }
             case 6:
             {
-                return com.zeroc.Ice.Object._iceD_ice_ping(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
             }
             case 7:
             {
-                return IDevice._iceD_isTurnedOn(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_ping(this, in, current);
             }
             case 8:
             {
-                return ICamera._iceD_setCameraMode(this, in, current);
+                return IDevice._iceD_isTurnedOn(this, in, current);
             }
             case 9:
             {
-                return _iceD_setPtz(this, in, current);
+                return ICamera._iceD_setCameraMode(this, in, current);
             }
             case 10:
             {
-                return IDevice._iceD_turnOff(this, in, current);
+                return _iceD_setPtz(this, in, current);
             }
             case 11:
+            {
+                return IDevice._iceD_turnOff(this, in, current);
+            }
+            case 12:
             {
                 return IDevice._iceD_turnOn(this, in, current);
             }
