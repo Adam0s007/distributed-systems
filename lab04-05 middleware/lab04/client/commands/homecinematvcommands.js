@@ -8,7 +8,7 @@ const homeCinemaTVCommands = async (command, stub) => {
             const pictureMode = prompt('Enter picture mode setting: ');
             const surroundEffect = new SmartHome.SurroundEffect(surroundSound, pictureMode);
             try {
-                await stub.setSurroundEffect(surroundEffect);
+                await stub.setEffect(surroundEffect);
                 console.log('Surround effect set successfully.');
             } catch (error) {
                 console.log('Error:', error.message);
@@ -17,7 +17,7 @@ const homeCinemaTVCommands = async (command, stub) => {
 
         case 'getCurrentEffect':
             try {
-                const effect = await stub.getCurrentSurroundEffect();
+                const effect = await stub.getCurrentEffect();
                 console.log(`Current Surround Effect: Sound - ${effect.surroundSound}, Picture - ${effect.pictureMode}`);
             } catch (error) {
                 console.log('Error:', error.message);
@@ -26,7 +26,7 @@ const homeCinemaTVCommands = async (command, stub) => {
 
         case 'getEffects':
             try {
-                const effects = await stub.getSurroundEffects();
+                const effects = await stub.getEffects();
                 console.log('Available Surround Effects:');
                 effects.forEach((e, index) => console.log(`${index + 1}: Sound - ${e.surroundSound}, Picture - ${e.pictureMode}`));
             } catch (error) {
@@ -36,7 +36,7 @@ const homeCinemaTVCommands = async (command, stub) => {
 
         case 'disableSound':
             try {
-                await stub.disableSurroundSound();
+                await stub.disableSound();
                 console.log('Surround sound disabled.');
             } catch (error) {
                 console.log('Error:', error.message);

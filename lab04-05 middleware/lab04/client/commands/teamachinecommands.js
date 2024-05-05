@@ -21,7 +21,7 @@ const teaMachineCommands = async (command, stub) => {
                 await stub.makeTea(new SmartHome.Tea(teaType, leavesAmount));
                 console.log('Tea prepared.');
             } catch (error) {
-                console.log('Error:', error.message);
+                console.log(error.message);
             }
             return true;
 
@@ -43,7 +43,7 @@ const teaMachineCommands = async (command, stub) => {
                 await stub.addTeaLeavesOfType(type, amountToAdd);
                 console.log('Tea leaves added.');
             } catch (error) {
-                console.log('Error:', error.message);
+                console.log(error.message);
             }
             return true;
 
@@ -52,7 +52,7 @@ const teaMachineCommands = async (command, stub) => {
                 const teaList = await stub.getTeaList();
                 console.log('Available Teas:', teaList);
             } catch (error) {
-                console.log('Error fetching tea list:', error);
+                console.log(error.message);
             }
             return true;
 

@@ -17,18 +17,18 @@ package SmartHome;
 
 public interface IHomeCinemaTVPrx extends ITelevisionPrx
 {
-    default java.util.List<SurroundEffect> getSurroundEffects()
+    default java.util.List<SurroundEffect> getEffects()
         throws NotEnabledException
     {
-        return getSurroundEffects(com.zeroc.Ice.ObjectPrx.noExplicitContext);
+        return getEffects(com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default java.util.List<SurroundEffect> getSurroundEffects(java.util.Map<String, String> context)
+    default java.util.List<SurroundEffect> getEffects(java.util.Map<String, String> context)
         throws NotEnabledException
     {
         try
         {
-            return _iceI_getSurroundEffectsAsync(context, true).waitForResponseOrUserEx();
+            return _iceI_getEffectsAsync(context, true).waitForResponseOrUserEx();
         }
         catch(NotEnabledException ex)
         {
@@ -40,14 +40,14 @@ public interface IHomeCinemaTVPrx extends ITelevisionPrx
         }
     }
 
-    default java.util.concurrent.CompletableFuture<java.util.List<SurroundEffect>> getSurroundEffectsAsync()
+    default java.util.concurrent.CompletableFuture<java.util.List<SurroundEffect>> getEffectsAsync()
     {
-        return _iceI_getSurroundEffectsAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+        return _iceI_getEffectsAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<java.util.List<SurroundEffect>> getSurroundEffectsAsync(java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<java.util.List<SurroundEffect>> getEffectsAsync(java.util.Map<String, String> context)
     {
-        return _iceI_getSurroundEffectsAsync(context, false);
+        return _iceI_getEffectsAsync(context, false);
     }
 
     /**
@@ -56,9 +56,9 @@ public interface IHomeCinemaTVPrx extends ITelevisionPrx
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<java.util.List<SurroundEffect>> _iceI_getSurroundEffectsAsync(java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<java.util.List<SurroundEffect>> _iceI_getEffectsAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<java.util.List<SurroundEffect>> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getSurroundEffects", com.zeroc.Ice.OperationMode.Idempotent, sync, _iceE_getSurroundEffects);
+        com.zeroc.IceInternal.OutgoingAsync<java.util.List<SurroundEffect>> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getEffects", com.zeroc.Ice.OperationMode.Idempotent, sync, _iceE_getEffects);
         f.invoke(true, context, null, null, istr -> {
                      java.util.List<SurroundEffect> ret;
                      ret = SurroundEffectListHelper.read(istr);
@@ -68,25 +68,25 @@ public interface IHomeCinemaTVPrx extends ITelevisionPrx
     }
 
     /** @hidden */
-    static final Class<?>[] _iceE_getSurroundEffects =
+    static final Class<?>[] _iceE_getEffects =
     {
         NotEnabledException.class
     };
 
-    default boolean setSurroundEffect(SurroundEffect surroundEffect)
+    default boolean setEffect(SurroundEffect surroundEffect)
         throws NotEnabledException,
                TelevisionOperationException
     {
-        return setSurroundEffect(surroundEffect, com.zeroc.Ice.ObjectPrx.noExplicitContext);
+        return setEffect(surroundEffect, com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default boolean setSurroundEffect(SurroundEffect surroundEffect, java.util.Map<String, String> context)
+    default boolean setEffect(SurroundEffect surroundEffect, java.util.Map<String, String> context)
         throws NotEnabledException,
                TelevisionOperationException
     {
         try
         {
-            return _iceI_setSurroundEffectAsync(surroundEffect, context, true).waitForResponseOrUserEx();
+            return _iceI_setEffectAsync(surroundEffect, context, true).waitForResponseOrUserEx();
         }
         catch(NotEnabledException ex)
         {
@@ -102,14 +102,14 @@ public interface IHomeCinemaTVPrx extends ITelevisionPrx
         }
     }
 
-    default java.util.concurrent.CompletableFuture<java.lang.Boolean> setSurroundEffectAsync(SurroundEffect surroundEffect)
+    default java.util.concurrent.CompletableFuture<java.lang.Boolean> setEffectAsync(SurroundEffect surroundEffect)
     {
-        return _iceI_setSurroundEffectAsync(surroundEffect, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+        return _iceI_setEffectAsync(surroundEffect, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<java.lang.Boolean> setSurroundEffectAsync(SurroundEffect surroundEffect, java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<java.lang.Boolean> setEffectAsync(SurroundEffect surroundEffect, java.util.Map<String, String> context)
     {
-        return _iceI_setSurroundEffectAsync(surroundEffect, context, false);
+        return _iceI_setEffectAsync(surroundEffect, context, false);
     }
 
     /**
@@ -119,9 +119,9 @@ public interface IHomeCinemaTVPrx extends ITelevisionPrx
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<java.lang.Boolean> _iceI_setSurroundEffectAsync(SurroundEffect iceP_surroundEffect, java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<java.lang.Boolean> _iceI_setEffectAsync(SurroundEffect iceP_surroundEffect, java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<java.lang.Boolean> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "setSurroundEffect", null, sync, _iceE_setSurroundEffect);
+        com.zeroc.IceInternal.OutgoingAsync<java.lang.Boolean> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "setEffect", null, sync, _iceE_setEffect);
         f.invoke(true, context, null, ostr -> {
                      SurroundEffect.ice_write(ostr, iceP_surroundEffect);
                  }, istr -> {
@@ -133,26 +133,26 @@ public interface IHomeCinemaTVPrx extends ITelevisionPrx
     }
 
     /** @hidden */
-    static final Class<?>[] _iceE_setSurroundEffect =
+    static final Class<?>[] _iceE_setEffect =
     {
         NotEnabledException.class,
         TelevisionOperationException.class
     };
 
-    default SurroundEffect getCurrentSurroundEffect()
+    default SurroundEffect getCurrentEffect()
         throws NotEnabledException,
                SurroundEffectException
     {
-        return getCurrentSurroundEffect(com.zeroc.Ice.ObjectPrx.noExplicitContext);
+        return getCurrentEffect(com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default SurroundEffect getCurrentSurroundEffect(java.util.Map<String, String> context)
+    default SurroundEffect getCurrentEffect(java.util.Map<String, String> context)
         throws NotEnabledException,
                SurroundEffectException
     {
         try
         {
-            return _iceI_getCurrentSurroundEffectAsync(context, true).waitForResponseOrUserEx();
+            return _iceI_getCurrentEffectAsync(context, true).waitForResponseOrUserEx();
         }
         catch(NotEnabledException ex)
         {
@@ -168,14 +168,14 @@ public interface IHomeCinemaTVPrx extends ITelevisionPrx
         }
     }
 
-    default java.util.concurrent.CompletableFuture<SurroundEffect> getCurrentSurroundEffectAsync()
+    default java.util.concurrent.CompletableFuture<SurroundEffect> getCurrentEffectAsync()
     {
-        return _iceI_getCurrentSurroundEffectAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+        return _iceI_getCurrentEffectAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<SurroundEffect> getCurrentSurroundEffectAsync(java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<SurroundEffect> getCurrentEffectAsync(java.util.Map<String, String> context)
     {
-        return _iceI_getCurrentSurroundEffectAsync(context, false);
+        return _iceI_getCurrentEffectAsync(context, false);
     }
 
     /**
@@ -184,9 +184,9 @@ public interface IHomeCinemaTVPrx extends ITelevisionPrx
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<SurroundEffect> _iceI_getCurrentSurroundEffectAsync(java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<SurroundEffect> _iceI_getCurrentEffectAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<SurroundEffect> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getCurrentSurroundEffect", com.zeroc.Ice.OperationMode.Idempotent, sync, _iceE_getCurrentSurroundEffect);
+        com.zeroc.IceInternal.OutgoingAsync<SurroundEffect> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getCurrentEffect", com.zeroc.Ice.OperationMode.Idempotent, sync, _iceE_getCurrentEffect);
         f.invoke(true, context, null, null, istr -> {
                      SurroundEffect ret;
                      ret = SurroundEffect.ice_read(istr);
@@ -196,24 +196,24 @@ public interface IHomeCinemaTVPrx extends ITelevisionPrx
     }
 
     /** @hidden */
-    static final Class<?>[] _iceE_getCurrentSurroundEffect =
+    static final Class<?>[] _iceE_getCurrentEffect =
     {
         NotEnabledException.class,
         SurroundEffectException.class
     };
 
-    default void disableSurroundSound()
+    default void disableSound()
         throws NotEnabledException
     {
-        disableSurroundSound(com.zeroc.Ice.ObjectPrx.noExplicitContext);
+        disableSound(com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default void disableSurroundSound(java.util.Map<String, String> context)
+    default void disableSound(java.util.Map<String, String> context)
         throws NotEnabledException
     {
         try
         {
-            _iceI_disableSurroundSoundAsync(context, true).waitForResponseOrUserEx();
+            _iceI_disableSoundAsync(context, true).waitForResponseOrUserEx();
         }
         catch(NotEnabledException ex)
         {
@@ -225,14 +225,14 @@ public interface IHomeCinemaTVPrx extends ITelevisionPrx
         }
     }
 
-    default java.util.concurrent.CompletableFuture<Void> disableSurroundSoundAsync()
+    default java.util.concurrent.CompletableFuture<Void> disableSoundAsync()
     {
-        return _iceI_disableSurroundSoundAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+        return _iceI_disableSoundAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<Void> disableSurroundSoundAsync(java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<Void> disableSoundAsync(java.util.Map<String, String> context)
     {
-        return _iceI_disableSurroundSoundAsync(context, false);
+        return _iceI_disableSoundAsync(context, false);
     }
 
     /**
@@ -241,15 +241,15 @@ public interface IHomeCinemaTVPrx extends ITelevisionPrx
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_disableSurroundSoundAsync(java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_disableSoundAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "disableSurroundSound", com.zeroc.Ice.OperationMode.Idempotent, sync, _iceE_disableSurroundSound);
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "disableSound", com.zeroc.Ice.OperationMode.Idempotent, sync, _iceE_disableSound);
         f.invoke(true, context, null, null, null);
         return f;
     }
 
     /** @hidden */
-    static final Class<?>[] _iceE_disableSurroundSound =
+    static final Class<?>[] _iceE_disableSound =
     {
         NotEnabledException.class
     };

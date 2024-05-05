@@ -2,7 +2,7 @@
 const deviceCommands = async (command, stub) => {
     try {
         switch (command) {
-            case 'getState':
+            case 'getStatus':
                 try{
                     const state = String(await stub.getStatus());
                     console.log(`Device state: ${state}`);

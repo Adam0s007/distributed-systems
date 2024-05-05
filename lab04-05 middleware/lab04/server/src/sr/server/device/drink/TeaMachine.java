@@ -28,7 +28,7 @@ public class TeaMachine extends DrinksMachine implements ITeaMachine {
         System.out.println("Method TeaMachine.makeTea with args " + tea.type + ", " + tea.amountOfLeaves + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
 
         MachineTeaInfo teaInfo = teaInventory.get(tea.type);
-        if (teaInfo == null || tea.amountOfLeaves > teaInfo.currentAmountOfLeaves) {
+        if (teaInfo == null || tea.amountOfLeaves > teaInfo.currentAmountOfLeaves || tea.amountOfLeaves <= 0) {
             throw new ResourceLimitException("Insufficient tea leaves to make the requested tea", "makeTea");
         }
         super.makeHotWater(100, current);
@@ -51,6 +51,9 @@ public class TeaMachine extends DrinksMachine implements ITeaMachine {
         MachineTeaInfo teaInfo = teaInventory.get(type);
         if (teaInfo == null || amount + teaInfo.currentAmountOfLeaves > teaInfo.maxAmountOfLeaves) {
             throw new TeaLeafCapacityException("Tea leaves tank is full or type is incorrect", "addTeaLeavesOfType");
+        }
+        if(amount < 0) {
+            throw new TeaLeafCapacityException("Amount of tea leaves must be positive", "addTeaLeavesOfType");
         }
 
         try {

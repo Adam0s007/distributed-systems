@@ -13,7 +13,7 @@ const outdoorTelevisionHandler = async (name, communicator) => {
 
 
     listAvailableMethods(stub);
-    const command = prompt('>');
+    const command = prompt('method >');
     if(await handleDeviceCommands(command, stub))return;
     if(await handleTelevisionCommands(command, stub)) return;
     if(await handleOutdoorTelevision(command, stub))return;

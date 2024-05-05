@@ -26,27 +26,27 @@ public class HomeCinemaTV extends Television implements IHomeCinemaTV {
     }
 
     @Override
-    public List<SurroundEffect> getSurroundEffects(Current current) throws NotEnabledException {
+    public List<SurroundEffect> getEffects(Current current) throws NotEnabledException {
         this.isTurnedOn(current);
-        System.out.println("Method HomeCinemaTV.getSurroundEffects with no args, current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
+        System.out.println("Method HomeCinemaTV.getEffects with no args, current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
         return this.surroundEffects;
     }
 
     @Override
-    public SurroundEffect getCurrentSurroundEffect(Current current) throws SurroundEffectException,NotEnabledException{
+    public SurroundEffect getCurrentEffect(Current current) throws SurroundEffectException,NotEnabledException{
         this.isTurnedOn(current);
-        System.out.println("Method HomeCinemaTV.getCurrentSurroundEffect with no args, current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
+        System.out.println("Method HomeCinemaTV.getCurrentEffect with no args, current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
         if (this.currentEffect.surroundSound.equals("Off")) {
-            throw new SurroundEffectException("Surround sound is currently disabled.", "getCurrentSurroundEffect");
+            throw new SurroundEffectException("Surround sound is currently disabled.", "getCurrentEffect");
         }
         return currentEffect;
     }
 
 
     @Override
-    public boolean setSurroundEffect(SurroundEffect surroundEffect,Current current) throws SurroundEffectException,NotEnabledException {
+    public boolean setEffect(SurroundEffect surroundEffect,Current current) throws SurroundEffectException,NotEnabledException {
         this.isTurnedOn(current);
-        System.out.println("Method HomeCinemaTV.setSurroundEffect with args " + surroundEffect.surroundSound + ", " + surroundEffect.pictureMode + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
+        System.out.println("Method HomeCinemaTV.setEffect with args " + surroundEffect.surroundSound + ", " + surroundEffect.pictureMode + ", current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
         String surroundSound = surroundEffect.surroundSound;
         String pictureMode = surroundEffect.pictureMode;
         Optional<SurroundEffect> effect = surroundEffects.stream()
@@ -60,9 +60,9 @@ public class HomeCinemaTV extends Television implements IHomeCinemaTV {
         return true;
     }
     @Override
-    public void disableSurroundSound(Current current) throws NotEnabledException{
+    public void disableSound(Current current) throws NotEnabledException{
         this.isTurnedOn(current);
-        System.out.println("Method HomeCinemaTV.disableSurroundSound with no args, current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
+        System.out.println("Method HomeCinemaTV.disableSound with no args, current.id.name: " + current.id.name + ", current.id.category: " + current.id.category);
         currentEffect = new SurroundEffect("Off", "Standard");
     }
 

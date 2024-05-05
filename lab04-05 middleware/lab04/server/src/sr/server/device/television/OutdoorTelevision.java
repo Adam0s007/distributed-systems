@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 public class OutdoorTelevision extends Television implements IOutdoorTelevision {
     int brightnessLevel = 50;
     boolean waterproofMode = false;
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     public OutdoorTelevision(DeviceInfo deviceInfo) {
         super(deviceInfo);
     }
@@ -24,7 +23,7 @@ public class OutdoorTelevision extends Television implements IOutdoorTelevision 
             throw new BrightnessAdjustmentException("Brightness level must be between 0 and 100","setBrightness");
         }
         //simulate brightness adjustment
-
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         try {
             scheduler.scheduleAtFixedRate(() -> {
                 if (this.brightnessLevel != level) {
@@ -49,7 +48,7 @@ public class OutdoorTelevision extends Television implements IOutdoorTelevision 
             throw new TelevisionOperationException("Waterproof mode is already " + (enable ? "enabled" : "disabled"), "waterproofMode");
         }
         this.waterproofMode = enable;
-        return true;
+        return enable;
     }
 
     @Override

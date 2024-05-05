@@ -812,21 +812,21 @@
 
     Slice.defineOperations(SmartHome.IHomeCinemaTV, SmartHome.IHomeCinemaTVPrx, iceC_SmartHome_IHomeCinemaTV_ids, 2,
     {
-        "getSurroundEffects": [, 2, 2, , ["SmartHome.SurroundEffectListHelper"], , ,
+        "getEffects": [, 2, 2, , ["SmartHome.SurroundEffectListHelper"], , ,
         [
             SmartHome.NotEnabledException
         ], , ],
-        "setSurroundEffect": [, , , , [1], [[SmartHome.SurroundEffect]], ,
+        "setEffect": [, , , , [1], [[SmartHome.SurroundEffect]], ,
         [
             SmartHome.NotEnabledException,
             SmartHome.TelevisionOperationException
         ], , ],
-        "getCurrentSurroundEffect": [, 2, 2, , [SmartHome.SurroundEffect], , ,
+        "getCurrentEffect": [, 2, 2, , [SmartHome.SurroundEffect], , ,
         [
             SmartHome.NotEnabledException,
             SmartHome.SurroundEffectException
         ], , ],
-        "disableSurroundSound": [, 2, 2, , , , ,
+        "disableSound": [, 2, 2, , , , ,
         [
             SmartHome.NotEnabledException
         ], , ]

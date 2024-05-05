@@ -24,6 +24,9 @@ public class DrinksMachine extends Device implements IDrinksMachine {
         if(amount > waterCapacity) {
             throw new WaterCapacityException("Not enough water in the tank", "makeHotWater");
         }
+        if(amount < 0) {
+            throw new WaterCapacityException("Amount of water must be positive", "makeHotWater");
+        }
         try {
             Thread.sleep(1200);
             this.waterCapacity -= amount;
@@ -43,6 +46,9 @@ public class DrinksMachine extends Device implements IDrinksMachine {
         if(amount > waterCapacity) {
             throw new WaterCapacityException("Not enough water in the tank", "makeColdWater");
         }
+        if(amount < 0) {
+            throw new WaterCapacityException("Amount of water must be positive", "makeColdWater");
+        }
         try {
             Thread.sleep(1200);
             this.waterCapacity -= amount;
@@ -61,6 +67,9 @@ public class DrinksMachine extends Device implements IDrinksMachine {
         if(amount + waterCapacity > this.MAX_WATER_CAPACITY) {
             throw new WaterCapacityException("Water tank is full", "addWater");
         }
+        if(amount < 0) {
+            throw new WaterCapacityException("Amount of water must be positive", "addWater");
+        }
         try {
             Thread.sleep(1200);
             this.waterCapacity += amount;
@@ -77,6 +86,9 @@ public class DrinksMachine extends Device implements IDrinksMachine {
 
         if(amount + sugarCapacity > this.MAX_SUGAR_CAPACITY) {
             throw new SugarCapacityException("Sugar tank is full", "addSugar");
+        }
+        if(amount < 0) {
+            throw new SugarCapacityException("Amount of sugar must be positive", "addSugar");
         }
         try {
             Thread.sleep(1200);

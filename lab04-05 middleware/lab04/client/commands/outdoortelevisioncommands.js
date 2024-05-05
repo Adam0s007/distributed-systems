@@ -16,8 +16,10 @@ const outdoorTelevisionCommands = async (command, stub) => {
         case 'waterproofMode':
             const enable = prompt('Enable waterproof mode? (yes/no): ').toLowerCase() === 'yes';
             try {
-                await stub.waterproofMode(enable);
-                console.log('Waterproof mode enabled.');
+                const isEnabled = await stub.waterproofMode(enable);
+                console.log(isEnabled);
+                if (isEnabled) console.log('Waterproof mode enabled.');
+                else console.log('Waterproof mode disabled.');
             } catch (error) {
                 console.log(error.message);
             }

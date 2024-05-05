@@ -135,10 +135,10 @@ module SmartHome {
     sequence<SurroundEffect> SurroundEffectList;
 
     interface IHomeCinemaTV extends ITelevision {
-            idempotent SurroundEffectList getSurroundEffects() throws NotEnabledException;
-            bool setSurroundEffect(SurroundEffect surroundEffect) throws NotEnabledException,TelevisionOperationException;
-            idempotent SurroundEffect getCurrentSurroundEffect() throws NotEnabledException,SurroundEffectException;
-            idempotent void disableSurroundSound() throws NotEnabledException;
+            idempotent SurroundEffectList getEffects() throws NotEnabledException;
+            bool setEffect(SurroundEffect surroundEffect) throws NotEnabledException,TelevisionOperationException;
+            idempotent SurroundEffect getCurrentEffect() throws NotEnabledException,SurroundEffectException;
+            idempotent void disableSound() throws NotEnabledException;
         };
 
     interface IOutdoorTelevision extends ITelevision {
@@ -154,7 +154,7 @@ module SmartHome {
         CoffeeType type;
         int milkAmount;
     };
-    ["java:type:java.util.ArrayList<Coffee>"]
+    ["java:type:java.util.LinkedList<Coffee>"]
     sequence <Coffee> CoffeeList;
 
     enum TeaType { Black, Green, Herbal, Oolong };

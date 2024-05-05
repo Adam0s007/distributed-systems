@@ -3,10 +3,7 @@ package server.device.drink;
 import SmartHome.*;
 import com.zeroc.Ice.Current;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
 
@@ -24,17 +21,12 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
         super(deviceInfo);
         this.coffeeBeansCapacity = 0;
         this.milkCapacity = 0;
-        this.coffeeList = Arrays.asList(
-                new Coffee(CoffeeStrength.Light, CoffeeType.Latte, 100),
-                new Coffee(CoffeeStrength.Medium, CoffeeType.Cappuccino, 40),
-                new Coffee(CoffeeStrength.Strong, CoffeeType.Espresso, 0),
-                new Coffee(CoffeeStrength.Strong, CoffeeType.Americano, 20)
-        );
+        this.coffeeList = new LinkedList<>();
         this.coffeeMapper = new HashMap<>();
-        this.coffeeMapper.put(CoffeeType.Latte, 100);
-        this.coffeeMapper.put(CoffeeType.Cappuccino, 60);
-        this.coffeeMapper.put(CoffeeType.Espresso, 40);
-        this.coffeeMapper.put(CoffeeType.Americano, 20);
+        this.coffeeMapper.put(CoffeeType.Latte, 20);
+        this.coffeeMapper.put(CoffeeType.Cappuccino, 40);
+        this.coffeeMapper.put(CoffeeType.Espresso, 80);
+        this.coffeeMapper.put(CoffeeType.Americano, 60);
 
         this.strengthModifiers = new HashMap<>();
         this.strengthModifiers.put(CoffeeStrength.Light, -0.2);  // 20% less beans
@@ -59,6 +51,9 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
         CoffeeStrength strength = coffee.strength;
         if(coffee.milkAmount > milkCapacity){
             throw new ResourceLimitException("Not enough milk in the tank", "makeCoffee");
+        }
+        if(coffee.milkAmount < 0){
+            throw new ResourceLimitException("Amount of milk must be positive", "makeCoffee");
         }
         int coffeeBeansAmount = coffeeMapper(type, strength);
         if(coffeeBeansAmount > coffeeBeansCapacity){
@@ -129,5 +124,13 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
     @Override
     public void isTurnedOn(Current current) throws NotEnabledException {
         super.isTurnedOn(current);
+    }
+
+    @Override
+    public DeviceStatus turnOff(Current current) throws DeviceOperationException {
+        if(this.coffeeList.size() >= 7){
+            this.coffeeList = this.coffeeList.subList(0,7);
+        }
+        return super.turnOff(current);
     }
 }

@@ -17,18 +17,18 @@ package SmartHome;
 
 public interface IHomeCinemaTV extends ITelevision
 {
-    java.util.List<SurroundEffect> getSurroundEffects(com.zeroc.Ice.Current current)
+    java.util.List<SurroundEffect> getEffects(com.zeroc.Ice.Current current)
         throws NotEnabledException;
 
-    boolean setSurroundEffect(SurroundEffect surroundEffect, com.zeroc.Ice.Current current)
+    boolean setEffect(SurroundEffect surroundEffect, com.zeroc.Ice.Current current)
         throws NotEnabledException,
                TelevisionOperationException;
 
-    SurroundEffect getCurrentSurroundEffect(com.zeroc.Ice.Current current)
+    SurroundEffect getCurrentEffect(com.zeroc.Ice.Current current)
         throws NotEnabledException,
                SurroundEffectException;
 
-    void disableSurroundSound(com.zeroc.Ice.Current current)
+    void disableSound(com.zeroc.Ice.Current current)
         throws NotEnabledException;
 
     /** @hidden */
@@ -65,12 +65,12 @@ public interface IHomeCinemaTV extends ITelevision
      * @return -
      * @throws com.zeroc.Ice.UserException -
     **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getSurroundEffects(IHomeCinemaTV obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getEffects(IHomeCinemaTV obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
         throws com.zeroc.Ice.UserException
     {
         com.zeroc.Ice.Object._iceCheckMode(com.zeroc.Ice.OperationMode.Idempotent, current.mode);
         inS.readEmptyParams();
-        java.util.List<SurroundEffect> ret = obj.getSurroundEffects(current);
+        java.util.List<SurroundEffect> ret = obj.getEffects(current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
         SurroundEffectListHelper.write(ostr, ret);
         inS.endWriteParams(ostr);
@@ -85,7 +85,7 @@ public interface IHomeCinemaTV extends ITelevision
      * @return -
      * @throws com.zeroc.Ice.UserException -
     **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_setSurroundEffect(IHomeCinemaTV obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_setEffect(IHomeCinemaTV obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
         throws com.zeroc.Ice.UserException
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
@@ -93,7 +93,7 @@ public interface IHomeCinemaTV extends ITelevision
         SurroundEffect iceP_surroundEffect;
         iceP_surroundEffect = SurroundEffect.ice_read(istr);
         inS.endReadParams();
-        boolean ret = obj.setSurroundEffect(iceP_surroundEffect, current);
+        boolean ret = obj.setEffect(iceP_surroundEffect, current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
         ostr.writeBool(ret);
         inS.endWriteParams(ostr);
@@ -108,12 +108,12 @@ public interface IHomeCinemaTV extends ITelevision
      * @return -
      * @throws com.zeroc.Ice.UserException -
     **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getCurrentSurroundEffect(IHomeCinemaTV obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getCurrentEffect(IHomeCinemaTV obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
         throws com.zeroc.Ice.UserException
     {
         com.zeroc.Ice.Object._iceCheckMode(com.zeroc.Ice.OperationMode.Idempotent, current.mode);
         inS.readEmptyParams();
-        SurroundEffect ret = obj.getCurrentSurroundEffect(current);
+        SurroundEffect ret = obj.getCurrentEffect(current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
         SurroundEffect.ice_write(ostr, ret);
         inS.endWriteParams(ostr);
@@ -128,32 +128,32 @@ public interface IHomeCinemaTV extends ITelevision
      * @return -
      * @throws com.zeroc.Ice.UserException -
     **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_disableSurroundSound(IHomeCinemaTV obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_disableSound(IHomeCinemaTV obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
         throws com.zeroc.Ice.UserException
     {
         com.zeroc.Ice.Object._iceCheckMode(com.zeroc.Ice.OperationMode.Idempotent, current.mode);
         inS.readEmptyParams();
-        obj.disableSurroundSound(current);
+        obj.disableSound(current);
         return inS.setResult(inS.writeEmptyParams());
     }
 
     /** @hidden */
     final static String[] _iceOps =
     {
-        "disableSurroundSound",
+        "disableSound",
         "getChannelList",
         "getCurrentChannel",
-        "getCurrentSurroundEffect",
+        "getCurrentEffect",
         "getDetails",
+        "getEffects",
         "getStatus",
-        "getSurroundEffects",
         "ice_id",
         "ice_ids",
         "ice_isA",
         "ice_ping",
         "isTurnedOn",
         "setChannel",
-        "setSurroundEffect",
+        "setEffect",
         "turnOff",
         "turnOn"
     };
@@ -173,7 +173,7 @@ public interface IHomeCinemaTV extends ITelevision
         {
             case 0:
             {
-                return _iceD_disableSurroundSound(this, in, current);
+                return _iceD_disableSound(this, in, current);
             }
             case 1:
             {
@@ -185,7 +185,7 @@ public interface IHomeCinemaTV extends ITelevision
             }
             case 3:
             {
-                return _iceD_getCurrentSurroundEffect(this, in, current);
+                return _iceD_getCurrentEffect(this, in, current);
             }
             case 4:
             {
@@ -193,11 +193,11 @@ public interface IHomeCinemaTV extends ITelevision
             }
             case 5:
             {
-                return IDevice._iceD_getStatus(this, in, current);
+                return _iceD_getEffects(this, in, current);
             }
             case 6:
             {
-                return _iceD_getSurroundEffects(this, in, current);
+                return IDevice._iceD_getStatus(this, in, current);
             }
             case 7:
             {
@@ -225,7 +225,7 @@ public interface IHomeCinemaTV extends ITelevision
             }
             case 13:
             {
-                return _iceD_setSurroundEffect(this, in, current);
+                return _iceD_setEffect(this, in, current);
             }
             case 14:
             {

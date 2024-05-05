@@ -39,7 +39,7 @@ public final class CoffeeListHelper
     public static java.util.List<Coffee> read(com.zeroc.Ice.InputStream istr)
     {
         final java.util.List<Coffee> v;
-        v = new java.util.ArrayList<Coffee>();
+        v = new java.util.LinkedList<Coffee>();
         final int len0 = istr.readAndCheckSeqSize(6);
         for(int i0 = 0; i0 < len0; i0++)
         {

@@ -11,7 +11,7 @@ const televisionHandler = async (name, communicator) => {
     if(!stub)return;
     
     listAvailableMethods(stub);
-    const command = prompt('>');
+    const command = prompt('method >');
     if(await handleDeviceCommands(command, stub))return;
     if(await handleTelevisionCommands(command, stub))return;
     console.log("Unknown command")
