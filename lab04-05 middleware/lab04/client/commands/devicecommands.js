@@ -34,7 +34,15 @@ const deviceCommands = async (command, stub) => {
                 } catch(e) {
                     console.log(e.message);
                 }
-                return true;;
+                return true;
+            case 'isTurnedOn':
+                try{
+                await stub.isTurnedOn();
+                console.log(`Device is turned on.`);
+                } catch(e) {
+                    console.log(e.message);
+                }
+                return true;
         }
     } catch (error) {
         console.log('Error handling device command:', error.message);

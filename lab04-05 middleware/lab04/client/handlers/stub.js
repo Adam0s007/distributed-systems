@@ -50,5 +50,20 @@ const clearStub = (name) => {
     }
 }
 
+
+
+// Ta funkcja przyjmuje stub (proxy object) i wyświetla wszystkie jego metody
+function listAvailableMethods(stub) {
+    if (!stub) {
+        console.log("No stub provided.");
+        return;
+    }
+    const availableMethods = Object.keys(Object.getPrototypeOf(stub))
+                                   .filter(key => typeof stub[key] === 'function');
+    const methodsList = availableMethods.join(', ');
+    console.log("Commands:\n", methodsList);
+}
+
 exports.stubHandler = stubHandler;
 exports.clearStub = clearStub;
+exports.listAvailableMethods = listAvailableMethods;

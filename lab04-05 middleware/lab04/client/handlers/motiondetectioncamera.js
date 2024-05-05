@@ -1,6 +1,7 @@
 
 const { SmartHome } = require('../generated/smarthome');
 const stubHandler = require('./stub').stubHandler;
+const listAvailableMethods = require('./stub').listAvailableMethods;
 const handleDeviceCommands = require('../commands/devicecommands');
 const handleCameraCommands = require('../commands/cameracommands');
 const handleMotionDetectionCameraCommands = require('../commands/motiondetectioncameracommand');
@@ -10,7 +11,8 @@ const motionDetectionCameraHandler = async (name, communicator) => {
     const stub = await stubHandler(name, communicator);
     if(!stub)return;
 
-    const command = prompt('Commands: getState, getDetails, turnOn, turnOff, getCameraMode, setCameraMode, enableMotionDetection, disableMotionDetection: ');
+    listAvailableMethods(stub);
+    const command = prompt('>');
     if(await handleDeviceCommands(command, stub)) return;
     if(await handleCameraCommands(command, stub)) return;
     if(await handleMotionDetectionCameraCommands(command, stub))return;
