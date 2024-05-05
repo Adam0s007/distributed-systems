@@ -1,19 +1,14 @@
-package server.device;
+package main.device;
 
-import SmartHome.DeviceOperationException;
-import SmartHome.DeviceStatus;
-import SmartHome.IDevice;
-import SmartHome.SmarthomeException;
-import SmartHome.DeviceInfo;
-import SmartHome.NotEnabledException;
+import SmartHome.*;
 import com.zeroc.Ice.Current;
 
 public class Device implements IDevice {
-    private DeviceInfo deviceInfo;
+    private DeviceDetails deviceInfo;
 
     private DeviceStatus status;
 
-    public Device(DeviceInfo deviceInfo) {
+    public Device(DeviceDetails deviceInfo) {
         this.deviceInfo = deviceInfo;
         this.status = DeviceStatus.Disabled;
     }

@@ -17,22 +17,22 @@ package SmartHome;
 
 public interface ISmartHomePrx extends com.zeroc.Ice.ObjectPrx
 {
-    default java.util.List<DeviceInfo> getDevices()
+    default java.util.List<DeviceDetails> getDevices()
     {
         return getDevices(com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default java.util.List<DeviceInfo> getDevices(java.util.Map<String, String> context)
+    default java.util.List<DeviceDetails> getDevices(java.util.Map<String, String> context)
     {
         return _iceI_getDevicesAsync(context, true).waitForResponse();
     }
 
-    default java.util.concurrent.CompletableFuture<java.util.List<DeviceInfo>> getDevicesAsync()
+    default java.util.concurrent.CompletableFuture<java.util.List<DeviceDetails>> getDevicesAsync()
     {
         return _iceI_getDevicesAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<java.util.List<DeviceInfo>> getDevicesAsync(java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<java.util.List<DeviceDetails>> getDevicesAsync(java.util.Map<String, String> context)
     {
         return _iceI_getDevicesAsync(context, false);
     }
@@ -43,33 +43,33 @@ public interface ISmartHomePrx extends com.zeroc.Ice.ObjectPrx
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<java.util.List<DeviceInfo>> _iceI_getDevicesAsync(java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<java.util.List<DeviceDetails>> _iceI_getDevicesAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<java.util.List<DeviceInfo>> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getDevices", com.zeroc.Ice.OperationMode.Idempotent, sync, null);
+        com.zeroc.IceInternal.OutgoingAsync<java.util.List<DeviceDetails>> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getDevices", com.zeroc.Ice.OperationMode.Idempotent, sync, null);
         f.invoke(true, context, null, null, istr -> {
-                     java.util.List<DeviceInfo> ret;
+                     java.util.List<DeviceDetails> ret;
                      ret = DeviceListHelper.read(istr);
                      return ret;
                  });
         return f;
     }
 
-    default DeviceInfo getDeviceByName(String name)
+    default DeviceDetails getDeviceByName(String name)
     {
         return getDeviceByName(name, com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default DeviceInfo getDeviceByName(String name, java.util.Map<String, String> context)
+    default DeviceDetails getDeviceByName(String name, java.util.Map<String, String> context)
     {
         return _iceI_getDeviceByNameAsync(name, context, true).waitForResponse();
     }
 
-    default java.util.concurrent.CompletableFuture<DeviceInfo> getDeviceByNameAsync(String name)
+    default java.util.concurrent.CompletableFuture<DeviceDetails> getDeviceByNameAsync(String name)
     {
         return _iceI_getDeviceByNameAsync(name, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<DeviceInfo> getDeviceByNameAsync(String name, java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<DeviceDetails> getDeviceByNameAsync(String name, java.util.Map<String, String> context)
     {
         return _iceI_getDeviceByNameAsync(name, context, false);
     }
@@ -81,35 +81,35 @@ public interface ISmartHomePrx extends com.zeroc.Ice.ObjectPrx
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<DeviceInfo> _iceI_getDeviceByNameAsync(String iceP_name, java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<DeviceDetails> _iceI_getDeviceByNameAsync(String iceP_name, java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<DeviceInfo> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getDeviceByName", com.zeroc.Ice.OperationMode.Idempotent, sync, null);
+        com.zeroc.IceInternal.OutgoingAsync<DeviceDetails> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getDeviceByName", com.zeroc.Ice.OperationMode.Idempotent, sync, null);
         f.invoke(true, context, null, ostr -> {
                      ostr.writeString(iceP_name);
                  }, istr -> {
-                     DeviceInfo ret;
-                     ret = DeviceInfo.ice_read(istr);
+                     DeviceDetails ret;
+                     ret = DeviceDetails.ice_read(istr);
                      return ret;
                  });
         return f;
     }
 
-    default java.util.List<DeviceInfo> getDevicesByServer(int server)
+    default java.util.List<DeviceDetails> getDevicesByServer(int server)
     {
         return getDevicesByServer(server, com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default java.util.List<DeviceInfo> getDevicesByServer(int server, java.util.Map<String, String> context)
+    default java.util.List<DeviceDetails> getDevicesByServer(int server, java.util.Map<String, String> context)
     {
         return _iceI_getDevicesByServerAsync(server, context, true).waitForResponse();
     }
 
-    default java.util.concurrent.CompletableFuture<java.util.List<DeviceInfo>> getDevicesByServerAsync(int server)
+    default java.util.concurrent.CompletableFuture<java.util.List<DeviceDetails>> getDevicesByServerAsync(int server)
     {
         return _iceI_getDevicesByServerAsync(server, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<java.util.List<DeviceInfo>> getDevicesByServerAsync(int server, java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<java.util.List<DeviceDetails>> getDevicesByServerAsync(int server, java.util.Map<String, String> context)
     {
         return _iceI_getDevicesByServerAsync(server, context, false);
     }
@@ -121,35 +121,35 @@ public interface ISmartHomePrx extends com.zeroc.Ice.ObjectPrx
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<java.util.List<DeviceInfo>> _iceI_getDevicesByServerAsync(int iceP_server, java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<java.util.List<DeviceDetails>> _iceI_getDevicesByServerAsync(int iceP_server, java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<java.util.List<DeviceInfo>> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getDevicesByServer", com.zeroc.Ice.OperationMode.Idempotent, sync, null);
+        com.zeroc.IceInternal.OutgoingAsync<java.util.List<DeviceDetails>> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getDevicesByServer", com.zeroc.Ice.OperationMode.Idempotent, sync, null);
         f.invoke(true, context, null, ostr -> {
                      ostr.writeInt(iceP_server);
                  }, istr -> {
-                     java.util.List<DeviceInfo> ret;
+                     java.util.List<DeviceDetails> ret;
                      ret = DeviceListHelper.read(istr);
                      return ret;
                  });
         return f;
     }
 
-    default DeviceInfo getDeviceByType(DeviceType type)
+    default DeviceDetails getDeviceByType(DeviceType type)
     {
         return getDeviceByType(type, com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default DeviceInfo getDeviceByType(DeviceType type, java.util.Map<String, String> context)
+    default DeviceDetails getDeviceByType(DeviceType type, java.util.Map<String, String> context)
     {
         return _iceI_getDeviceByTypeAsync(type, context, true).waitForResponse();
     }
 
-    default java.util.concurrent.CompletableFuture<DeviceInfo> getDeviceByTypeAsync(DeviceType type)
+    default java.util.concurrent.CompletableFuture<DeviceDetails> getDeviceByTypeAsync(DeviceType type)
     {
         return _iceI_getDeviceByTypeAsync(type, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<DeviceInfo> getDeviceByTypeAsync(DeviceType type, java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<DeviceDetails> getDeviceByTypeAsync(DeviceType type, java.util.Map<String, String> context)
     {
         return _iceI_getDeviceByTypeAsync(type, context, false);
     }
@@ -161,14 +161,14 @@ public interface ISmartHomePrx extends com.zeroc.Ice.ObjectPrx
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<DeviceInfo> _iceI_getDeviceByTypeAsync(DeviceType iceP_type, java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<DeviceDetails> _iceI_getDeviceByTypeAsync(DeviceType iceP_type, java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<DeviceInfo> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getDeviceByType", com.zeroc.Ice.OperationMode.Idempotent, sync, null);
+        com.zeroc.IceInternal.OutgoingAsync<DeviceDetails> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getDeviceByType", com.zeroc.Ice.OperationMode.Idempotent, sync, null);
         f.invoke(true, context, null, ostr -> {
                      DeviceType.ice_write(ostr, iceP_type);
                  }, istr -> {
-                     DeviceInfo ret;
-                     ret = DeviceInfo.ice_read(istr);
+                     DeviceDetails ret;
+                     ret = DeviceDetails.ice_read(istr);
                      return ret;
                  });
         return f;

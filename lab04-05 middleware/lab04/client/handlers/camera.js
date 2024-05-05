@@ -1,5 +1,4 @@
 
-const { SmartHome } = require('../generated/smarthome');
 const stubHandler = require('./stub').stubHandler;
 const handleDeviceCommands = require('../commands/devicecommands');
 const handleCameraCommands = require('../commands/cameracommands');

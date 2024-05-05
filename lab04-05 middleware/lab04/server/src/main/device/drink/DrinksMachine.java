@@ -1,8 +1,8 @@
-package server.device.drink;
+package main.device.drink;
 
 import SmartHome.*;
 import com.zeroc.Ice.Current;
-import server.device.Device;
+import main.device.Device;
 
 public class DrinksMachine extends Device implements IDrinksMachine {
 
@@ -11,8 +11,8 @@ public class DrinksMachine extends Device implements IDrinksMachine {
     private final int MAX_WATER_CAPACITY = 1000;
     private final int MAX_SUGAR_CAPACITY = 100;
 
-    public DrinksMachine(DeviceInfo deviceInfo) {
-        super(deviceInfo);
+    public DrinksMachine(DeviceDetails deviceDetails) {
+        super(deviceDetails);
         this.sugarCapacity = 0;
         this.waterCapacity = 0;
     }

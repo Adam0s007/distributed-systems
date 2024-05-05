@@ -20,7 +20,7 @@ package SmartHome;
  **/
 public final class DeviceListHelper
 {
-    public static void write(com.zeroc.Ice.OutputStream ostr, java.util.List<DeviceInfo> v)
+    public static void write(com.zeroc.Ice.OutputStream ostr, java.util.List<DeviceDetails> v)
     {
         if(v == null)
         {
@@ -29,28 +29,28 @@ public final class DeviceListHelper
         else
         {
             ostr.writeSize(v.size());
-            for(DeviceInfo elem : v)
+            for(DeviceDetails elem : v)
             {
-                DeviceInfo.ice_write(ostr, elem);
+                DeviceDetails.ice_write(ostr, elem);
             }
         }
     }
 
-    public static java.util.List<DeviceInfo> read(com.zeroc.Ice.InputStream istr)
+    public static java.util.List<DeviceDetails> read(com.zeroc.Ice.InputStream istr)
     {
-        final java.util.List<DeviceInfo> v;
-        v = new java.util.ArrayList<DeviceInfo>();
+        final java.util.List<DeviceDetails> v;
+        v = new java.util.ArrayList<DeviceDetails>();
         final int len0 = istr.readAndCheckSeqSize(6);
         for(int i0 = 0; i0 < len0; i0++)
         {
-            DeviceInfo elem;
-            elem = DeviceInfo.ice_read(istr);
+            DeviceDetails elem;
+            elem = DeviceDetails.ice_read(istr);
             v.add(elem);
         }
         return v;
     }
 
-    public static void write(com.zeroc.Ice.OutputStream ostr, int tag, java.util.Optional<java.util.List<DeviceInfo>> v)
+    public static void write(com.zeroc.Ice.OutputStream ostr, int tag, java.util.Optional<java.util.List<DeviceDetails>> v)
     {
         if(v != null && v.isPresent())
         {
@@ -58,7 +58,7 @@ public final class DeviceListHelper
         }
     }
 
-    public static void write(com.zeroc.Ice.OutputStream ostr, int tag, java.util.List<DeviceInfo> v)
+    public static void write(com.zeroc.Ice.OutputStream ostr, int tag, java.util.List<DeviceDetails> v)
     {
         if(ostr.writeOptional(tag, com.zeroc.Ice.OptionalFormat.FSize))
         {
@@ -68,12 +68,12 @@ public final class DeviceListHelper
         }
     }
 
-    public static java.util.Optional<java.util.List<DeviceInfo>> read(com.zeroc.Ice.InputStream istr, int tag)
+    public static java.util.Optional<java.util.List<DeviceDetails>> read(com.zeroc.Ice.InputStream istr, int tag)
     {
         if(istr.readOptional(tag, com.zeroc.Ice.OptionalFormat.FSize))
         {
             istr.skip(4);
-            java.util.List<DeviceInfo> v;
+            java.util.List<DeviceDetails> v;
             v = DeviceListHelper.read(istr);
             return java.util.Optional.of(v);
         }

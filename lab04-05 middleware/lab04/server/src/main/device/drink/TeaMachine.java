@@ -1,4 +1,4 @@
-package server.device.drink;
+package main.device.drink;
 
 import SmartHome.*;
 import com.zeroc.Ice.Current;
@@ -12,8 +12,8 @@ public class TeaMachine extends DrinksMachine implements ITeaMachine {
 
     private Map<TeaType, MachineTeaInfo> teaInventory;
 
-    public TeaMachine(DeviceInfo deviceInfo) {
-        super(deviceInfo);
+    public TeaMachine(DeviceDetails deviceDetails) {
+        super(deviceDetails);
         this.teaInventory = new HashMap<>();
 
         teaInventory.put(TeaType.Black, new MachineTeaInfo(TeaType.Black, 200, 0));

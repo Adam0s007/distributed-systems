@@ -1,4 +1,4 @@
-const { SmartHome } = require('../generated/smarthome');
+const { SmartHome }  = require("../gen/smarthome");
 const { devices, stubs } = require('../config');
 const servers = require("../config").servers;
 
@@ -50,9 +50,6 @@ const clearStub = (name) => {
     }
 }
 
-
-
-// Ta funkcja przyjmuje stub (proxy object) i wyświetla wszystkie jego metody
 function listAvailableMethods(stub) {
     if (!stub) {
         console.log("No stub provided.");

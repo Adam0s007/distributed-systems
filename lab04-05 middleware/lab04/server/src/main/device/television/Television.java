@@ -1,8 +1,8 @@
-package server.device.television;
+package main.device.television;
 
 import SmartHome.*;
 import com.zeroc.Ice.Current;
-import server.device.Device;
+import main.device.Device;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,8 +10,8 @@ import java.util.List;
 public class Television extends Device implements ITelevision {
     private int currentChannel;
     private List<TVChannel> channelList;
-    public Television(DeviceInfo deviceInfo) {
-        super(deviceInfo);
+    public Television(DeviceDetails deviceDetails) {
+        super(deviceDetails);
         this.currentChannel = 0;
         this.channelList = Arrays.asList(
                 new TVChannel("CNN", "24-hour news channel covering both domestic and international news."),

@@ -1,17 +1,13 @@
-package server.device.television;
+package main.device.television;
 
 import SmartHome.*;
 import com.zeroc.Ice.Current;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 public class OutdoorTelevision extends Television implements IOutdoorTelevision {
     int brightnessLevel = 50;
     boolean waterproofMode = false;
-    public OutdoorTelevision(DeviceInfo deviceInfo) {
-        super(deviceInfo);
+    public OutdoorTelevision(DeviceDetails deviceDetails) {
+        super(deviceDetails);
     }
 
     @Override

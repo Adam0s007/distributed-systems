@@ -1,15 +1,6 @@
-package server.device.drink;
+package main.device.drink;
 
-import SmartHome.CoffeeType;
-import SmartHome.CoffeeStrength;
-import SmartHome.Coffee;
-import SmartHome.DeviceInfo;
-import SmartHome.ICoffeeMachine;
-import SmartHome.NotEnabledException;
-import SmartHome.ResourceLimitException;
-import SmartHome.MilkCapacityException;
-import SmartHome.CoffeeBeanCapacityException;
-import SmartHome.SmarthomeException;
+import SmartHome.*;
 
 import com.zeroc.Ice.Current;
 
@@ -27,8 +18,8 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
     private final Map<CoffeeStrength, Double> strengthModifiers;
 
 
-    public CoffeeMachine(DeviceInfo deviceInfo) {
-        super(deviceInfo);
+    public CoffeeMachine(DeviceDetails deviceDetails) {
+        super(deviceDetails);
         this.coffeeBeansCapacity = 0;
         this.milkCapacity = 0;
         this.coffeeHistory = new LinkedList<>();

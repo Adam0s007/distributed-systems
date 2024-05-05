@@ -1,8 +1,9 @@
-package server;
+package main;
 
 import com.zeroc.Ice.Communicator;
 import com.zeroc.Ice.ObjectAdapter;
 import com.zeroc.Ice.Util;
+import main.management.DeviceAdapterFactory;
 
 
 import java.util.*;

@@ -1,25 +1,14 @@
 const Ice = require('ice').Ice
-const SmartHome = require('./generated/smarthome').SmartHome
+const SmartHome = require('./gen/smarthome').SmartHome
 
-const prompt = require('prompt-sync')()
 const readline = require('readline');
 
 const devices = require('./config').devices
 const servers = require('./config').servers
 const clearStub = require('./handlers/stub').clearStub;
-
-
-const drinksMachineHandler = require('./handlers/drinksmachine');
-const cafeMachineHandler = require('./handlers/cafemachine');
-const teaMachineHandler = require('./handlers/teamachine');
-const cameraHandler = require('./handlers/camera');
-const ptzCameraHandler = require('./handlers/ptzcamera');
-const motionDetectionCameraHandler = require('./handlers/motiondetectioncamera');
-const televisionHandler = require('./handlers/television');
-const homeCinemaTVHandler = require('./handlers/homecinematv');
-const outdoorTelevisionHandler = require('./handlers/outdoortelevision');
-
 const { exit } = require('process');
+
+const handleDeviceCommand = require('./handlers/mainhandler');
 
 const getDevices = async (communicator) => {
     let smartHome, deviceList = null;
@@ -159,43 +148,7 @@ const main = async () => {
             return;
         }
 
-        try {
-            //console.log(`Device: ${deviceName}, Type: ${device.type}`);
-            switch (String(device.type)) {
-                case 'DrinksMachine':
-                    await drinksMachineHandler(deviceName, communicator);
-                    break;
-                case 'CoffeeMachine':
-                    await cafeMachineHandler(deviceName, communicator);
-                    break;
-                case 'TeaMachine':
-                    await teaMachineHandler(deviceName, communicator);
-                    break;
-                case 'Camera':
-                    await cameraHandler(deviceName, communicator);
-                    break;
-                case 'PTZCamera':
-                    await ptzCameraHandler(deviceName, communicator);
-                    break;
-                case 'MotionDetectionCamera':
-                    await motionDetectionCameraHandler(deviceName, communicator);
-                    break;
-                case 'Television':
-                    await televisionHandler(deviceName, communicator);
-                    break;
-                case 'HomeCinemaTV':
-                    await homeCinemaTVHandler(deviceName, communicator);
-                    break;
-                case 'OutdoorTelevision':
-                    await outdoorTelevisionHandler(deviceName, communicator);
-                    break;
-                default:
-                    console.log(`Invalid  ${device.type}`);
-                    break;
-            }
-        } catch (e) {
-            console.log(`Error handling device operation: ${e.toString()}`);
-        }
+        await handleDeviceCommand(deviceName, device.type, communicator);
         rl.prompt();
     });
 };

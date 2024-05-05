@@ -44,8 +44,6 @@ module SmartHome {
 
     exception TeaLeafCapacityException extends ResourceLimitException {};
 
-
-
     enum DeviceType {
     Camera,
     MotionDetectionCamera,
@@ -58,20 +56,20 @@ module SmartHome {
     DrinksMachine
     };
 
-    struct DeviceInfo {
+    struct DeviceDetails {
         string name;
         DeviceType type;
         int server;
     };
 
-    ["java:type:java.util.ArrayList<DeviceInfo>"]
-    sequence<DeviceInfo> DeviceList;
+    ["java:type:java.util.ArrayList<DeviceDetails>"]
+    sequence<DeviceDetails> DeviceList;
 
     interface ISmartHome {
         idempotent DeviceList getDevices();
-        idempotent DeviceInfo getDeviceByName(string name);
+        idempotent DeviceDetails getDeviceByName(string name);
         idempotent DeviceList getDevicesByServer(int server);
-        idempotent DeviceInfo getDeviceByType(DeviceType type);
+        idempotent DeviceDetails getDeviceByType(DeviceType type);
     };
 
 

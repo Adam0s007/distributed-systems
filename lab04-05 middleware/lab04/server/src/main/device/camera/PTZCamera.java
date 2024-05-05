@@ -1,4 +1,4 @@
-package server.device.camera;
+package main.device.camera;
 
 import SmartHome.*;
 import com.zeroc.Ice.Current;
@@ -9,8 +9,8 @@ public class PTZCamera extends Camera implements IPTZCamera {
     private int tilt_attr;
     private int zoom_attr;
 
-    public PTZCamera(DeviceInfo deviceInfo) {
-        super(deviceInfo);
+    public PTZCamera(DeviceDetails deviceDetails) {
+        super(deviceDetails);
         this.pan_attr = 0;
         this.tilt_attr = 0;
         this.zoom_attr = 50;

@@ -1,4 +1,4 @@
-const { SmartHome } = require("../generated/smarthome");
+const { SmartHome }  = require("../gen/smarthome");
 const prompt = require("prompt-sync")();
 
 const homeCinemaTVCommands = async (command, stub) => {
