@@ -1,12 +1,12 @@
-package server.device.camera;
+package main.device.camera;
 
 import SmartHome.*;
 import com.zeroc.Ice.Current;
 
 public class MotionDetectionCamera extends Camera implements IMotionDetectionCamera {
     private boolean motionDetectionEnabled;
-    public MotionDetectionCamera(DeviceInfo deviceInfo) {
-        super(deviceInfo);
+    public MotionDetectionCamera(DeviceDetails deviceDetails) {
+        super(deviceDetails);
         this.motionDetectionEnabled = false;
     }
 

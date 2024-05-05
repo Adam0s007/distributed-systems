@@ -1,4 +1,4 @@
-const { SmartHome, TeaType } = require("../generated/smarthome");
+const { SmartHome, TeaType }  = require("../gen/smarthome");
 const prompt = require("prompt-sync")();
 
 const teaMachineCommands = async (command, stub) => {

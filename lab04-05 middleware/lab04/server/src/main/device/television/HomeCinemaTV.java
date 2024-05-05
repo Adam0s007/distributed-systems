@@ -1,4 +1,4 @@
-package server.device.television;
+package main.device.television;
 
 import SmartHome.*;
 import com.zeroc.Ice.Current;
@@ -8,8 +8,8 @@ import java.util.*;
 public class HomeCinemaTV extends Television implements IHomeCinemaTV {
     private SurroundEffect currentEffect;
     private List<SurroundEffect> surroundEffects;
-    public HomeCinemaTV(DeviceInfo deviceInfo) {
-        super(deviceInfo);
+    public HomeCinemaTV(DeviceDetails deviceDetails) {
+        super(deviceDetails);
         this.surroundEffects = Arrays.asList(
                 new SurroundEffect("forest", "Standard"),
                 new SurroundEffect("lake", "Standard"),

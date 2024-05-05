@@ -15,8 +15,8 @@
 
 package SmartHome;
 
-public class DeviceInfo implements java.lang.Cloneable,
-                                   java.io.Serializable
+public class DeviceDetails implements java.lang.Cloneable,
+                                      java.io.Serializable
 {
     public String name;
 
@@ -24,13 +24,13 @@ public class DeviceInfo implements java.lang.Cloneable,
 
     public int server;
 
-    public DeviceInfo()
+    public DeviceDetails()
     {
         this.name = "";
         this.type = DeviceType.Camera;
     }
 
-    public DeviceInfo(String name, DeviceType type, int server)
+    public DeviceDetails(String name, DeviceType type, int server)
     {
         this.name = name;
         this.type = type;
@@ -43,10 +43,10 @@ public class DeviceInfo implements java.lang.Cloneable,
         {
             return true;
         }
-        DeviceInfo r = null;
-        if(rhs instanceof DeviceInfo)
+        DeviceDetails r = null;
+        if(rhs instanceof DeviceDetails)
         {
-            r = (DeviceInfo)rhs;
+            r = (DeviceDetails)rhs;
         }
 
         if(r != null)
@@ -79,19 +79,19 @@ public class DeviceInfo implements java.lang.Cloneable,
     public int hashCode()
     {
         int h_ = 5381;
-        h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, "::SmartHome::DeviceInfo");
+        h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, "::SmartHome::DeviceDetails");
         h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, name);
         h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, type);
         h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, server);
         return h_;
     }
 
-    public DeviceInfo clone()
+    public DeviceDetails clone()
     {
-        DeviceInfo c = null;
+        DeviceDetails c = null;
         try
         {
-            c = (DeviceInfo)super.clone();
+            c = (DeviceDetails)super.clone();
         }
         catch(CloneNotSupportedException ex)
         {
@@ -114,7 +114,7 @@ public class DeviceInfo implements java.lang.Cloneable,
         this.server = istr.readInt();
     }
 
-    static public void ice_write(com.zeroc.Ice.OutputStream ostr, DeviceInfo v)
+    static public void ice_write(com.zeroc.Ice.OutputStream ostr, DeviceDetails v)
     {
         if(v == null)
         {
@@ -126,14 +126,14 @@ public class DeviceInfo implements java.lang.Cloneable,
         }
     }
 
-    static public DeviceInfo ice_read(com.zeroc.Ice.InputStream istr)
+    static public DeviceDetails ice_read(com.zeroc.Ice.InputStream istr)
     {
-        DeviceInfo v = new DeviceInfo();
+        DeviceDetails v = new DeviceDetails();
         v.ice_readMembers(istr);
         return v;
     }
 
-    static public void ice_write(com.zeroc.Ice.OutputStream ostr, int tag, java.util.Optional<DeviceInfo> v)
+    static public void ice_write(com.zeroc.Ice.OutputStream ostr, int tag, java.util.Optional<DeviceDetails> v)
     {
         if(v != null && v.isPresent())
         {
@@ -141,7 +141,7 @@ public class DeviceInfo implements java.lang.Cloneable,
         }
     }
 
-    static public void ice_write(com.zeroc.Ice.OutputStream ostr, int tag, DeviceInfo v)
+    static public void ice_write(com.zeroc.Ice.OutputStream ostr, int tag, DeviceDetails v)
     {
         if(ostr.writeOptional(tag, com.zeroc.Ice.OptionalFormat.FSize))
         {
@@ -151,12 +151,12 @@ public class DeviceInfo implements java.lang.Cloneable,
         }
     }
 
-    static public java.util.Optional<DeviceInfo> ice_read(com.zeroc.Ice.InputStream istr, int tag)
+    static public java.util.Optional<DeviceDetails> ice_read(com.zeroc.Ice.InputStream istr, int tag)
     {
         if(istr.readOptional(tag, com.zeroc.Ice.OptionalFormat.FSize))
         {
             istr.skip(4);
-            return java.util.Optional.of(DeviceInfo.ice_read(istr));
+            return java.util.Optional.of(DeviceDetails.ice_read(istr));
         }
         else
         {
@@ -164,8 +164,8 @@ public class DeviceInfo implements java.lang.Cloneable,
         }
     }
 
-    private static final DeviceInfo _nullMarshalValue = new DeviceInfo();
+    private static final DeviceDetails _nullMarshalValue = new DeviceDetails();
 
     /** @hidden */
-    public static final long serialVersionUID = -110845418L;
+    public static final long serialVersionUID = -1478427494L;
 }

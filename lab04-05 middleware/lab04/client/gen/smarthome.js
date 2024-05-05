@@ -440,7 +440,7 @@
         ['Camera', 0], ['MotionDetectionCamera', 1], ['PTZCamera', 2], ['Television', 3], ['HomeCinemaTV', 4],
         ['OutdoorTelevision', 5], ['CoffeeMachine', 6], ['TeaMachine', 7], ['DrinksMachine', 8]]);
 
-    SmartHome.DeviceInfo = class
+    SmartHome.DeviceDetails = class
     {
         constructor(name = "", type = SmartHome.DeviceType.Camera, server = 0)
         {
@@ -469,9 +469,9 @@
         }
     };
 
-    Slice.defineStruct(SmartHome.DeviceInfo, true, true);
+    Slice.defineStruct(SmartHome.DeviceDetails, true, true);
 
-    Slice.defineSequence(SmartHome, "DeviceListHelper", "SmartHome.DeviceInfo", false);
+    Slice.defineSequence(SmartHome, "DeviceListHelper", "SmartHome.DeviceDetails", false);
 
     const iceC_SmartHome_ISmartHome_ids = [
         "::Ice::Object",
@@ -489,9 +489,9 @@
     Slice.defineOperations(SmartHome.ISmartHome, SmartHome.ISmartHomePrx, iceC_SmartHome_ISmartHome_ids, 1,
     {
         "getDevices": [, 2, 2, , ["SmartHome.DeviceListHelper"], , , , , ],
-        "getDeviceByName": [, 2, 2, , [SmartHome.DeviceInfo], [[7]], , , , ],
+        "getDeviceByName": [, 2, 2, , [SmartHome.DeviceDetails], [[7]], , , , ],
         "getDevicesByServer": [, 2, 2, , ["SmartHome.DeviceListHelper"], [[3]], , , , ],
-        "getDeviceByType": [, 2, 2, , [SmartHome.DeviceInfo], [[SmartHome.DeviceType._helper]], , , , ]
+        "getDeviceByType": [, 2, 2, , [SmartHome.DeviceDetails], [[SmartHome.DeviceType._helper]], , , , ]
     });
 
     SmartHome.DeviceStatus = Slice.defineEnum([

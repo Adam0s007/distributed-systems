@@ -1,1 +1,1 @@
-slice2java --output-dir server/src/generated slice/smarthome.ice
+slice2java --output-dir server/gen slice/smarthome.ice

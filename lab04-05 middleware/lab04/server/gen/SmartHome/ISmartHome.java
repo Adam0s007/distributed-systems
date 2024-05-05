@@ -17,13 +17,13 @@ package SmartHome;
 
 public interface ISmartHome extends com.zeroc.Ice.Object
 {
-    java.util.List<DeviceInfo> getDevices(com.zeroc.Ice.Current current);
+    java.util.List<DeviceDetails> getDevices(com.zeroc.Ice.Current current);
 
-    DeviceInfo getDeviceByName(String name, com.zeroc.Ice.Current current);
+    DeviceDetails getDeviceByName(String name, com.zeroc.Ice.Current current);
 
-    java.util.List<DeviceInfo> getDevicesByServer(int server, com.zeroc.Ice.Current current);
+    java.util.List<DeviceDetails> getDevicesByServer(int server, com.zeroc.Ice.Current current);
 
-    DeviceInfo getDeviceByType(DeviceType type, com.zeroc.Ice.Current current);
+    DeviceDetails getDeviceByType(DeviceType type, com.zeroc.Ice.Current current);
 
     /** @hidden */
     static final String[] _iceIds =
@@ -60,7 +60,7 @@ public interface ISmartHome extends com.zeroc.Ice.Object
     {
         com.zeroc.Ice.Object._iceCheckMode(com.zeroc.Ice.OperationMode.Idempotent, current.mode);
         inS.readEmptyParams();
-        java.util.List<DeviceInfo> ret = obj.getDevices(current);
+        java.util.List<DeviceDetails> ret = obj.getDevices(current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
         DeviceListHelper.write(ostr, ret);
         inS.endWriteParams(ostr);
@@ -81,9 +81,9 @@ public interface ISmartHome extends com.zeroc.Ice.Object
         String iceP_name;
         iceP_name = istr.readString();
         inS.endReadParams();
-        DeviceInfo ret = obj.getDeviceByName(iceP_name, current);
+        DeviceDetails ret = obj.getDeviceByName(iceP_name, current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
-        DeviceInfo.ice_write(ostr, ret);
+        DeviceDetails.ice_write(ostr, ret);
         inS.endWriteParams(ostr);
         return inS.setResult(ostr);
     }
@@ -102,7 +102,7 @@ public interface ISmartHome extends com.zeroc.Ice.Object
         int iceP_server;
         iceP_server = istr.readInt();
         inS.endReadParams();
-        java.util.List<DeviceInfo> ret = obj.getDevicesByServer(iceP_server, current);
+        java.util.List<DeviceDetails> ret = obj.getDevicesByServer(iceP_server, current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
         DeviceListHelper.write(ostr, ret);
         inS.endWriteParams(ostr);
@@ -123,9 +123,9 @@ public interface ISmartHome extends com.zeroc.Ice.Object
         DeviceType iceP_type;
         iceP_type = DeviceType.ice_read(istr);
         inS.endReadParams();
-        DeviceInfo ret = obj.getDeviceByType(iceP_type, current);
+        DeviceDetails ret = obj.getDeviceByType(iceP_type, current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
-        DeviceInfo.ice_write(ostr, ret);
+        DeviceDetails.ice_write(ostr, ret);
         inS.endWriteParams(ostr);
         return inS.setResult(ostr);
     }

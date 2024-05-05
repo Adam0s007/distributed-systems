@@ -1,15 +1,15 @@
-package server.device.camera;
+package main.device.camera;
 
 import SmartHome.*;
 import com.zeroc.Ice.Current;
-import server.device.Device;
+import main.device.Device;
 
 
 public class Camera extends Device implements ICamera {
     private CameraMode cameraMode;
 
-    public Camera(DeviceInfo deviceInfo) {
-        super(deviceInfo);
+    public Camera(DeviceDetails deviceDetails) {
+        super(deviceDetails);
         this.cameraMode = CameraMode.Day;
     }
 

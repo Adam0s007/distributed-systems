@@ -1,4 +1,4 @@
-const { SmartHome, CameraMode } = require("../generated/smarthome");
+const { SmartHome, CameraMode } = require("../gen/smarthome");
 const prompt = require("prompt-sync")();
 
 const cameraCommands = async (command, stub) => {
