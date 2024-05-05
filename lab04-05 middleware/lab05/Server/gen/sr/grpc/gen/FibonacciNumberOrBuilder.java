@@ -18,7 +18,7 @@ public interface FibonacciNumberOrBuilder extends
    * in case we need to know the index of the number in the fibonacci sequence
    * </pre>
    *
-   * <code>int64 sequence_index = 2;</code>
+   * <code>int64 sequenceIndex = 2;</code>
    * @return The sequenceIndex.
    */
   long getSequenceIndex();

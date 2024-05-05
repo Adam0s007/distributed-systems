@@ -39,14 +39,14 @@ public final class FibonacciServiceProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\017fibonacci.proto\022\tfibonacci\" \n\016Fibonacc" +
-      "iInput\022\016\n\006number\030\001 \001(\003\"?\n\017FibonacciNumbe" +
-      "r\022\024\n\014fibonacciNum\030\001 \001(\003\022\026\n\016sequence_inde" +
-      "x\030\002 \001(\003\";\n\rFibonacciList\022*\n\007numbers\030\001 \003(" +
-      "\0132\031.fibonacci.FibonacciInput2d\n\020Fibonacc" +
-      "iService\022P\n\024FindFibonacciNumbers\022\030.fibon" +
-      "acci.FibonacciList\032\032.fibonacci.Fibonacci" +
-      "Number\"\0000\001B&\n\013sr.grpc.genB\025FibonacciServ" +
-      "iceProtoP\001b\006proto3"
+      "iInput\022\016\n\006number\030\001 \001(\003\">\n\017FibonacciNumbe" +
+      "r\022\024\n\014fibonacciNum\030\001 \001(\003\022\025\n\rsequenceIndex" +
+      "\030\002 \001(\003\";\n\rFibonacciList\022*\n\007numbers\030\001 \003(\013" +
+      "2\031.fibonacci.FibonacciInput2d\n\020Fibonacci" +
+      "Service\022P\n\024FindFibonacciNumbers\022\030.fibona" +
+      "cci.FibonacciList\032\032.fibonacci.FibonacciN" +
+      "umber\"\0000\001B&\n\013sr.grpc.genB\025FibonacciServi" +
+      "ceProtoP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

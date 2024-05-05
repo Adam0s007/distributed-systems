@@ -46,37 +46,6 @@ public final class CalculatorServiceGrpc {
     return getOperationMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<sr.grpc.gen.PrimeTesterArguments,
-      sr.grpc.gen.PrimeTesterResult> getPrimeTesterMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "PrimeTester",
-      requestType = sr.grpc.gen.PrimeTesterArguments.class,
-      responseType = sr.grpc.gen.PrimeTesterResult.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<sr.grpc.gen.PrimeTesterArguments,
-      sr.grpc.gen.PrimeTesterResult> getPrimeTesterMethod() {
-    io.grpc.MethodDescriptor<sr.grpc.gen.PrimeTesterArguments, sr.grpc.gen.PrimeTesterResult> getPrimeTesterMethod;
-    if ((getPrimeTesterMethod = CalculatorServiceGrpc.getPrimeTesterMethod) == null) {
-      synchronized (CalculatorServiceGrpc.class) {
-        if ((getPrimeTesterMethod = CalculatorServiceGrpc.getPrimeTesterMethod) == null) {
-          CalculatorServiceGrpc.getPrimeTesterMethod = getPrimeTesterMethod =
-              io.grpc.MethodDescriptor.<sr.grpc.gen.PrimeTesterArguments, sr.grpc.gen.PrimeTesterResult>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "PrimeTester"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  sr.grpc.gen.PrimeTesterArguments.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  sr.grpc.gen.PrimeTesterResult.getDefaultInstance()))
-              .setSchemaDescriptor(new CalculatorServiceMethodDescriptorSupplier("PrimeTester"))
-              .build();
-        }
-      }
-    }
-    return getPrimeTesterMethod;
-  }
-
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -131,13 +100,6 @@ public final class CalculatorServiceGrpc {
         io.grpc.stub.StreamObserver<sr.grpc.gen.ArithmeticOpResult> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getOperationMethod(), responseObserver);
     }
-
-    /**
-     */
-    default void primeTester(sr.grpc.gen.PrimeTesterArguments request,
-        io.grpc.stub.StreamObserver<sr.grpc.gen.PrimeTesterResult> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getPrimeTesterMethod(), responseObserver);
-    }
   }
 
   /**
@@ -174,14 +136,6 @@ public final class CalculatorServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getOperationMethod(), getCallOptions()), request, responseObserver);
     }
-
-    /**
-     */
-    public void primeTester(sr.grpc.gen.PrimeTesterArguments request,
-        io.grpc.stub.StreamObserver<sr.grpc.gen.PrimeTesterResult> responseObserver) {
-      io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getPrimeTesterMethod(), getCallOptions()), request, responseObserver);
-    }
   }
 
   /**
@@ -205,13 +159,6 @@ public final class CalculatorServiceGrpc {
     public sr.grpc.gen.ArithmeticOpResult operation(sr.grpc.gen.ArithmeticOpArguments request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getOperationMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public sr.grpc.gen.PrimeTesterResult primeTester(sr.grpc.gen.PrimeTesterArguments request) {
-      return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getPrimeTesterMethod(), getCallOptions(), request);
     }
   }
 
@@ -238,18 +185,9 @@ public final class CalculatorServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getOperationMethod(), getCallOptions()), request);
     }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<sr.grpc.gen.PrimeTesterResult> primeTester(
-        sr.grpc.gen.PrimeTesterArguments request) {
-      return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getPrimeTesterMethod(), getCallOptions()), request);
-    }
   }
 
   private static final int METHODID_OPERATION = 0;
-  private static final int METHODID_PRIME_TESTER = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -271,10 +209,6 @@ public final class CalculatorServiceGrpc {
         case METHODID_OPERATION:
           serviceImpl.operation((sr.grpc.gen.ArithmeticOpArguments) request,
               (io.grpc.stub.StreamObserver<sr.grpc.gen.ArithmeticOpResult>) responseObserver);
-          break;
-        case METHODID_PRIME_TESTER:
-          serviceImpl.primeTester((sr.grpc.gen.PrimeTesterArguments) request,
-              (io.grpc.stub.StreamObserver<sr.grpc.gen.PrimeTesterResult>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -301,13 +235,6 @@ public final class CalculatorServiceGrpc {
               sr.grpc.gen.ArithmeticOpArguments,
               sr.grpc.gen.ArithmeticOpResult>(
                 service, METHODID_OPERATION)))
-        .addMethod(
-          getPrimeTesterMethod(),
-          io.grpc.stub.ServerCalls.asyncUnaryCall(
-            new MethodHandlers<
-              sr.grpc.gen.PrimeTesterArguments,
-              sr.grpc.gen.PrimeTesterResult>(
-                service, METHODID_PRIME_TESTER)))
         .build();
   }
 
@@ -357,7 +284,6 @@ public final class CalculatorServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new CalculatorServiceFileDescriptorSupplier())
               .addMethod(getOperationMethod())
-              .addMethod(getPrimeTesterMethod())
               .build();
         }
       }

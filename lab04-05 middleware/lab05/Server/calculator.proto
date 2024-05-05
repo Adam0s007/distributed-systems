@@ -16,6 +16,8 @@ enum OperationType {
   MAX = 4;
   VARIANCE = 5;
   STDDEV = 6;
+  MOST_FREQUENT = 7;
+  RANGE = 8;
 }
 
 message ArithmeticOpArguments {
@@ -26,17 +28,7 @@ message ArithmeticOpArguments {
 message ArithmeticOpResult {
   double res = 1;
 }
-
-message PrimeTesterArguments {
-  int64 number = 1;
-}
-
-message PrimeTesterResult {
-  bool isPrime = 1;
-}
-
 service CalculatorService {
   rpc Operation (ArithmeticOpArguments) returns (ArithmeticOpResult) {}
-  rpc PrimeTester (PrimeTesterArguments) returns (PrimeTesterResult) {}
 }
 

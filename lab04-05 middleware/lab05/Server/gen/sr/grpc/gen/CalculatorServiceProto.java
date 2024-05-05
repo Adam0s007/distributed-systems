@@ -24,16 +24,6 @@ public final class CalculatorServiceProto {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_calculator_ArithmeticOpResult_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_calculator_PrimeTesterArguments_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_calculator_PrimeTesterArguments_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_calculator_PrimeTesterResult_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_calculator_PrimeTesterResult_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -46,17 +36,14 @@ public final class CalculatorServiceProto {
       "\n\020calculator.proto\022\ncalculator\"P\n\025Arithm" +
       "eticOpArguments\022)\n\006opType\030\001 \001(\0162\031.calcul" +
       "ator.OperationType\022\014\n\004args\030\002 \003(\001\"!\n\022Arit" +
-      "hmeticOpResult\022\013\n\003res\030\001 \001(\001\"&\n\024PrimeTest" +
-      "erArguments\022\016\n\006number\030\001 \001(\003\"$\n\021PrimeTest" +
-      "erResult\022\017\n\007isPrime\030\001 \001(\010*W\n\rOperationTy" +
-      "pe\022\007\n\003SUM\020\000\022\007\n\003AVG\020\001\022\010\n\004MULT\020\002\022\007\n\003MIN\020\003\022" +
-      "\007\n\003MAX\020\004\022\014\n\010VARIANCE\020\005\022\n\n\006STDDEV\020\0062\267\001\n\021C" +
-      "alculatorService\022P\n\tOperation\022!.calculat" +
-      "or.ArithmeticOpArguments\032\036.calculator.Ar" +
-      "ithmeticOpResult\"\000\022P\n\013PrimeTester\022 .calc" +
-      "ulator.PrimeTesterArguments\032\035.calculator" +
-      ".PrimeTesterResult\"\000B\'\n\013sr.grpc.genB\026Cal" +
-      "culatorServiceProtoP\001b\006proto3"
+      "hmeticOpResult\022\013\n\003res\030\001 \001(\001*u\n\rOperation" +
+      "Type\022\007\n\003SUM\020\000\022\007\n\003AVG\020\001\022\010\n\004MULT\020\002\022\007\n\003MIN\020" +
+      "\003\022\007\n\003MAX\020\004\022\014\n\010VARIANCE\020\005\022\n\n\006STDDEV\020\006\022\021\n\r" +
+      "MOST_FREQUENT\020\007\022\t\n\005RANGE\020\0102e\n\021Calculator" +
+      "Service\022P\n\tOperation\022!.calculator.Arithm" +
+      "eticOpArguments\032\036.calculator.ArithmeticO" +
+      "pResult\"\000B\'\n\013sr.grpc.genB\026CalculatorServ" +
+      "iceProtoP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -74,18 +61,6 @@ public final class CalculatorServiceProto {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_calculator_ArithmeticOpResult_descriptor,
         new java.lang.String[] { "Res", });
-    internal_static_calculator_PrimeTesterArguments_descriptor =
-      getDescriptor().getMessageTypes().get(2);
-    internal_static_calculator_PrimeTesterArguments_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_calculator_PrimeTesterArguments_descriptor,
-        new java.lang.String[] { "Number", });
-    internal_static_calculator_PrimeTesterResult_descriptor =
-      getDescriptor().getMessageTypes().get(3);
-    internal_static_calculator_PrimeTesterResult_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_calculator_PrimeTesterResult_descriptor,
-        new java.lang.String[] { "IsPrime", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

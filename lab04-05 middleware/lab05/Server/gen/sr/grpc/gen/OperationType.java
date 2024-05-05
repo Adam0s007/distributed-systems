@@ -36,6 +36,14 @@ public enum OperationType
    * <code>STDDEV = 6;</code>
    */
   STDDEV(6),
+  /**
+   * <code>MOST_FREQUENT = 7;</code>
+   */
+  MOST_FREQUENT(7),
+  /**
+   * <code>RANGE = 8;</code>
+   */
+  RANGE(8),
   UNRECOGNIZED(-1),
   ;
 
@@ -67,6 +75,14 @@ public enum OperationType
    * <code>STDDEV = 6;</code>
    */
   public static final int STDDEV_VALUE = 6;
+  /**
+   * <code>MOST_FREQUENT = 7;</code>
+   */
+  public static final int MOST_FREQUENT_VALUE = 7;
+  /**
+   * <code>RANGE = 8;</code>
+   */
+  public static final int RANGE_VALUE = 8;
 
 
   public final int getNumber() {
@@ -100,6 +116,8 @@ public enum OperationType
       case 4: return MAX;
       case 5: return VARIANCE;
       case 6: return STDDEV;
+      case 7: return MOST_FREQUENT;
+      case 8: return RANGE;
       default: return null;
     }
   }

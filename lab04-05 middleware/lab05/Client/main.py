@@ -9,7 +9,7 @@ def display_commands():
     describe <object>
     allMethods
     serviceMethods <serviceName>
-    calculate <SUM|AVG||MULT|MIN|MAX|VARIANCE|STDDEV> <num1 num2 num3...>
+    calculate <SUM|AVG|MOST_FREQUENT|RANGE|MULT|MIN|MAX|VARIANCE|STDDEV> <num1 num2 num3...>
     streamEulerNumber <terms>
     listEulerNumber <terms>
     findFibonacciNumbers
@@ -36,7 +36,7 @@ def main():
     handler = RequestHandler(server_address)
     display_commands()
     while True:
-        command_input = input(">> Enter a command: ")
+        command_input = input(">> ")
         args = command_input.split()
         command = args[0]
         if command == "exit":
@@ -103,7 +103,7 @@ def main():
             else:
                 print("No numbers to send.")
         else:
-            print("Unknown command")
+            print("Invalid command. Type 'commands' to see available commands.")
 
 if __name__ == '__main__':
     main()

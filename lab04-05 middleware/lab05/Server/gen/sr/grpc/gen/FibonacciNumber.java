@@ -49,14 +49,14 @@ private static final long serialVersionUID = 0L;
     return fibonacciNum_;
   }
 
-  public static final int SEQUENCE_INDEX_FIELD_NUMBER = 2;
+  public static final int SEQUENCEINDEX_FIELD_NUMBER = 2;
   private long sequenceIndex_ = 0L;
   /**
    * <pre>
    * in case we need to know the index of the number in the fibonacci sequence
    * </pre>
    *
-   * <code>int64 sequence_index = 2;</code>
+   * <code>int64 sequenceIndex = 2;</code>
    * @return The sequenceIndex.
    */
   @java.lang.Override
@@ -134,7 +134,7 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + FIBONACCINUM_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
         getFibonacciNum());
-    hash = (37 * hash) + SEQUENCE_INDEX_FIELD_NUMBER;
+    hash = (37 * hash) + SEQUENCEINDEX_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
         getSequenceIndex());
     hash = (29 * hash) + getUnknownFields().hashCode();
@@ -418,7 +418,7 @@ private static final long serialVersionUID = 0L;
      * in case we need to know the index of the number in the fibonacci sequence
      * </pre>
      *
-     * <code>int64 sequence_index = 2;</code>
+     * <code>int64 sequenceIndex = 2;</code>
      * @return The sequenceIndex.
      */
     @java.lang.Override
@@ -430,7 +430,7 @@ private static final long serialVersionUID = 0L;
      * in case we need to know the index of the number in the fibonacci sequence
      * </pre>
      *
-     * <code>int64 sequence_index = 2;</code>
+     * <code>int64 sequenceIndex = 2;</code>
      * @param value The sequenceIndex to set.
      * @return This builder for chaining.
      */
@@ -446,7 +446,7 @@ private static final long serialVersionUID = 0L;
      * in case we need to know the index of the number in the fibonacci sequence
      * </pre>
      *
-     * <code>int64 sequence_index = 2;</code>
+     * <code>int64 sequenceIndex = 2;</code>
      * @return This builder for chaining.
      */
     public Builder clearSequenceIndex() {
