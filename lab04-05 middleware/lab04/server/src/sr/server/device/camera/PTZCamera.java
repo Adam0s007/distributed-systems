@@ -55,7 +55,7 @@ public class PTZCamera extends Camera implements IPTZCamera {
     }
 
     @Override
-    public String getDetails(Current current) throws SmarthomeException {
+    public String getDetails(Current current) throws NotEnabledException {
         return super.getDetails(current) + "pan: " + pan_attr + ", tilt: " + tilt_attr + ", zoom: " + zoom_attr + "\n";
     }
 

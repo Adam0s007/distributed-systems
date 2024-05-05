@@ -22,21 +22,22 @@ class DeviceAdapterFactory {
     public DeviceAdapterFactory() {
         this.deviceData = new java.util.HashMap<>();
 
-        addDevice(new DeviceInfo("Sophia", DeviceType.MotionDetectionCamera, 1));
-        addDevice(new DeviceInfo("Emily", DeviceType.CoffeeMachine, 1));
-        addDevice(new DeviceInfo("Emma", DeviceType.OutdoorTelevision, 1));
-        addDevice(new DeviceInfo("Olivia", DeviceType.DrinksMachine, 1));
-        addDevice(new DeviceInfo("Michael", DeviceType.Camera, 1));
+        addDevice(new DeviceInfo("Sophiax10", DeviceType.MotionDetectionCamera, 1));
+        addDevice(new DeviceInfo("Emibrew", DeviceType.CoffeeMachine, 1));
+        addDevice(new DeviceInfo("Ultraview900", DeviceType.OutdoorTelevision, 1));
+        addDevice(new DeviceInfo("Olidispense", DeviceType.DrinksMachine, 1));
+        addDevice(new DeviceInfo("Microncam", DeviceType.Camera, 1));
 
-        addDevice(new DeviceInfo("James", DeviceType.TeaMachine, 2));
-        addDevice(new DeviceInfo("James2", DeviceType.TeaMachine, 2));
-        addDevice(new DeviceInfo("John", DeviceType.PTZCamera, 2));
-        addDevice(new DeviceInfo("Isabella", DeviceType.Television, 2));
-        addDevice(new DeviceInfo("David", DeviceType.HomeCinemaTV, 2));
+        addDevice(new DeviceInfo("Jteamaster", DeviceType.TeaMachine, 2));
+        addDevice(new DeviceInfo("Jteapro", DeviceType.TeaMachine, 2));
+        addDevice(new DeviceInfo("Panozoomx", DeviceType.PTZCamera, 2));
+        addDevice(new DeviceInfo("Bellavision", DeviceType.Television, 2));
+        addDevice(new DeviceInfo("Cinehomex2", DeviceType.HomeCinemaTV, 2));
 
-        addDevice(new DeviceInfo("Allie", DeviceType.TeaMachine, 3));
-        addDevice(new DeviceInfo("Marry", DeviceType.Camera, 3));
-        addDevice(new DeviceInfo("Marry2", DeviceType.Television, 3));
+        addDevice(new DeviceInfo("Teaelite3", DeviceType.TeaMachine, 3));
+        addDevice(new DeviceInfo("Viewfinder", DeviceType.Camera, 3));
+        addDevice(new DeviceInfo("Smartscreen", DeviceType.Television, 3));
+
     }
 
     public void addDevice(DeviceInfo device) {

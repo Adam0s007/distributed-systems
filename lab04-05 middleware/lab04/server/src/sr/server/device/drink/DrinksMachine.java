@@ -100,7 +100,7 @@ public class DrinksMachine extends Device implements IDrinksMachine {
     }
 
     @Override
-    public String getDetails(Current current) throws SmarthomeException {
+    public String getDetails(Current current) throws NotEnabledException {
 
         return super.getDetails(current)+ "water capacity: " + this.waterCapacity + "/" + this.MAX_WATER_CAPACITY + "\n sugar capacity: " + this.sugarCapacity + "/" + this.MAX_SUGAR_CAPACITY + "\n";
     }

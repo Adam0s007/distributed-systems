@@ -32,7 +32,7 @@ public class Camera extends Device implements ICamera {
     }
 
     @Override
-    public String getDetails(Current current) throws SmarthomeException {
+    public String getDetails(Current current) throws NotEnabledException {
         return super.getDetails(current) + "mode: " + cameraMode + "\n";
     }
 

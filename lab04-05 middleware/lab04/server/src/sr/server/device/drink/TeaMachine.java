@@ -74,7 +74,7 @@ public class TeaMachine extends DrinksMachine implements ITeaMachine {
     }
 
     @Override
-    public String getDetails(Current current) throws SmarthomeException {
+    public String getDetails(Current current) throws NotEnabledException {
         String mess = super.getDetails(current);
         StringBuilder stringBuilder = new StringBuilder();
         for (Map.Entry<TeaType, MachineTeaInfo> entry : teaInventory.entrySet()) {

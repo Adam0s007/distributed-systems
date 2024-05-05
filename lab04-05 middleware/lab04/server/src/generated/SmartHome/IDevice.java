@@ -27,7 +27,7 @@ public interface IDevice extends com.zeroc.Ice.Object
         throws DeviceOperationException;
 
     String getDetails(com.zeroc.Ice.Current current)
-        throws SmarthomeException;
+        throws NotEnabledException;
 
     void isTurnedOn(com.zeroc.Ice.Current current)
         throws NotEnabledException;

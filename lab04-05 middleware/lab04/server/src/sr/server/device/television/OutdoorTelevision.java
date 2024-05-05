@@ -38,7 +38,7 @@ public class OutdoorTelevision extends Television implements IOutdoorTelevision 
     }
 
     @Override
-    public String getDetails(Current current) throws SmarthomeException {
+    public String getDetails(Current current) throws NotEnabledException {
         return super.getDetails(current) + "brightness: " + brightnessLevel + ", waterproof mode: " + waterproofMode +" \n";
     }
 

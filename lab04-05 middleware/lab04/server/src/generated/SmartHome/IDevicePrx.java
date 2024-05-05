@@ -186,19 +186,19 @@ public interface IDevicePrx extends com.zeroc.Ice.ObjectPrx
     };
 
     default String getDetails()
-        throws SmarthomeException
+        throws NotEnabledException
     {
         return getDetails(com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
     default String getDetails(java.util.Map<String, String> context)
-        throws SmarthomeException
+        throws NotEnabledException
     {
         try
         {
             return _iceI_getDetailsAsync(context, true).waitForResponseOrUserEx();
         }
-        catch(SmarthomeException ex)
+        catch(NotEnabledException ex)
         {
             throw ex;
         }
@@ -238,7 +238,7 @@ public interface IDevicePrx extends com.zeroc.Ice.ObjectPrx
     /** @hidden */
     static final Class<?>[] _iceE_getDetails =
     {
-        SmarthomeException.class
+        NotEnabledException.class
     };
 
     default void isTurnedOn()

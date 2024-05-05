@@ -33,7 +33,7 @@ public class MotionDetectionCamera extends Camera implements IMotionDetectionCam
     }
 
     @Override
-    public String getDetails(Current current) throws SmarthomeException {
+    public String getDetails(Current current) throws NotEnabledException {
         return super.getDetails(current) + "motion detection: " + (motionDetectionEnabled ? "enabled" : "disabled") + "\n";
     }
 

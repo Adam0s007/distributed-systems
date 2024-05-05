@@ -21,7 +21,7 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
     private int milkCapacity;
     private final int MAX_COFFEE_BEANS_CAPACITY = 500;
     private final int MAX_MILK_CAPACITY = 1000;
-    private final int MAX_COFFEE_HISTORY = 10;
+    private final int MAX_COFFEE_HISTORY = 4;
     private final List<Coffee> coffeeHistory;
     private final Map<CoffeeType,Integer> coffeeMapper;
     private final Map<CoffeeStrength, Double> strengthModifiers;
@@ -128,7 +128,7 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
     }
 
     @Override
-    public String getDetails(Current current) throws SmarthomeException  {
+    public String getDetails(Current current) throws NotEnabledException  {
         String mess = super.getDetails(current);
         return mess + "\n{CoffeeMachine: \n" +
                 "Coffee beans: " + this.coffeeBeansCapacity + "/" + this.MAX_COFFEE_BEANS_CAPACITY + "\n" +

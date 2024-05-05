@@ -58,8 +58,8 @@ public class Device implements IDevice {
     }
 
     @Override
-    public String getDetails(Current current) throws SmarthomeException {
-
+    public String getDetails(Current current) throws NotEnabledException{
+        this.isTurnedOn(current);
         return "\nDevice Details: \n" +
                 "Name: " + this.deviceInfo.name + "\n" +
                 "Category: " + this.deviceInfo.type + "\n" +

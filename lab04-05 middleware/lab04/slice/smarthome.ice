@@ -87,7 +87,7 @@ module SmartHome {
         idempotent DeviceStatus getStatus() throws SmarthomeException;
         DeviceStatus turnOn() throws DeviceOperationException;
         DeviceStatus turnOff() throws DeviceOperationException;
-        idempotent string getDetails() throws SmarthomeException;
+        idempotent string getDetails() throws NotEnabledException;
         idempotent void isTurnedOn() throws NotEnabledException;
     };
 

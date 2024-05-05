@@ -70,16 +70,16 @@ const updateDeviceStatus = (status, serverAddress) => {
 
 function displayDevices(devices) {
     console.log('\nList of Devices:');
-    console.log('--------------------------------------------------------------------');
-    console.log('| Device Name | Device Type            | Server | Connection |');
-    console.log('--------------------------------------------------------------------');
+    console.log('----------------------------------------------------------------------');
+    console.log('| Device Name   | Device Type              | Server   | Connection   |');
+    console.log('----------------------------------------------------------------------');
     Object.entries(devices).forEach(([name, info]) => {
         const deviceType = info.type._name;
         const server = info.server;
         const connection = info.connection;
-        console.log(`| ${name.padEnd(11)} | ${deviceType.padEnd(22)} | ${server.toString().padEnd(6)} | ${connection.padEnd(10)} |`);
+        console.log(`| ${name.padEnd(13)} | ${deviceType.padEnd(24)} | ${server.toString().padEnd(8)} | ${connection.padEnd(12)} |`);
     });
-    console.log('--------------------------------------------------------------------');
+    console.log('----------------------------------------------------------------------');
 }
 
 
@@ -154,13 +154,13 @@ const main = async () => {
 
         const device = devices[deviceName];
         if (!device) {
-            console.log(`${deviceName} is unreachable`);
+            console.log(`${deviceName} not found. Type 'list' to see available devices.`);
             rl.prompt();
             return;
         }
 
         try {
-            console.log(`Device: ${deviceName}, Type: ${device.type}`);
+            //console.log(`Device: ${deviceName}, Type: ${device.type}`);
             switch (String(device.type)) {
                 case 'DrinksMachine':
                     await drinksMachineHandler(deviceName, communicator);
@@ -190,7 +190,7 @@ const main = async () => {
                     await outdoorTelevisionHandler(deviceName, communicator);
                     break;
                 default:
-                    console.log(`No handler available for type ${device.type}`);
+                    console.log(`Invalid  ${device.type}`);
                     break;
             }
         } catch (e) {

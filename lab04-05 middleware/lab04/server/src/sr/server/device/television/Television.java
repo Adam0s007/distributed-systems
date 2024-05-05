@@ -35,6 +35,7 @@ public class Television extends Device implements ITelevision {
 
     @Override
     public boolean setChannel(int newChannel, Current current) throws InvalidChannelException,NotEnabledException {
+        newChannel-=1;
         this.isTurnedOn(current);
         System.out.println("Method Television.setChannel with args " +newChannel+ ", current.id.name " + current.id.name + ", current.id.category: " + current.id.category);
         if(newChannel < 0 || newChannel >= channelList.size()) {
@@ -52,7 +53,7 @@ public class Television extends Device implements ITelevision {
     }
 
     @Override
-    public String getDetails(Current current) throws SmarthomeException {
+    public String getDetails(Current current) throws NotEnabledException {
         return super.getDetails(current) + "current channel: " + channelList.get(currentChannel).name + ", description: " + channelList.get(currentChannel).description + " \n";
     }
 

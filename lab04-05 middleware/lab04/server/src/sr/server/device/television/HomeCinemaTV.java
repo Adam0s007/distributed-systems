@@ -67,7 +67,7 @@ public class HomeCinemaTV extends Television implements IHomeCinemaTV {
     }
 
     @Override
-    public String getDetails(Current current) throws SmarthomeException{
+    public String getDetails(Current current) throws NotEnabledException{
         return super.getDetails(current) + " current surround effect: \n" +
                 "Surround sound: " + currentEffect.surroundSound + ", Picture mode: " + currentEffect.pictureMode + "\n";
     }

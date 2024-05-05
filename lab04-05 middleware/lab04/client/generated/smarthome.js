@@ -526,7 +526,7 @@
         ], , ],
         "getDetails": [, 2, 2, , [7], , ,
         [
-            SmartHome.SmarthomeException
+            SmartHome.NotEnabledException
         ], , ],
         "isTurnedOn": [, 2, 2, , , , ,
         [
