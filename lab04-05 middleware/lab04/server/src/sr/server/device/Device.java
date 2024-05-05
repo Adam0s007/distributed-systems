@@ -32,7 +32,7 @@ public class Device implements IDevice {
             try {
                 System.out.println("Device " + this.deviceInfo.name + " is starting...");
                 this.status = DeviceStatus.Starting;
-                Thread.sleep(3000);
+                Thread.sleep(300);
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
@@ -49,7 +49,7 @@ public class Device implements IDevice {
         try {
             System.out.println("Device " + this.deviceInfo.name + " is shutting down...");
             this.status = DeviceStatus.ShuttingDown;
-            Thread.sleep(3000);
+            Thread.sleep(300);
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
         }

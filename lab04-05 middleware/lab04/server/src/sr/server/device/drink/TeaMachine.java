@@ -33,7 +33,7 @@ public class TeaMachine extends DrinksMachine implements ITeaMachine {
         }
         super.makeHotWater(100, current);
         try {
-            Thread.sleep(2000);
+            Thread.sleep(300);
             teaInfo.currentAmountOfLeaves -= tea.amountOfLeaves;
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
@@ -57,7 +57,7 @@ public class TeaMachine extends DrinksMachine implements ITeaMachine {
         }
 
         try {
-            Thread.sleep(1200);
+            Thread.sleep(300);
             teaInfo.currentAmountOfLeaves += amount;
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();

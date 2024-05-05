@@ -72,7 +72,7 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
 
         super.makeHotWater(100, current);
         try {
-            Thread.sleep(2000);
+            Thread.sleep(300);
             this.milkCapacity -= coffee.milkAmount;
             this.coffeeBeansCapacity -= coffeeBeansAmount;
         } catch (InterruptedException ex) {
@@ -95,7 +95,7 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
             throw new MilkCapacityException("Milk tank is full", "addMilk");
         }
         try {
-            Thread.sleep(1200);
+            Thread.sleep(300);
             this.milkCapacity += amount;
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
@@ -111,7 +111,7 @@ public class CoffeeMachine extends DrinksMachine implements ICoffeeMachine {
             throw new CoffeeBeanCapacityException("Coffee beans tank is full", "addCoffeeBeans");
         }
         try {
-            Thread.sleep(1200);
+            Thread.sleep(300);
             this.coffeeBeansCapacity += amount;
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();

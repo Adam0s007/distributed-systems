@@ -28,7 +28,7 @@ public class DrinksMachine extends Device implements IDrinksMachine {
             throw new WaterCapacityException("Amount of water must be positive", "makeHotWater");
         }
         try {
-            Thread.sleep(1200);
+            Thread.sleep(300);
             this.waterCapacity -= amount;
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
@@ -50,7 +50,7 @@ public class DrinksMachine extends Device implements IDrinksMachine {
             throw new WaterCapacityException("Amount of water must be positive", "makeColdWater");
         }
         try {
-            Thread.sleep(1200);
+            Thread.sleep(300);
             this.waterCapacity -= amount;
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
@@ -71,7 +71,7 @@ public class DrinksMachine extends Device implements IDrinksMachine {
             throw new WaterCapacityException("Amount of water must be positive", "addWater");
         }
         try {
-            Thread.sleep(1200);
+            Thread.sleep(300);
             this.waterCapacity += amount;
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
@@ -91,7 +91,7 @@ public class DrinksMachine extends Device implements IDrinksMachine {
             throw new SugarCapacityException("Amount of sugar must be positive", "addSugar");
         }
         try {
-            Thread.sleep(1200);
+            Thread.sleep(300);
             this.sugarCapacity += amount;
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();

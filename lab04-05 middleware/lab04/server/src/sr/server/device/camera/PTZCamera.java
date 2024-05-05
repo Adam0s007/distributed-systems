@@ -31,7 +31,7 @@ public class PTZCamera extends Camera implements IPTZCamera {
         }
 
         try {
-            Thread.sleep(800);  // Simulating the time delay for PTZ operation
+            Thread.sleep(300);  // Simulating the time delay for PTZ operation
             this.pan_attr = ptzPosition.pan;
             this.tilt_attr = ptzPosition.tilt;
             this.zoom_attr = ptzPosition.zoom;
