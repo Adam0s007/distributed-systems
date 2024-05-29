@@ -1,1 +1,3 @@
 slice2java --output-dir server/gen slice/smarthome.ice
+
+--Ice.Config=./server/config.server3 num=3

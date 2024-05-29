@@ -1,0 +1,42 @@
+# IntelliJ IDEA specific files
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# IntelliJ IDEA project files
+out/
+*.class
+*.log
+*.hprof
+*.orig
+*.pyc
+*.pyo
+*.min.js
+*.min.css
+*.log
+*.sql
+*.sqlite
+*.tar.gz
+*.zip
+*.rar
+
+# Exclude all files in project except .gitignore and files from `src` and `tests`
+# !.gitignore
+# !/src/**
+# !/tests/**
+
+# Temp files
+*.swp
+*~
+*.swo
+*.tmp
+*.bak
+*.old
+
+# RabbitMQ specific files
+rabbitmq_server-*
+mnesia/
+rabbitmq-mnesia/
+rabbitmq-plugins-expand/
+rabbitmq_logs/
