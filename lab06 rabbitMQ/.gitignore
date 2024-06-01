@@ -1,42 +1,30 @@
-# IntelliJ IDEA specific files
-.idea/
-*.iws
-*.iml
-*.ipr
-
-# IntelliJ IDEA project files
+### IntelliJ IDEA ###
 out/
-*.class
-*.log
-*.hprof
-*.orig
-*.pyc
-*.pyo
-*.min.js
-*.min.css
-*.log
-*.sql
-*.sqlite
-*.tar.gz
-*.zip
-*.rar
+!**/src/main/**/out/
+!**/src/test/**/out/
 
-# Exclude all files in project except .gitignore and files from `src` and `tests`
-# !.gitignore
-# !/src/**
-# !/tests/**
+.idea
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
 
-# Temp files
-*.swp
-*~
-*.swo
-*.tmp
-*.bak
-*.old
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
 
-# RabbitMQ specific files
-rabbitmq_server-*
-mnesia/
-rabbitmq-mnesia/
-rabbitmq-plugins-expand/
-rabbitmq_logs/
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store

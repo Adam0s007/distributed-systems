@@ -6,10 +6,10 @@ import java.io.IOException;
 
 public class Technician {
 
-    private final static String DOCTOR_REQ_EXCHANGE = "doctor_req_exchange";
-    private final static String TECHNICIAN_CONFIRM_EXCHANGE = "technician_confirm_exchange";
+    private final static String DOCTOR_REQ_EXCHANGE = "doctor_req_exchange1";
+    private final static String TECHNICIAN_CONFIRM_EXCHANGE = "technician_confirm_exchange1";
     private final static String ADMIN_LISTENER_QUEUE = "admin_listener_queue";
-    private final static String ADMIN_LOG_EXCHANGE = "admin_log_exchange0";
+    private final static String ADMIN_LOG_EXCHANGE = "admin_log_exchange2";
     private final String[] expertise;
     private final String technicianName;
     private final int technicianNumber;
@@ -32,9 +32,9 @@ public class Technician {
         System.out.println("Technician" + technicianNumber + " started.");
         Technician technician;
         if (technicianNumber == 1) {
-            technician = new Technician(new String[]{"knee", "elbow"}, "Technician1",1, "technician1_log_queue");
+            technician = new Technician(new String[]{"knee", "elbow"}, "Technician1", 1, "technician1_log_queue");
         } else {
-            technician = new Technician(new String[]{"knee", "hip"}, "Technician2",2, "technician2_log_queue");
+            technician = new Technician(new String[]{"knee", "hip"}, "Technician2", 2, "technician2_log_queue");
         }
         technician.run();
     }
@@ -47,20 +47,26 @@ public class Technician {
         Channel channel = connection.createChannel();
 
         channel.queueDeclare(ADMIN_LISTENER_QUEUE, false, false, false, null);
+        channel.queueDeclare(technicianLogQueue, false, false, false, null);
 
-        channel.exchangeDeclare(DOCTOR_REQ_EXCHANGE, BuiltinExchangeType.DIRECT);
+        channel.exchangeDeclare(DOCTOR_REQ_EXCHANGE, BuiltinExchangeType.TOPIC);
         channel.exchangeDeclare(TECHNICIAN_CONFIRM_EXCHANGE, BuiltinExchangeType.TOPIC);
 
+        channel.exchangeDeclare(ADMIN_LOG_EXCHANGE, BuiltinExchangeType.TOPIC);
 
-        channel.exchangeDeclare(ADMIN_LOG_EXCHANGE, BuiltinExchangeType.FANOUT);
-        channel.queueBind(this.technicianLogQueue, ADMIN_LOG_EXCHANGE, "");
+        channel.queueBind(ADMIN_LISTENER_QUEUE, TECHNICIAN_CONFIRM_EXCHANGE, "#");
+        channel.queueBind(ADMIN_LISTENER_QUEUE, DOCTOR_REQ_EXCHANGE, "#");
+
+
+        channel.queueBind(this.technicianLogQueue, ADMIN_LOG_EXCHANGE, "all");
+        channel.queueBind(this.technicianLogQueue, ADMIN_LOG_EXCHANGE, technicianName);
+        channel.queueBind(this.technicianLogQueue, ADMIN_LOG_EXCHANGE, "Technician");
 
         for (String testKey : expertise) {
             String queueName = testKey + "_tech_queue";
             channel.queueDeclare(queueName, false, false, false, null);
             channel.queueBind(queueName, DOCTOR_REQ_EXCHANGE, testKey);
         }
-
 
         for (String testType : expertise) {
             Consumer consumer = new DefaultConsumer(channel) {
@@ -75,13 +81,13 @@ public class Technician {
                     String doctorName = parts[2];
 
                     try {
-                       if(testType.equals("knee")){
-                           Thread.sleep(1000);
-                       } else if(testType.equals("elbow")) {
-                           Thread.sleep(15000);
-                       } else if(testType.equals("hip")) {
-                           Thread.sleep(5000);
-                       }
+                        if (testType.equals("knee")) {
+                            Thread.sleep(1000);
+                        } else if (testType.equals("elbow")) {
+                            Thread.sleep(15000);
+                        } else if (testType.equals("hip")) {
+                            Thread.sleep(5000);
+                        }
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -90,9 +96,6 @@ public class Technician {
 
                     channel.basicPublish(TECHNICIAN_CONFIRM_EXCHANGE, "confirm." + doctorName, null, result.getBytes("UTF-8"));
                     System.out.println(technicianName + " sent: " + result);
-
-                    logActivity(channel, "Processed test: " + message + " Result: " + result);
-
 
                     channel.basicAck(envelope.getDeliveryTag(), false);
                 }
@@ -112,7 +115,4 @@ public class Technician {
         channel.basicConsume(technicianLogQueue, false, logConsumer);
     }
 
-    private void logActivity(Channel channel, String logMessage) throws IOException {
-        channel.basicPublish("", ADMIN_LISTENER_QUEUE, null, logMessage.getBytes("UTF-8"));
-    }
 }
